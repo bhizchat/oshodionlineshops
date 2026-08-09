@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Oshodi online shops</title>
+    <style>
+      :root {
+        --brand: #5d45d5;
+        --brand-dark: #4737b1;
+        --hero-bg: linear-gradient(135deg, #e4d7fc 0%, #d2c2f8 100%);
+        --panel-bg: #f8f9fa;
+        --card-bg: #ffffff;
+        --text: #1d2734;
+        --muted: #6b7280;
+        --border: #e5e7eb;
+        --purple-accent: #6c5ce7;
+      }
+
+      * { box-sizing: border-box; }
+
+      html, body {
+        margin: 0;
+        background: var(--panel-bg);
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: var(--text);
+      }
+
+      body {
+        min-height: 100vh;
+      }
+
+      .page {
+        width: 100%;
+        min-height: 100vh;
+        background: var(--panel-bg);
+      }
+
+      /* Top Navigation Header */
+      .topbar {
+        background: #fff;
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+      }
+
+      .brand {
+        display: flex;
+        align-items: flex-end;
+        gap: 6px;
+        font-weight: 900;
+        font-size: 2.2rem;
+        color: var(--brand);
+        line-height: 1;
+        letter-spacing: -0.05em;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .brand .small {
+        font-size: 1rem;
+        font-weight: 700;
+        letter-spacing: -0.03em;
+        color: var(--brand);
+        transform: translateY(-2px);
+      }
+
+      .nav-tools {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .lang-pill {
+        background: #f3f4f6;
+        border: 1px solid var(--border);
+        color: #374151;
+        padding: 6px 14px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        border-radius: 20px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+      }
+
+      .icon-wrap {
+        width: 40px;
+        height: 40px;
+        background: #f3f4f6;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        position: relative;
+        cursor: pointer;
+      }
+
+      .icon-wrap svg {
+        width: 18px;
+        height: 18px;
+        fill: #4b5563;
+      }
+
+      .badge {
+        position: absolute;
+        top: -2px;
+        right: -2px;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #6c5ce7;
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 800;
+        display: grid;
+        place-items: center;
+        border: 2px solid #fff;
+      }
+
+      .sell-btn {
+        background: var(--brand);
+        color: white;
+        border: none;
+        font-weight: 800;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        padding: 0 24px;
+        height: 40px;
+        border-radius: 20px;
+        letter-spacing: 0.04em;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+      }
+
+      .sell-btn:hover {
+        background: var(--brand-dark);
+      }
+
+      /* Hero Section Styling */
+      .hero {
+        background: var(--hero-bg);
+        min-height: 320px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        padding: 40px 20px;
+        overflow: hidden;
+      }
+
+      /* Subtle decorative abstract grid dots background */
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(108, 92, 231, 0.15) 1px, transparent 1px);
+        background-size: 24px 24px;
+        pointer-events: none;
+      }
+
+      .search-title {
+        margin: 0 0 6px;
+        font-size: clamp(2rem, 3vw, 2.8rem);
+        color: #1e1b4b;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+        position: relative;
+        z-index: 1;
+      }
+
+      .search-subtitle {
+        margin: 0 0 24px;
+        font-size: 1rem;
+        color: #4c1d95;
+        opacity: 0.8;
+        font-weight: 500;
+        position: relative;
+        z-index: 1;
+      }
+
+      .search-box {
+        display: flex;
+        align-items: center;
+        background: #ffffff;
+        border-radius: 14px;
+        width: min(720px, 90vw);
+        padding: 6px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        position: relative;
+        z-index: 1;
+      }
+
+      .select-with-pin {
+        position: relative;
+        display: flex;
+        align-items: center;
+        padding-left: 14px;
+      }
+
+      .location-pin {
+        color: var(--purple-accent);
+        font-size: 1.1rem;
+        margin-right: 6px;
+      }
+
+      .category-select {
+        background: transparent;
+        border: none;
+        border-right: 1px solid var(--border);
+        font-size: 0.95rem;
+        color: #1f2937;
+        padding: 10px 28px 10px 4px;
+        font-weight: 700;
+        appearance: none;
+        outline: none;
+        cursor: pointer;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7280' viewBox='0 0 16 16'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>");
+        background-repeat: no-repeat;
+        background-position: calc(100% - 8px) center;
+      }
+
+      .search-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        font-size: 0.95rem;
+        padding: 10px 16px;
+        color: var(--text);
+        outline: none;
+      }
+
+      .search-button {
+        width: 44px;
+        height: 44px;
+        border: none;
+        background: var(--brand);
+        border-radius: 10px;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .search-button:hover {
+        background: var(--brand-dark);
+      }
+
+      .search-button svg {
+        width: 20px;
+        height: 20px;
+        stroke: #ffffff;
+        stroke-width: 2.5;
+        fill: none;
+      }
+
+      /* Main Content Layout */
+      .content {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 32px 40px;
+      }
+
+      .shop-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 24px;
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: #111827;
+      }
+
+      .shop-header::before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 22px;
+        border-radius: 4px;
+        background: var(--brand);
+      }
+
+      /* Modern Category Card Grid - Set to 5 Columns */
+      .promo-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 18px;
+      }
+
+      .promo-card {
+        background: #ffffff;
+        border-radius: 16px;
+        overflow: hidden;
+        border: 1px solid rgba(0,0,0,0.04);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .promo-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      }
+
+      .promo-card-top {
+        height: 120px;
+        position: relative;
+        padding: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Card Background Variations */
+      .bg-purple { background: #f3eefc; }
+      .bg-pink   { background: #fceef3; }
+      .bg-blue   { background: #eef5fc; }
+      .bg-yellow { background: #fcfcee; }
+      .bg-teal   { background: #eefcf8; }
+
+      .promo-image {
+        max-width: 100%;
+        max-height: 100px;
+        object-fit: contain;
+      }
+
+      .badge-icon {
+        position: absolute;
+        bottom: -16px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: #ffffff;
+        font-size: 0.9rem;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        z-index: 2;
+      }
+
+      .icon-purple { background: #8b5cf6; }
+      .icon-pink   { background: #ec4899; }
+      .icon-blue   { background: #3b82f6; }
+      .icon-amber  { background: #f59e0b; }
+      .icon-teal   { background: #14b8a6; }
+
+      .promo-card-body {
+        padding: 24px 12px 16px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        flex: 1;
+      }
+
+      .promo-title {
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: #111827;
+        margin-bottom: 4px;
+      }
+
+      .floating-panel {
+        position: fixed;
+        right: 24px;
+        bottom: 24px;
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: #ffffff;
+        border: 1px solid var(--border);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+      }
+
+      .floating-panel svg {
+        width: 20px;
+        height: 20px;
+        stroke: #374151;
+        stroke-width: 2;
+        fill: none;
+      }
+
+      @media (max-width: 1100px) {
+        .promo-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+
+      @media (max-width: 640px) {
+        .topbar { padding: 0 16px; }
+        .brand { font-size: 1.8rem; }
+        .brand .small { display: none; }
+        .content { padding: 24px 16px; }
+        .promo-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <!-- Header -->
+      <header class="topbar">
+        <a href="index.html" class="brand">
+          <span>Oshodi</span>
+          <span class="small">online shops</span>
+        </a>
+
+        <div class="nav-tools">
+          <div class="lang-pill">🌐 EN ▾</div>
+
+          <div class="icon-wrap" aria-label="account">
+            <svg viewBox="0 0 24 24"><path d="M12 3.5A4.5 4.5 0 1 1 12 12.5a4.5 4.5 0 0 1 0-9Zm0 11.5c4.25 0 7.86 2.85 8.75 6.7a1 1 0 0 1-.97 1.3H4.22a1 1 0 0 1-.97-1.3A8.85 8.85 0 0 1 12 15Z"/></svg>
+          </div>
+
+          <a href="pages/fabrics.html" class="sell-btn">Check All Shops</a>
+        </div>
+      </header>
+
+      <!-- Hero Section -->
+      <section class="hero">
+        <h1 class="search-title">What are you looking for?</h1>
+        <p class="search-subtitle">Find great products and grow your business</p>
+
+        <div class="search-box" role="search">
+          <div class="select-with-pin">
+            <span class="location-pin">📍</span>
+            <select class="category-select" aria-label="location chooser">
+              <option>All Oshodi</option>
+              <option>Abayomi St</option>
+              <option>Abeokuta St</option>
+              <option>Abiodun St</option>
+              <option>Adedeji St</option>
+              <option>Adekunle St</option>
+              <option>Afariogun St</option>
+              <option>Agbalaya St</option>
+              <option>Agege Motor Rd</option>
+              <option>Airport Rd</option>
+              <option>Akinpelu St</option>
+              <option>Alade St</option>
+              <option>Alh. Azeez St</option>
+              <option>Alimi Oke St</option>
+              <option>Brown St</option>
+              <option>Church St</option>
+              <option>Makinde St</option>
+              <option>Oshodi Rd</option>
+              <option>Oyetayo St</option>
+              <option>Sadiku St</option>
+            </select>
+          </div>
+
+          <input class="search-input" type="text" placeholder="I am looking for..." aria-label="search" />
+
+          <button class="search-button" aria-label="search button">
+            <svg viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="6"></circle>
+              <path d="M16 16L21 21"></path>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <!-- Main Category Section -->
+      <main class="content" id="shop-by-category">
+        <div class="shop-header">Shop by category</div>
+
+        <div class="promo-grid">
+          <!-- Fabrics and Textiles -->
+          <a class="promo-card" href="pages/category-products.html?cat=fabrics">
+            <div class="promo-card-top bg-purple">
+              <img class="promo-image" src="assets/Fabrics and Textiles.png" alt="Fabrics and Textiles" />
+              <div class="badge-icon icon-purple">🧵</div>
+            </div>
+            <div class="promo-card-body">
+              <div class="promo-title">Fabrics and Textiles</div>
+            </div>
+          </a>
+
+          <!-- Clothing and Fashion -->
+          <a class="promo-card" href="pages/category-products.html?cat=clothing">
+            <div class="promo-card-top bg-pink">
+              <img class="promo-image" src="assets/Clothing and Fashion.png" alt="Clothing and Fashion" />
+              <div class="badge-icon icon-pink">👗</div>
+            </div>
+            <div class="promo-card-body">
+              <div class="promo-title">Clothing and Fashion</div>
+            </div>
+          </a>
+
+          <!-- Electronics and Gadgets -->
+          <a class="promo-card" href="pages/category-products.html?cat=electronics">
+            <div class="promo-card-top bg-blue">
+              <img class="promo-image" src="assets/Electronics and Gadgets.png" alt="Electronics and Gadgets" />
+              <div class="badge-icon icon-blue">💻</div>
+            </div>
+            <div class="promo-card-body">
+              <div class="promo-title">Electronics and Gadgets</div>
+            </div>
+          </a>
+
+          <!-- Foodstuffs and Oils -->
+          <a class="promo-card" href="pages/category-products.html?cat=foodstuffs">
+            <div class="promo-card-top bg-yellow">
+              <img class="promo-image" src="assets/Foodstuff and oils.png" alt="Foodstuff and oils" />
+              <div class="badge-icon icon-amber">🧺</div>
+            </div>
+            <div class="promo-card-body">
+              <div class="promo-title">Foodstuffs and Oils</div>
+            </div>
+          </a>
+
+          <!-- Accessories -->
+          <a class="promo-card" href="pages/category-products.html?cat=accessories">
+            <div class="promo-card-top bg-teal">
+              <img class="promo-image" src="assets/Accessories.png" alt="Accessories" />
+              <div class="badge-icon icon-teal">💼</div>
+            </div>
+            <div class="promo-card-body">
+              <div class="promo-title">Accessories</div>
+            </div>
+          </a>
+        </div>
+      </main>
+    </div>
+
+    <!-- Floating Action Drawer -->
+    <div class="floating-panel" aria-label="app menu">
+      <svg viewBox="0 0 24 24">
+        <path d="M4 7h16M4 12h16M4 17h16"/>
+      </svg>
+    </div>
+
+    <script src="shops/shops-data.js"></script>
+    <script src="pages/category-products-data.js"></script>
+    <script src="search-index.js"></script>
+    <script src="search.js"></script>
+  </body>
+</html>
+

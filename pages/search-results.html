@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search Results - Oshodi Online Shops</title>
+  <style>
+    :root {
+      --primary: #4f22b2;
+      --primary-hover: #401a93;
+      --primary-light: #f3effc;
+      --bg: #f4f5f8;
+      --card-bg: #ffffff;
+      --text: #1a1a2e;
+      --text-muted: #666e7a;
+      --border: #e2e8f0;
+      --star: #ff9d00;
+      --radius: 12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .topbar {
+      background: #ffffff;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      line-height: 0.9;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-title { font-size: 1.8rem; font-weight: 900; color: var(--primary); letter-spacing: -0.04em; }
+    .brand-sub { font-size: 0.7rem; font-weight: 700; color: var(--primary); margin-left: 2px; }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      width: 50%;
+      max-width: 650px;
+      background: #f1f3f7;
+      border-radius: 10px;
+      padding: 4px;
+      position: relative;
+    }
+
+    .location-select {
+      background: transparent;
+      border: none;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-right: 1px solid #dcdfe6;
+      cursor: pointer;
+    }
+
+    .search-input { flex: 1; border: none; background: transparent; padding: 10px 16px; font-size: 0.9rem; outline: none; }
+
+    .search-btn {
+      background: var(--primary);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .search-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: #ffffff;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .user-actions { display: flex; align-items: center; gap: 16px; }
+
+    .lang-selector {
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-icon { position: relative; cursor: pointer; padding: 6px; color: #334155; display: flex; align-items: center; justify-content: center; }
+
+    .sell-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .cat-bar {
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      height: 46px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .cat-links { display: flex; align-items: center; gap: 16px; }
+    .cat-link { padding: 6px 14px; border-radius: 16px; color: rgba(255, 255, 255, 0.85); }
+    .cat-link.active { background: white; color: var(--primary); font-weight: 700; }
+
+    .container { max-width: 1440px; margin: 0 auto; padding: 24px 32px; }
+
+    .breadcrumb { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 16px; }
+    .breadcrumb strong { color: var(--text); }
+
+    .page-head h1 { font-size: 1.6rem; font-weight: 800; color: #111827; margin-bottom: 4px; }
+    .page-head p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; }
+
+    .results-text { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 14px; }
+
+    .product-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      text-decoration: none;
+      transition: box-shadow 0.2s;
+    }
+
+    .product-card:hover { box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06); }
+
+    .product-img-wrap { position: relative; height: 140px; background: #e2e8f0; }
+    .product-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+    .verified-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--primary);
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+
+    .fav-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      color: white;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.8rem;
+    }
+
+    .product-body { padding: 10px; display: flex; flex-direction: column; }
+
+    .product-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-name mark { background: #ffe8a3; color: inherit; border-radius: 2px; }
+
+    .product-spec {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-price {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-rating { font-size: 0.72rem; display: flex; align-items: center; gap: 3px; margin-bottom: 8px; color: #334155; }
+    .product-rating .stars { color: var(--star); }
+
+    .view-details-btn {
+      display: block;
+      width: 100%;
+      border: 1px solid #e2d9f8;
+      background: #ffffff;
+      color: var(--primary);
+      padding: 7px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .view-details-btn:hover { background: var(--primary-light); }
+
+    .empty-state { padding: 60px 20px; text-align: center; color: var(--text-muted); grid-column: 1 / -1; }
+    .empty-state h2 { font-size: 1.1rem; color: var(--text); margin-bottom: 6px; }
+
+    @media (max-width: 1100px) {
+      .product-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .search-container { width: auto; flex: 1; margin: 0 12px; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="topbar">
+    <a href="../main/index.html" class="brand">
+      <span class="brand-title">Oshodi</span>
+      <span class="brand-sub">online shops</span>
+    </a>
+
+    <div class="search-container">
+      <button class="location-select">📍 All Nigeria ▾</button>
+      <input type="text" class="search-input" placeholder="Search for products in Oshodi..." />
+      <button class="search-btn" aria-label="search button">
+        <svg viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="6"></circle>
+          <path d="M16 16L21 21"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="user-actions">
+      <div class="lang-selector">🌐 EN ▾</div>
+      <div class="nav-icon" aria-label="profile">👤</div>
+      <a href="fabrics.html" class="sell-btn">Check All Shops</a>
+    </div>
+  </header>
+
+  <!-- Secondary Category Navigation Bar -->
+  <nav class="cat-bar">
+    <div class="cat-links" id="cat-links">
+      <a href="../main/index.html" class="cat-link">☰ All Categories</a>
+      <a href="category-products.html?cat=fabrics" class="cat-link" data-cat="fabrics">Fabrics & Textiles</a>
+      <a href="category-products.html?cat=clothing" class="cat-link" data-cat="clothing">Clothing & Fashion</a>
+      <a href="category-products.html?cat=electronics" class="cat-link" data-cat="electronics">Electronics & Gadgets</a>
+      <a href="category-products.html?cat=foodstuffs" class="cat-link" data-cat="foodstuffs">Foodstuffs & Oils</a>
+      <a href="category-products.html?cat=accessories" class="cat-link" data-cat="accessories">Accessories</a>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <div class="breadcrumb">Home &gt; Search Results</div>
+
+    <div class="page-head">
+      <h1 id="page-title">Search Results</h1>
+      <p id="page-subtitle"></p>
+    </div>
+
+    <div class="results-text" id="results-text"></div>
+
+    <div class="product-grid" id="product-grid"></div>
+  </div>
+
+  <!-- Shared Shop & Product Data (must load before search-index.js) -->
+  <script src="../shops/shops-data.js"></script>
+  <script src="category-products-data.js"></script>
+  <script src="../search-index.js"></script>
+  <script src="../search.js"></script>
+
+  <script>
+    var params = new URLSearchParams(window.location.search);
+    var query = params.get('q') || '';
+
+    document.title = (query ? query + ' - ' : '') + 'Search Results - Oshodi Online Shops';
+    document.getElementById('page-subtitle').textContent = query
+      ? 'Showing results for "' + query + '"'
+      : 'Type a product name in the search bar above to get started.';
+    document.querySelector('.search-input').value = query;
+
+    function render() {
+      var results = query ? window.OshodiSearch.searchProducts(query) : [];
+      var grid = document.getElementById('product-grid');
+      document.getElementById('results-text').textContent = query
+        ? results.length + ' product' + (results.length === 1 ? '' : 's') + ' found'
+        : '';
+
+      if (!query) {
+        grid.innerHTML = '';
+        return;
+      }
+
+      if (!results.length) {
+        grid.innerHTML =
+          '<div class="empty-state"><h2>No products found</h2><p>Try a different keyword or check the spelling.</p></div>';
+        return;
+      }
+
+      var highlight = window.OshodiSearch.highlightMatch;
+      var escapeHtml = window.OshodiSearch.escapeHtml;
+      var formatPriceRange = window.OshodiSearch.formatPriceRange;
+      var productHref = window.OshodiSearch.productHref;
+
+      grid.innerHTML = results.map(function (p) {
+        return (
+          '<div class="product-card">' +
+            '<div class="product-img-wrap">' +
+              '<img src="' + p.image + '" alt="' + escapeHtml(p.name) + '" />' +
+              '<span class="verified-badge">✔ Verified</span>' +
+              '<span class="fav-badge">♡</span>' +
+            '</div>' +
+            '<div class="product-body">' +
+              '<div class="product-name">' + highlight(p.name, query) + '</div>' +
+              '<div class="product-spec">' + escapeHtml(p.shop || '') + '</div>' +
+              '<div class="product-price">' + escapeHtml(formatPriceRange(p.price, p.name)) + '</div>' +
+              '<div class="product-rating"><span class="stars">★★★★★</span> ' + p.score + ' (' + p.count + ')</div>' +
+              '<a href="' + productHref(p) + '" class="view-details-btn">View Details</a>' +
+            '</div>' +
+          '</div>'
+        );
+      }).join('');
+    }
+
+    render();
+  </script>
+</body>
+</html>

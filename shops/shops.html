@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop Details - Oshodi Online Shops</title>
+    <style>
+      :root {
+        --primary: #4f22b2;
+        --primary-hover: #401a93;
+        --primary-soft: #f3effc;
+        --bg: #f4f5f8;
+        --card-bg: #ffffff;
+        --text: #1a1a2e;
+        --text-muted: #666e7a;
+        --border: #e2e8f0;
+        --star: #ff9d00;
+        --radius: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        background-color: var(--bg);
+        color: var(--text);
+        line-height: 1.4;
+      }
+
+      a { text-decoration: none; color: inherit; }
+
+      /* Top Navigation Header */
+      .topbar {
+        background: #ffffff;
+        height: 72px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        line-height: 0.9;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      .brand-title {
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: var(--primary);
+        letter-spacing: -0.04em;
+      }
+
+      .brand-sub {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-left: 2px;
+      }
+
+      .search-container {
+        display: flex;
+        align-items: center;
+        width: 50%;
+        max-width: 650px;
+        background: #f1f3f7;
+        border-radius: 10px;
+        padding: 4px;
+      }
+
+      .location-select {
+        background: transparent;
+        border: none;
+        padding: 10px 14px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        border-right: 1px solid #dcdfe6;
+        cursor: pointer;
+      }
+
+      .search-input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        outline: none;
+      }
+
+      .search-btn {
+        background: var(--primary);
+        border: none;
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+      }
+
+      .search-btn svg {
+        width: 18px;
+        height: 18px;
+        stroke: #ffffff;
+        stroke-width: 2.5;
+        fill: none;
+      }
+
+      .user-actions {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .lang-selector {
+        font-size: 0.85rem;
+        font-weight: 700;
+        border: 1px solid var(--border);
+        padding: 6px 12px;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .nav-icon {
+        position: relative;
+        cursor: pointer;
+        padding: 6px;
+        color: #334155;
+      }
+
+      .sell-btn {
+        background: var(--primary);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 0.8rem;
+        letter-spacing: 0.03em;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        text-decoration: none;
+      }
+
+      /* Secondary Category Navigation Bar */
+      .cat-bar {
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        height: 46px;
+        font-size: 0.85rem;
+        font-weight: 600;
+      }
+
+      .cat-links {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .cat-link {
+        padding: 6px 14px;
+        border-radius: 16px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .cat-link.active {
+        background: white;
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      /* Main Page Container */
+      .container {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 20px 32px 48px;
+      }
+
+      .breadcrumb {
+        font-size: 0.85rem;
+        color: var(--text-muted);
+        margin-bottom: 16px;
+      }
+
+      .breadcrumb strong {
+        color: var(--text);
+      }
+
+      /* Shop Hero Banner */
+      .shop-hero {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        height: 180px;
+        background: #111827;
+        margin-bottom: 24px;
+      }
+
+      .shop-hero img.hero-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.45;
+      }
+
+      .hero-overlay {
+        position: relative;
+        z-index: 2;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        background: linear-gradient(90deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.2) 100%);
+        color: white;
+      }
+
+      .shop-meta h1 {
+        font-size: 1.8rem;
+        font-weight: 900;
+        margin-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .verified-badge {
+        background: var(--primary);
+        color: white;
+        border-radius: 50%;
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+        display: inline-grid;
+        place-items: center;
+      }
+
+      .shop-subtitle {
+        font-size: 0.88rem;
+        opacity: 0.9;
+        margin-bottom: 8px;
+      }
+
+      .shop-location {
+        font-size: 0.8rem;
+        opacity: 0.85;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .hero-right-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 8px;
+      }
+
+      .follow-shop-btn {
+        background: rgba(255, 255, 255, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        color: white;
+        padding: 8px 18px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.82rem;
+        cursor: pointer;
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .followers-count {
+        font-size: 0.78rem;
+        opacity: 0.85;
+      }
+
+      .share-shop-link {
+        font-size: 0.78rem;
+        color: white;
+        opacity: 0.85;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-top: 4px;
+      }
+
+      /* Main Grid Layout */
+      .layout-grid {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        gap: 24px;
+        align-items: start;
+      }
+
+      /* Left Sidebar Styling */
+      .sidebar {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: var(--primary);
+        font-size: 0.82rem;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+
+      .shop-mini-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+      }
+
+      .mini-top {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .mini-avatar {
+        width: 52px;
+        height: 52px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .mini-name {
+        font-size: 0.95rem;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+
+      .mini-address {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        margin-top: 2px;
+      }
+
+      .mini-rating {
+        font-size: 0.75rem;
+        font-weight: 700;
+        margin: 8px 0;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .mini-meta {
+        font-size: 0.72rem;
+        color: var(--text-muted);
+        border-top: 1px solid #f1f5f9;
+        padding-top: 8px;
+        margin-top: 8px;
+      }
+
+      .action-btn-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .btn-msg {
+        background: #25d366;
+        color: white;
+        border: none;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.82rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .btn-msg:hover {
+        background: #1ebd5a;
+      }
+
+      .btn-msg .whatsapp-icon {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+      }
+
+      .btn-call {
+        background: #f1ecff;
+        color: var(--primary);
+        border: 1px solid #e2d9f8;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: 700;
+        font-size: 0.82rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+      }
+
+      .sidebar-box {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 16px;
+      }
+
+      .sidebar-box h3 {
+        font-size: 0.88rem;
+        font-weight: 800;
+        margin-bottom: 12px;
+      }
+
+      .category-list-items {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .category-list-items li {
+        font-size: 0.82rem;
+        color: #334155;
+        cursor: pointer;
+      }
+
+      .category-list-items li:hover {
+        color: var(--primary);
+      }
+
+      .info-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font-size: 0.82rem;
+        color: #475569;
+      }
+
+      /* Results Main Section */
+      .results-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+
+      .results-head h2 {
+        font-size: 1.3rem;
+        font-weight: 800;
+      }
+
+      .results-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .sort-select {
+        background: white;
+        border: 1px solid var(--border);
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+
+      .btn-filter-icon {
+        background: white;
+        border: 1px solid var(--border);
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      /* Product Grid - 6 Columns */
+      .product-grid {
+        display: grid;
+        grid-template-columns: repeat(6, 1fr);
+        gap: 14px;
+      }
+
+      .product-card {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        height: fit-content;
+      }
+
+      .product-img-wrap {
+        position: relative;
+        height: 140px;
+        background: #f1f5f9;
+      }
+
+      .product-img-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card-fav {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(0, 0, 0, 0.25);
+        color: white;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 0.8rem;
+        cursor: pointer;
+      }
+
+      .product-card-body {
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .product-title {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .product-price {
+        font-size: 0.68rem;
+        font-weight: 800;
+        color: #0f172a;
+        margin-bottom: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Cleaned Product Rating Layout */
+      .product-rating {
+        font-size: 0.72rem;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        margin-bottom: 8px;
+        color: #334155;
+      }
+
+      .stars-gold {
+        color: var(--star);
+        letter-spacing: -0.5px;
+      }
+
+      .score-num {
+        font-weight: 700;
+        color: #1e293b;
+      }
+
+      .count-muted {
+        color: var(--primary);
+        font-weight: 600;
+      }
+
+      .view-details-btn {
+        display: block;
+        width: 100%;
+        border: 1px solid #e2d9f8;
+        background: #ffffff;
+        color: var(--primary);
+        padding: 7px;
+        border-radius: 6px;
+        font-weight: 700;
+        font-size: 0.75rem;
+        cursor: pointer;
+        text-align: center;
+        transition: background 0.2s;
+      }
+
+      .view-details-btn:hover {
+        background: var(--primary-soft);
+      }
+
+      @media (max-width: 1200px) {
+        .product-grid { grid-template-columns: repeat(3, 1fr); }
+      }
+
+      @media (max-width: 768px) {
+        .layout-grid { grid-template-columns: 1fr; }
+        .product-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+    </style>
+  </head>
+  <body>
+
+    <!-- Top Bar Navigation -->
+    <header class="topbar">
+<a href="../main/index.html" class="brand">
+          <span class="brand-title">Oshodi</span>
+          <span class="brand-sub">online shops</span>
+        </a>
+
+      <div class="search-container">
+        <button class="location-select">📍 All Nigeria ▾</button>
+        <input type="text" class="search-input" placeholder="Search for shops in Oshodi..." />
+        <button class="search-btn" aria-label="search button">
+          <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="6"></circle>
+            <path d="M16 16L21 21"></path>
+          </svg>
+        </button>
+      </div>
+
+      <div class="user-actions">
+        <div class="lang-selector">🌐 EN ▾</div>
+        <div class="nav-icon" aria-label="profile">👤</div>
+        <a href="../pages/fabrics.html" class="sell-btn">Check All Shops</a>
+      </div>
+    </header>
+
+    <!-- Category Bar -->
+    <nav class="cat-bar">
+      <div class="cat-links">
+        <a href="../main/index.html" class="cat-link">☰ All Categories</a>
+        <a href="../pages/fabrics.html" class="cat-link" data-cat="fabrics">Fabrics & Textiles</a>
+        <a href="../pages/clothing-fashion.html" class="cat-link" data-cat="clothing">Clothing & Fashion</a>
+        <a href="../pages/electronics-gadgets.html" class="cat-link" data-cat="electronics">Electronics & Gadgets</a>
+        <a href="../pages/foodstuffs-oils.html" class="cat-link" data-cat="foodstuffs">Foodstuffs & Oils</a>
+        <a href="../pages/accessories.html" class="cat-link" data-cat="accessories">Accessories</a>
+      </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+      <div class="breadcrumb">
+        Home &gt; <span id="breadcrumb-category">Fabrics & Textiles</span> &gt; Oshodi Market &gt; <strong id="shop-breadcrumb">Shop</strong>
+      </div>
+
+      <!-- Hero Banner -->
+      <section class="shop-hero">
+        <img id="shop-hero-bg" class="hero-bg" src="" alt="Shop Hero Background" />
+        <div class="hero-overlay">
+          <div class="shop-meta">
+            <h1 id="shop-name">Shop Name <span class="verified-badge">✔</span></h1>
+            <div class="shop-subtitle" id="shop-tagline">Quality Fabrics, Quality Life</div>
+            <div class="shop-location" id="shop-location">📍 Oshodi Main Market, Block A, Row 12</div>
+          </div>
+          <div class="hero-right-actions">
+            <button class="follow-shop-btn">♡ Follow Shop</button>
+            <span class="followers-count" id="followers">1.2K+ Followers</span>
+            <a href="#" class="share-shop-link">🔗 Share Shop</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Content Grid -->
+      <div class="layout-grid">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+          <a href="../pages/fabrics.html" class="back-link" id="back-to-shops-link">← Back to Shops</a>
+
+          <div class="shop-mini-card">
+            <div class="mini-top">
+              <img id="mini-thumb" class="mini-avatar" src="" alt="" />
+              <div>
+                <div class="mini-name" id="mini-title">Shop Name <span style="color:var(--primary)">✔</span></div>
+                <div class="mini-address" id="mini-location-text">Oshodi Main Market</div>
+              </div>
+            </div>
+            <div class="mini-rating" id="mini-rating">
+              <span class="stars-gold">★★★★★</span>
+              <span>4.8 (128)</span>
+            </div>
+            <div class="mini-meta">
+              <span>Since 2010 • <span id="mini-customers">1.2K+</span> customers</span>
+            </div>
+            <div class="action-btn-group">
+              <button class="btn-msg"><svg class="whatsapp-icon" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.36.687 4.56 1.87 6.41L4 29l7.77-1.83A11.94 11.94 0 0 0 16 27c6.627 0 12-5.373 12-12S22.628 3 16.001 3zm0 21.8c-1.86 0-3.6-.5-5.1-1.37l-.366-.21-4.61 1.09 1.11-4.49-.24-.38A9.77 9.77 0 0 1 5.2 15c0-5.96 4.84-10.8 10.8-10.8S26.8 9.04 26.8 15 21.96 24.8 16.001 24.8zm5.94-8.13c-.325-.163-1.924-.95-2.222-1.058-.298-.109-.515-.163-.732.163-.217.325-.84 1.058-1.03 1.276-.19.217-.38.244-.705.081-.325-.163-1.372-.505-2.613-1.612-.966-.86-1.618-1.923-1.808-2.248-.19-.325-.02-.5.143-.663.147-.146.325-.38.488-.57.163-.19.217-.325.325-.542.109-.217.054-.407-.027-.57-.081-.163-.732-1.766-1.003-2.418-.264-.634-.532-.548-.732-.558l-.623-.011c-.217 0-.57.081-.868.407-.298.325-1.14 1.114-1.14 2.717 0 1.603 1.167 3.152 1.33 3.37.163.217 2.297 3.506 5.566 4.917.778.336 1.385.537 1.858.687.78.248 1.49.213 2.052.129.626-.094 1.924-.786 2.196-1.545.271-.76.271-1.41.19-1.546-.081-.135-.298-.217-.623-.38z"/></svg> WhatsApp Message</button>
+              <button class="btn-call" id="call-shop-btn">📞 Call Shop</button>
+            </div>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Shop Categories</h3>
+            <ul id="category-list" class="category-list-items"></ul>
+          </div>
+
+          <div class="sidebar-box">
+            <h3>Shop Information</h3>
+            <ul class="info-list">
+              <li>🟢 Open Now</li>
+              <li>🕒 Closes at 6:00 PM</li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- Main Products Display -->
+        <main class="results-panel">
+          <div class="results-head">
+            <h2>All Products (<span id="products-count">256</span>)</h2>
+            <div class="results-controls">
+              <select class="sort-select">
+                <option>Sort by: Popular</option>
+              </select>
+              <button class="btn-filter-icon">⚙ Filter</button>
+            </div>
+          </div>
+
+          <div id="product-grid" class="product-grid"></div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Shared Shop & Product Data -->
+    <script src="shops-data.js"></script>
+    <script src="../pages/category-products-data.js"></script>
+    <script src="../search-index.js"></script>
+    <script src="../search.js"></script>
+
+    <!-- Script Logic to populate details based on Shop -->
+    <script>
+      function hashString(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+        }
+        return hash;
+      }
+
+      function formatPriceRange(priceStr, seedKey) {
+        const num = parseInt(priceStr.replace(/[^0-9]/g, ''), 10);
+        if (!num) return priceStr;
+        const seed = hashString(seedKey || priceStr);
+        const variance = 0.08 + (seed % 10) / 100;
+        const low = Math.round((num * (1 - variance)) / 100) * 100;
+        const high = Math.round((num * (1 + variance)) / 100) * 100;
+        return `N${low.toLocaleString()} - ${high.toLocaleString()}`;
+      }
+
+      const params = new URLSearchParams(window.location.search);
+      const shopKey = params.get('shop') || 'boluwatife';
+      const shop = shops[shopKey] || shops.boluwatife;
+
+      const meta = categoryMeta[shop.category] || categoryMeta.fabrics;
+
+      // Populate Text Elements
+      document.title = `${shop.name} - Oshodi Online Shops`;
+      document.getElementById('breadcrumb-category').textContent = meta.label;
+      document.getElementById('back-to-shops-link').setAttribute('href', meta.href);
+      document.querySelectorAll('.cat-link[data-cat]').forEach((link) => {
+        link.classList.toggle('active', link.dataset.cat === shop.category);
+      });
+      document.getElementById('shop-breadcrumb').textContent = shop.name;
+      document.getElementById('shop-name').childNodes[0].nodeValue = shop.name + ' ';
+      document.getElementById('shop-tagline').textContent = shop.tagline;
+      document.getElementById('shop-location').textContent = `📍 ${shop.location}`;
+      document.getElementById('followers').textContent = shop.followers;
+      document.getElementById('shop-hero-bg').src = shop.heroBg;
+
+      document.getElementById('mini-thumb').src = shop.thumb;
+      document.getElementById('mini-title').childNodes[0].nodeValue = shop.name + ' ';
+      document.getElementById('mini-location-text').textContent = shop.location;
+      document.getElementById('mini-customers').textContent = shop.followers.replace(' Followers', '');
+
+      // Call Shop Button
+      const callBtn = document.getElementById('call-shop-btn');
+      callBtn.addEventListener('click', () => {
+        if (!shop.phone) {
+          callBtn.textContent = '📞 Number not available';
+          return;
+        }
+        callBtn.innerHTML = `📞 <a href="tel:${shop.phone}" style="color:inherit;text-decoration:none;">${shop.phone}</a>`;
+      });
+
+      // Categories Sidebar
+      const categoryList = document.getElementById('category-list');
+      categoryList.innerHTML = shop.categories.map((cat) => `<li>${cat}</li>`).join('');
+
+      // Render Products
+      const productGrid = document.getElementById('product-grid');
+      productGrid.innerHTML = shop.products.map((p, index) => `
+        <article class="product-card">
+          <div class="product-img-wrap">
+            <img src="${p.image}" alt="${p.name}" />
+            <div class="card-fav">♡</div>
+          </div>
+          <div class="product-card-body">
+            <div class="product-title">${p.name}</div>
+            <div class="product-price">${formatPriceRange(p.price, p.name)}</div>
+            <div class="product-rating">
+              <span class="stars-gold">★★★★★</span>
+              <span class="score-num">${p.score}</span>
+              <span class="count-muted">(${p.count})</span>
+            </div>
+            <a href="product.html?shop=${shopKey}&product=${index}" class="view-details-btn">View Details</a>
+          </div>
+        </article>
+      `).join('');
+    </script>
+  </body>
+</html>
+

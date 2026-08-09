@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Shop Products - Oshodi Online Shops</title>
+
+  <style>
+
+    :root {
+
+      --primary: #4f22b2;
+
+      --primary-hover: #401a93;
+
+      --primary-light: #f3effc;
+
+      --bg: #f4f5f8;
+
+      --card-bg: #ffffff;
+
+      --text: #1a1a2e;
+
+      --text-muted: #666e7a;
+
+      --border: #e2e8f0;
+
+      --star: #ff9d00;
+
+      --radius: 12px;
+
+    }
+
+
+
+    * {
+
+      box-sizing: border-box;
+
+      margin: 0;
+
+      padding: 0;
+
+    }
+
+
+
+    body {
+
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+      background-color: var(--bg);
+
+      color: var(--text);
+
+      line-height: 1.4;
+
+    }
+
+
+
+    a { text-decoration: none; color: inherit; }
+
+
+
+    /* Top Navigation Header */
+
+    .topbar {
+
+      background: #ffffff;
+
+      height: 72px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      padding: 0 32px;
+
+      border-bottom: 1px solid var(--border);
+
+    }
+
+
+
+    .brand {
+
+      display: flex;
+
+      flex-direction: column;
+
+      line-height: 0.9;
+
+      text-decoration: none;
+
+      cursor: pointer;
+
+    }
+
+
+
+    .brand-title {
+
+      font-size: 1.8rem;
+
+      font-weight: 900;
+
+      color: var(--primary);
+
+      letter-spacing: -0.04em;
+
+    }
+
+
+
+    .brand-sub {
+
+      font-size: 0.7rem;
+
+      font-weight: 700;
+
+      color: var(--primary);
+
+      margin-left: 2px;
+
+    }
+
+
+
+    .search-container {
+
+      display: flex;
+
+      align-items: center;
+
+      width: 50%;
+
+      max-width: 650px;
+
+      background: #f1f3f7;
+
+      border-radius: 10px;
+
+      padding: 4px;
+
+    }
+
+
+
+    .location-select {
+
+      background: transparent;
+
+      border: none;
+
+      padding: 10px 14px;
+
+      font-size: 0.85rem;
+
+      font-weight: 600;
+
+      color: var(--text);
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 6px;
+
+      border-right: 1px solid #dcdfe6;
+
+      cursor: pointer;
+
+    }
+
+
+
+    .search-input {
+
+      flex: 1;
+
+      border: none;
+
+      background: transparent;
+
+      padding: 10px 16px;
+
+      font-size: 0.9rem;
+
+      outline: none;
+
+    }
+
+
+
+    .search-btn {
+
+      background: var(--primary);
+
+      border: none;
+
+      color: white;
+
+      width: 40px;
+
+      height: 40px;
+
+      border-radius: 8px;
+
+      cursor: pointer;
+
+      display: grid;
+
+      place-items: center;
+
+    }
+
+    .search-btn svg {
+
+      width: 18px;
+
+      height: 18px;
+
+      stroke: #ffffff;
+
+      stroke-width: 2.5;
+
+      fill: none;
+
+    }
+
+
+
+    .user-actions {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 16px;
+
+    }
+
+
+
+    .lang-selector {
+
+      font-size: 0.85rem;
+
+      font-weight: 700;
+
+      border: 1px solid var(--border);
+
+      padding: 6px 12px;
+
+      border-radius: 20px;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 6px;
+
+    }
+
+
+
+    .nav-icon {
+
+      position: relative;
+
+      cursor: pointer;
+
+      padding: 6px;
+
+      color: #334155;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+    }
+
+
+
+    .sell-btn {
+
+      background: var(--primary);
+
+      color: white;
+
+      border: none;
+
+      padding: 10px 20px;
+
+      border-radius: 8px;
+
+      font-weight: 800;
+
+      font-size: 0.8rem;
+
+      letter-spacing: 0.03em;
+
+      cursor: pointer;
+
+      display: inline-flex;
+
+      align-items: center;
+
+      justify-content: center;
+
+      text-decoration: none;
+
+    }
+
+
+
+    /* Sub Navigation / Category Bar */
+
+    .cat-bar {
+
+      background: var(--primary);
+
+      color: white;
+
+      display: flex;
+
+      align-items: center;
+
+      padding: 0 32px;
+
+      height: 46px;
+
+      font-size: 0.85rem;
+
+      font-weight: 600;
+
+    }
+
+
+
+    .cat-links {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 16px;
+
+    }
+
+
+
+    .cat-link {
+
+      padding: 6px 14px;
+
+      border-radius: 16px;
+
+      color: rgba(255, 255, 255, 0.85);
+
+    }
+
+
+
+    .cat-link.active {
+
+      background: white;
+
+      color: var(--primary);
+
+      font-weight: 700;
+
+    }
+
+
+
+    /* Page Layout Grid */
+
+    .container {
+
+      max-width: 1440px;
+
+      margin: 0 auto;
+
+      padding: 24px 32px;
+
+    }
+
+
+
+    .breadcrumb {
+
+      font-size: 0.85rem;
+
+      color: var(--text-muted);
+
+      margin-bottom: 16px;
+
+    }
+
+
+
+    .breadcrumb strong {
+
+      color: var(--text);
+
+    }
+
+
+
+    .page-head h1 {
+
+      font-size: 1.6rem;
+
+      font-weight: 800;
+
+      color: #111827;
+
+      margin-bottom: 4px;
+
+    }
+
+
+
+    .page-head p {
+
+      font-size: 0.9rem;
+
+      color: var(--text-muted);
+
+      margin-bottom: 20px;
+
+    }
+
+
+
+    .layout-grid {
+
+      display: grid;
+
+      grid-template-columns: 250px 1fr;
+
+      gap: 24px;
+
+      align-items: start;
+
+    }
+
+
+
+    /* Sidebar */
+
+    .subcat-all-pill {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      background: var(--primary-light);
+
+      border: 1px solid var(--primary);
+
+      border-radius: var(--radius);
+
+      padding: 14px;
+
+      margin-bottom: 10px;
+
+      cursor: pointer;
+
+    }
+
+
+
+    .subcat-all-pill.active {
+
+      background: var(--primary);
+
+      color: white;
+
+    }
+
+
+
+    .subcat-all-pill .subcat-icon {
+
+      font-size: 1.2rem;
+
+    }
+
+
+
+    .subcat-all-pill .subcat-name {
+
+      font-weight: 800;
+
+      font-size: 0.9rem;
+
+    }
+
+
+
+    .subcat-all-pill .subcat-count {
+
+      font-size: 0.75rem;
+
+      opacity: 0.8;
+
+    }
+
+
+
+    .subcat-list {
+
+      display: flex;
+
+      flex-direction: column;
+
+      background: var(--card-bg);
+
+      border: 1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      overflow: hidden;
+
+    }
+
+
+
+    .subcat-row {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      padding: 12px 14px;
+
+      border-bottom: 1px solid var(--border);
+
+      cursor: pointer;
+
+      font-size: 0.85rem;
+
+    }
+
+
+
+    .subcat-row:last-child { border-bottom: none; }
+
+
+
+    .subcat-row:hover { background: var(--primary-light); }
+
+
+
+    .subcat-row.active {
+
+      background: var(--primary-light);
+
+      color: var(--primary);
+
+      font-weight: 700;
+
+    }
+
+
+
+    .subcat-row .subcat-icon { font-size: 1rem; }
+
+
+
+    .subcat-row .subcat-text { flex: 1; }
+
+
+
+    .subcat-row .subcat-text .subcat-name { font-weight: 600; }
+
+
+
+    .subcat-row .subcat-text .subcat-count {
+
+      display: block;
+
+      font-size: 0.72rem;
+
+      color: var(--text-muted);
+
+    }
+
+
+
+    .subcat-row.active .subcat-text .subcat-count { color: var(--primary); }
+
+
+
+    .subcat-row .chevron { color: var(--text-muted); }
+
+
+
+    /* Main content */
+
+    .subcat-icon-row {
+
+      display: flex;
+
+      gap: 14px;
+
+      overflow-x: auto;
+
+      padding-bottom: 12px;
+
+      margin-bottom: 16px;
+
+    }
+
+
+
+    .subcat-icon-card {
+
+      flex: 0 0 auto;
+
+      width: 96px;
+
+      background: var(--card-bg);
+
+      border: 1px solid var(--border);
+
+      border-radius: var(--radius);
+
+      padding: 14px 8px;
+
+      text-align: center;
+
+      cursor: pointer;
+
+      font-size: 0.75rem;
+
+      font-weight: 600;
+
+    }
+
+
+
+    .subcat-icon-card.active {
+
+      border-color: var(--primary);
+
+      background: var(--primary-light);
+
+      color: var(--primary);
+
+    }
+
+
+
+    .subcat-icon-card .icon-emoji {
+
+      font-size: 1.6rem;
+
+      display: block;
+
+      margin-bottom: 6px;
+
+    }
+
+
+
+    .filter-bar {
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      flex-wrap: wrap;
+
+      gap: 10px;
+
+      margin-bottom: 14px;
+
+    }
+
+
+
+    .filter-left {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+
+    }
+
+
+
+    .filter-chip {
+
+      background: white;
+
+      border: 1px solid var(--border);
+
+      padding: 8px 14px;
+
+      border-radius: 8px;
+
+      font-size: 0.82rem;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      color: var(--text);
+
+    }
+
+
+
+    .filter-right {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+    }
+
+
+
+    .view-toggle {
+
+      display: flex;
+
+      border: 1px solid var(--border);
+
+      border-radius: 8px;
+
+      overflow: hidden;
+
+    }
+
+
+
+    .view-toggle span {
+
+      padding: 8px 10px;
+
+      cursor: pointer;
+
+      background: white;
+
+    }
+
+
+
+    .view-toggle span.active {
+
+      background: var(--primary);
+
+      color: white;
+
+    }
+
+
+
+    .results-text {
+
+      font-size: 0.85rem;
+
+      color: var(--text-muted);
+
+      margin-bottom: 14px;
+
+    }
+
+
+
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 14px;
+    }
+
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      text-decoration: none;
+      transition: box-shadow 0.2s;
+    }
+
+    .product-card:hover {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .product-img-wrap {
+      position: relative;
+      height: 140px;
+      background: #e2e8f0;
+    }
+
+    .product-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .verified-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(255, 255, 255, 0.95);
+      color: var(--primary);
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+
+    .fav-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.25);
+      color: white;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 0.8rem;
+    }
+
+    .product-body {
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-spec {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-price {
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .product-rating {
+      font-size: 0.72rem;
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      margin-bottom: 8px;
+      color: #334155;
+    }
+
+    .product-rating .stars { color: var(--star); }
+
+    .view-details-btn {
+      display: block;
+      width: 100%;
+      border: 1px solid #e2d9f8;
+      background: #ffffff;
+      color: var(--primary);
+      padding: 7px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+
+    .view-details-btn:hover {
+      background: var(--primary-light);
+    }
+
+    .empty-state {
+
+      padding: 40px;
+
+      text-align: center;
+
+      color: var(--text-muted);
+
+      grid-column: 1 / -1;
+
+    }
+
+
+
+    @media (max-width: 1100px) {
+
+      .layout-grid { grid-template-columns: 1fr; }
+
+      .product-grid { grid-template-columns: repeat(3, 1fr); }
+
+    }
+
+
+
+    @media (max-width: 768px) {
+
+      .product-grid { grid-template-columns: repeat(2, 1fr); }
+
+    }
+
+  </style>
+
+</head>
+
+<body>
+
+
+
+  <!-- Top Navigation Header -->
+
+  <header class="topbar">
+
+    <a href="../main/index.html" class="brand">
+
+      <span class="brand-title">Oshodi</span>
+
+      <span class="brand-sub">online shops</span>
+
+    </a>
+
+
+
+    <div class="search-container">
+
+      <button class="location-select">📍 All Nigeria ▾</button>
+
+      <input type="text" class="search-input" placeholder="Search for products in Oshodi..." />
+
+      <button class="search-btn" aria-label="search button">
+        <svg viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="6"></circle>
+          <path d="M16 16L21 21"></path>
+        </svg>
+      </button>
+
+    </div>
+
+
+
+    <div class="user-actions">
+
+      <div class="lang-selector">🌐 EN ▾</div>
+
+      <div class="nav-icon" aria-label="profile">👤</div>
+
+      <a href="fabrics.html" class="sell-btn">Check All Shops</a>
+
+    </div>
+
+  </header>
+
+
+
+  <!-- Secondary Category Navigation Bar -->
+
+  <nav class="cat-bar">
+
+    <div class="cat-links" id="cat-links">
+
+      <a href="../main/index.html" class="cat-link">☰ All Categories</a>
+
+      <a href="category-products.html?cat=fabrics" class="cat-link" data-cat="fabrics">Fabrics & Textiles</a>
+
+      <a href="category-products.html?cat=clothing" class="cat-link" data-cat="clothing">Clothing & Fashion</a>
+
+      <a href="category-products.html?cat=electronics" class="cat-link" data-cat="electronics">Electronics & Gadgets</a>
+
+      <a href="category-products.html?cat=foodstuffs" class="cat-link" data-cat="foodstuffs">Foodstuffs & Oils</a>
+
+      <a href="category-products.html?cat=accessories" class="cat-link" data-cat="accessories">Accessories</a>
+
+    </div>
+
+  </nav>
+
+
+
+  <!-- Main Container -->
+
+  <div class="container">
+
+    <div class="breadcrumb">Home &gt; <span id="breadcrumb-cat"></span></div>
+
+
+
+    <div class="page-head">
+
+      <h1 id="page-title"></h1>
+
+      <p id="page-subtitle"></p>
+
+    </div>
+
+
+
+    <div class="layout-grid">
+
+      <!-- Sidebar -->
+
+      <aside class="sidebar">
+
+        <div class="subcat-all-pill active" id="subcat-all">
+
+          <span class="subcat-icon" id="all-icon"></span>
+
+          <div>
+
+            <div class="subcat-name">All <span id="all-cat-label"></span></div>
+
+            <div class="subcat-count" id="all-count"></div>
+
+          </div>
+
+        </div>
+
+        <div class="subcat-list" id="subcat-list"></div>
+
+      </aside>
+
+
+
+      <!-- Main content -->
+
+      <main>
+
+        <div class="subcat-icon-row" id="subcat-icon-row"></div>
+
+
+
+        <div class="filter-bar">
+
+          <div class="filter-left">
+
+            <span class="filter-chip">⏚ Filters</span>
+
+            <span class="filter-chip">Location: All Oshodi ▾</span>
+
+            <span class="filter-chip">Condition ▾</span>
+
+            <span class="filter-chip">Price ▾</span>
+
+            <span class="filter-chip">Delivery ▾</span>
+
+          </div>
+
+          <div class="filter-right">
+
+            <select class="filter-chip" id="sort-select">
+
+              <option>Sort by: Most Recent</option>
+
+              <option>Sort by: Price Low-High</option>
+
+              <option>Sort by: Price High-Low</option>
+
+              <option>Sort by: Top Rated</option>
+
+            </select>
+
+            <div class="view-toggle">
+
+              <span class="active">⊞</span>
+
+              <span>☰</span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+        <div class="results-text" id="results-text"></div>
+
+
+
+        <div class="product-grid" id="product-grid"></div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+
+
+  <script src="../shops/shops-data.js"></script>
+
+  <script src="category-products-data.js"></script>
+
+  <script src="../search-index.js"></script>
+
+  <script src="../search.js"></script>
+
+  <script>
+
+    function hashString(str) {
+      let hash = 0;
+      for (let i = 0; i < str.length; i++) {
+        hash = (hash * 31 + str.charCodeAt(i)) >>> 0;
+      }
+      return hash;
+    }
+
+    function formatPriceRange(priceStr, seedKey) {
+      const num = parseInt(priceStr.replace(/[^0-9]/g, ''), 10);
+      if (!num) return priceStr;
+      const seed = hashString(seedKey || priceStr);
+      const variance = 0.08 + (seed % 10) / 100;
+      const low = Math.round((num * (1 - variance)) / 100) * 100;
+      const high = Math.round((num * (1 + variance)) / 100) * 100;
+      return `N${low.toLocaleString()} - ${high.toLocaleString()}`;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+
+    const cat = params.get('cat') || 'electronics';
+
+    const meta = categoryPageMeta[cat] || categoryPageMeta.electronics;
+
+
+
+    document.title = `${meta.title} - Oshodi Online Shops`;
+
+    document.getElementById('breadcrumb-cat').textContent = meta.title;
+
+    document.getElementById('page-title').textContent = meta.title;
+
+    document.getElementById('page-subtitle').textContent = meta.subtitle;
+
+    document.getElementById('all-icon').textContent = meta.icon;
+
+    document.getElementById('all-cat-label').textContent = meta.title.split(' and ')[0];
+
+
+
+    document.querySelectorAll('.cat-link[data-cat]').forEach((link) => {
+
+      link.classList.toggle('active', link.dataset.cat === cat);
+
+    });
+
+
+
+    // Build product list: for fabrics/electronics, flatten real shop data; otherwise use static fallback.
+
+    let products = [];
+
+    if (cat === 'fabrics' || cat === 'electronics') {
+
+      Object.keys(shops).forEach((shopKey) => {
+
+        const shop = shops[shopKey];
+
+        if (shop.category !== cat) return;
+
+        shop.products.forEach((product, productIndex) => {
+
+          const nameLower = product.name.toLowerCase();
+
+          let tag = 'other';
+
+          for (const sub of meta.subcategories) {
+
+            if (sub.match.some((kw) => nameLower.includes(kw))) {
+
+              tag = sub.key;
+
+              break;
+
+            }
+
+          }
+
+          products.push({
+
+            name: product.name,
+
+            price: product.price,
+
+            score: product.score,
+
+            count: product.count,
+
+            image: product.image,
+
+            shop: shop.name,
+
+            location: shop.location,
+
+            tag,
+
+            shopKey,
+
+            productIndex
+
+          });
+
+        });
+
+      });
+
+    } else {
+
+      products = (meta.products || []).map((p) => ({ ...p }));
+
+    }
+
+
+
+    // Render sidebar subcategory counts
+
+    const subcatList = document.getElementById('subcat-list');
+
+    subcatList.innerHTML = meta.subcategories.map((sub) => {
+
+      const count = products.filter((p) => p.tag === sub.key).length;
+
+      return `
+
+        <div class="subcat-row" data-tag="${sub.key}">
+
+          <span class="subcat-icon">${sub.icon}</span>
+
+          <div class="subcat-text">
+
+            <span class="subcat-name">${sub.label}</span>
+
+            <span class="subcat-count">${count} products</span>
+
+          </div>
+
+          <span class="chevron">›</span>
+
+        </div>
+
+      `;
+
+    }).join('');
+
+
+
+    document.getElementById('all-count').textContent = `${products.length} products`;
+
+
+
+    // Render icon row (mirrors sidebar)
+
+    const iconRow = document.getElementById('subcat-icon-row');
+
+    iconRow.innerHTML = meta.subcategories.map((sub) => `
+
+      <div class="subcat-icon-card" data-tag="${sub.key}">
+
+        <span class="icon-emoji">${sub.icon}</span>
+
+        <span>${sub.label}</span>
+
+      </div>
+
+    `).join('');
+
+
+
+    function productLink(p) {
+
+      if (p.shopKey !== undefined) {
+
+        return `../shops/product.html?shop=${p.shopKey}&product=${p.productIndex}`;
+
+      }
+
+      const meta2 = categoryMeta ? categoryMeta[cat] : null;
+
+      return meta2 ? meta2.href : '#';
+
+    }
+
+
+
+    function renderGrid(filterTag) {
+
+      const filtered = filterTag ? products.filter((p) => p.tag === filterTag) : products;
+
+      const grid = document.getElementById('product-grid');
+
+      document.getElementById('results-text').textContent = `${filtered.length} products found`;
+
+
+
+      if (filtered.length === 0) {
+
+        grid.innerHTML = `<div class="empty-state">No products found in this subcategory yet.</div>`;
+
+        return;
+
+      }
+
+
+
+      grid.innerHTML = filtered.map((p) => `
+
+        <div class="product-card">
+
+          <div class="product-img-wrap">
+
+            <img src="${p.image}" alt="${p.name}" />
+
+            <span class="verified-badge">✔ Verified</span>
+
+            <span class="fav-badge">♡</span>
+
+          </div>
+
+          <div class="product-body">
+
+            <div class="product-name">${p.name}</div>
+
+            <div class="product-spec">${p.shop}</div>
+
+            <div class="product-price">${formatPriceRange(p.price, p.name)}</div>
+
+            <div class="product-rating"><span class="stars">★★★★★</span> ${p.score} (${p.count})</div>
+
+            <a href="${productLink(p)}" class="view-details-btn">View Details</a>
+
+          </div>
+
+        </div>
+
+      `).join('');
+
+    }
+
+
+
+    let activeTag = null;
+
+
+
+    function setActive(tag) {
+
+      activeTag = tag;
+
+      document.getElementById('subcat-all').classList.toggle('active', !tag);
+
+      document.querySelectorAll('.subcat-row').forEach((row) => {
+
+        row.classList.toggle('active', row.dataset.tag === tag);
+
+      });
+
+      document.querySelectorAll('.subcat-icon-card').forEach((card) => {
+
+        card.classList.toggle('active', card.dataset.tag === tag);
+
+      });
+
+      renderGrid(tag);
+
+    }
+
+
+
+    document.getElementById('subcat-all').addEventListener('click', () => setActive(null));
+
+    subcatList.addEventListener('click', (e) => {
+
+      const row = e.target.closest('.subcat-row');
+
+      if (row) setActive(row.dataset.tag);
+
+    });
+
+    iconRow.addEventListener('click', (e) => {
+
+      const card = e.target.closest('.subcat-icon-card');
+
+      if (card) setActive(card.dataset.tag);
+
+    });
+
+    const initialSub = params.get('sub');
+    if (initialSub && meta.subcategories.some((s) => s.key === initialSub)) {
+      setActive(initialSub);
+    } else {
+      renderGrid(null);
+    }
+
+  </script>
+
+</body>
+
+</html> 
+

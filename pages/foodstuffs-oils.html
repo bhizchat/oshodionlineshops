@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Foodstuffs & Oils in Oshodi Market - Oshodi Online Shops</title>
+  <style>
+    :root {
+      --primary: #4f22b2;
+      --primary-hover: #401a93;
+      --primary-light: #f3effc;
+      --bg: #f4f5f8;
+      --card-bg: #ffffff;
+      --text: #1a1a2e;
+      --text-muted: #666e7a;
+      --border: #e2e8f0;
+      --star: #ff9d00;
+      --radius: 12px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    a { text-decoration: none; color: inherit; }
+
+    .topbar {
+      background: #ffffff;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      line-height: 0.9;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .brand-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--primary);
+      letter-spacing: -0.04em;
+    }
+
+    .brand-sub {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-left: 2px;
+    }
+
+    .search-container {
+      display: flex;
+      align-items: center;
+      width: 50%;
+      max-width: 650px;
+      background: #f1f3f7;
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .location-select {
+      background: transparent;
+      border: none;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      border-right: 1px solid #dcdfe6;
+      cursor: pointer;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 10px 16px;
+      font-size: 0.9rem;
+      outline: none;
+    }
+
+    .search-btn {
+      background: var(--primary);
+      border: none;
+      color: white;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+    }
+
+    .search-btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: #ffffff;
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .user-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .lang-selector {
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-icon {
+      position: relative;
+      cursor: pointer;
+      padding: 6px;
+      color: #334155;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .sell-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 800;
+      font-size: 0.8rem;
+      letter-spacing: 0.03em;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+    }
+
+    .cat-bar {
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      padding: 0 32px;
+      height: 46px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .cat-links {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .cat-link {
+      padding: 6px 14px;
+      border-radius: 16px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .cat-link.active {
+      background: white;
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 24px 32px;
+    }
+
+    .breadcrumb {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb strong {
+      color: var(--text);
+    }
+
+    .page-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 20px;
+    }
+
+    .page-head h1 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .page-head p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .head-controls {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .results-text {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    .sort-select {
+      background: white;
+      border: 1px solid var(--border);
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .sidebar {
+      background: transparent;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .filter-group h3 {
+      font-size: 0.9rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag-pill {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 14px;
+    }
+
+    .checkbox-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .checkbox-label {
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      color: #374151;
+    }
+
+    .see-more {
+      font-size: 0.8rem;
+      color: var(--primary);
+      font-weight: 600;
+      margin-top: 6px;
+      display: inline-block;
+    }
+
+    .shops-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .shop-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      height: fit-content;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .shop-card:hover {
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-img-wrap {
+      position: relative;
+      height: 170px;
+      background: #e2e8f0;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .card-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .card-carousel-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+    }
+
+    .card-carousel-slide.active { opacity: 1; }
+
+    .card-carousel-dots {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 5px;
+      z-index: 2;
+    }
+
+    .card-carousel-dots span {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+    }
+
+    .card-carousel-dots span.active { background: white; }
+
+    .img-lightbox-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 200;
+    }
+
+    .img-lightbox-overlay.open { display: flex; }
+
+    .img-lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 85vh;
+    }
+
+    .img-lightbox-content img {
+      max-width: 90vw;
+      max-height: 85vh;
+      object-fit: contain;
+      border-radius: 8px;
+      user-select: none;
+      display: block;
+    }
+
+    .img-lightbox-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 1.8rem;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .img-lightbox-prev, .img-lightbox-next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    .img-lightbox-prev { left: -60px; }
+    .img-lightbox-next { right: -60px; }
+
+    @media (max-width: 768px) {
+      .img-lightbox-prev { left: 6px; }
+      .img-lightbox-next { right: 6px; }
+    }
+
+    .fav-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      color: white;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+    }
+
+    .tag-top-rated {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .card-content {
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .shop-title-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .shop-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .shop-title {
+      font-size: 0.98rem;
+      font-weight: 800;
+      color: #111827;
+    }
+
+    .verified-icon {
+      color: var(--primary);
+      font-size: 0.85rem;
+    }
+
+    .shop-address {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin: 3px 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-tags {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .mini-tag {
+      background: #f1f5f9;
+      color: #475569;
+      font-size: 0.68rem;
+      padding: 2px 7px;
+      border-radius: 10px;
+      font-weight: 500;
+    }
+
+    .rating-line {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .stars { color: var(--star); }
+    .review-count { color: var(--primary); font-weight: 600; }
+
+    .meta-line {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+
+    .delivery-pill {
+      background: #f0ebfd;
+      color: var(--primary);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 7px 10px;
+      border-radius: 6px;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .view-shop-btn {
+      width: 100%;
+      display: block;
+      text-align: center;
+      line-height: 42px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 0 10px;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .view-shop-btn:hover {
+      background: var(--primary-hover);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="topbar">
+<a href="../main/index.html" class="brand">
+        <span class="brand-title">Oshodi</span>
+        <span class="brand-sub">online shops</span>
+      </a>
+
+    <div class="search-container">
+      <button class="location-select">📍 All Nigeria ▾</button>
+      <input type="text" class="search-input" placeholder="Search for shops in Oshodi..." />
+      <button class="search-btn" aria-label="search button">
+        <svg viewBox="0 0 24 24">
+          <circle cx="11" cy="11" r="6"></circle>
+          <path d="M16 16L21 21"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="user-actions">
+      <div class="lang-selector">🌐 EN ▾</div>
+      <div class="nav-icon" aria-label="profile">👤</div>
+      <a href="fabrics.html" class="sell-btn">Check All Shops</a>
+    </div>
+  </header>
+
+  <!-- Secondary Category Navigation Bar -->
+  <nav class="cat-bar">
+    <div class="cat-links">
+      <a href="../main/index.html" class="cat-link">☰ All Categories</a>
+      <a href="fabrics.html" class="cat-link">Fabrics & Textiles</a>
+      <a href="clothing-fashion.html" class="cat-link">Clothing & Fashion</a>
+      <a href="electronics-gadgets.html" class="cat-link">Electronics & Gadgets</a>
+      <a href="foodstuffs-oils.html" class="cat-link active">Foodstuffs & Oils</a>
+      <a href="accessories.html" class="cat-link">Accessories</a>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <div class="breadcrumb">Home &gt; Foodstuffs & Oils &gt; <strong>Oshodi Market</strong></div>
+
+    <div class="page-head">
+      <div>
+        <h1>Foodstuffs & Oils in Oshodi Market</h1>
+        <p>Find trusted rice, grains, spice, and oil suppliers in Oshodi.</p>
+      </div>
+      <div class="head-controls">
+        <span class="results-text">Showing 1–24 of 130+ shops</span>
+        <select class="sort-select">
+          <option>Sort by: Popular</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="layout-grid">
+      <!-- Sidebar Filters -->
+      <aside class="sidebar">
+        <div class="filter-group">
+          <h3>Popular Searches</h3>
+          <div class="tags-container">
+            <span class="tag-pill">Rice & Grains</span>
+            <span class="tag-pill">Vegetable Oil</span>
+            <span class="tag-pill">Spices</span>
+            <span class="tag-pill">Beans & Garri</span>
+            <span class="tag-pill">Palm Oil</span>
+            <span class="tag-pill">More +</span>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3>Shop Location in Oshodi</h3>
+          <div class="checkbox-list">
+            <label class="checkbox-label"><input type="checkbox" checked /> Oshodi Main Market</label>
+            <label class="checkbox-label"><input type="checkbox" /> New Oko-Oba</label>
+            <label class="checkbox-label"><input type="checkbox" /> Mile 2</label>
+            <label class="checkbox-label"><input type="checkbox" /> Bolade Oshodi</label>
+            <label class="checkbox-label"><input type="checkbox" /> Ilasamaja</label>
+          </div>
+          <a href="#" class="see-more">See more</a>
+        </div>
+
+        <div class="filter-group">
+          <h3>Shop Rating</h3>
+          <div class="checkbox-list">
+            <label class="checkbox-label"><input type="checkbox" /> ★★★★★ & Up (104)</label>
+            <label class="checkbox-label"><input type="checkbox" /> ★★★★☆ & Up (82)</label>
+            <label class="checkbox-label"><input type="checkbox" /> ★★★☆☆ & Up (29)</label>
+          </div>
+        </div>
+
+        <div class="filter-group">
+          <h3>Delivery Option</h3>
+          <div class="checkbox-list">
+            <label class="checkbox-label"><input type="checkbox" /> Offers Delivery</label>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Shop Listing Grid -->
+      <main class="shops-grid">
+        <!-- Shop Card 1 -->
+        <article class="shop-card">
+          <div class="card-img-wrap">
+            <img src="https://picsum.photos/300/180?random=301" alt="Fresh Basket Hub" />
+            <div class="fav-badge">♡</div>
+            <span class="tag-top-rated">Top Rated</span>
+          </div>
+          <div class="card-content">
+            <div class="shop-title-row">
+              <img src="https://i.pravatar.cc/100?img=25" alt="Owner Avatar" class="shop-avatar" />
+              <h2 class="shop-title">Fresh Basket Hub</h2>
+              <span class="verified-icon">✔</span>
+            </div>
+            <div class="shop-address">📍 Oshodi Main Market, Block J, Shop 6</div>
+            <div class="card-tags">
+              <span class="mini-tag">Rice</span>
+              <span class="mini-tag">Beans</span>
+              <span class="mini-tag">Garri</span>
+            </div>
+            <div class="rating-line">
+              <span>4.8</span>
+              <span class="stars">★★★★★</span>
+              <span class="review-count">(200)</span>
+            </div>
+            <div class="meta-line">Since 2017 • 1.8K+ customers</div>
+            <div class="delivery-pill">🚚 Nationwide delivery available</div>
+            <a href="../shops/shops.html?shop=freshbasket" class="view-shop-btn">View Shop</a>
+          </div>
+        </article>
+
+        <!-- Shop Card 2 -->
+        <article class="shop-card">
+          <div class="card-img-wrap">
+            <img src="https://picsum.photos/300/180?random=302" alt="Oshodi Food Mart" />
+            <div class="fav-badge">♡</div>
+          </div>
+          <div class="card-content">
+            <div class="shop-title-row">
+              <img src="https://i.pravatar.cc/100?img=29" alt="Owner Avatar" class="shop-avatar" />
+              <h2 class="shop-title">Oshodi Food Mart</h2>
+              <span class="verified-icon">✔</span>
+            </div>
+            <div class="shop-address">📍 Oshodi Market, Block K, Shop 12</div>
+            <div class="card-tags">
+              <span class="mini-tag">Vegetable Oil</span>
+              <span class="mini-tag">Spices</span>
+              <span class="mini-tag">Grains</span>
+            </div>
+            <div class="rating-line">
+              <span>4.7</span>
+              <span class="stars">★★★★★</span>
+              <span class="review-count">(174)</span>
+            </div>
+            <div class="meta-line">Since 2015 • 1.2K+ customers</div>
+            <div class="delivery-pill">🚚 Nationwide delivery available</div>
+            <a href="../shops/shops.html?shop=oshodifoodmart" class="view-shop-btn">View Shop</a>
+          </div>
+        </article>
+
+        <!-- Shop Card 3 -->
+        <article class="shop-card">
+          <div class="card-img-wrap">
+            <img src="https://picsum.photos/300/180?random=303" alt="Mama Gold Foods" />
+            <div class="fav-badge">♡</div>
+          </div>
+          <div class="card-content">
+            <div class="shop-title-row">
+              <img src="https://i.pravatar.cc/100?img=33" alt="Owner Avatar" class="shop-avatar" />
+              <h2 class="shop-title">Mama Gold Foods</h2>
+              <span class="verified-icon">✔</span>
+            </div>
+            <div class="shop-address">📍 New Oko-Oba Market, Line 4, Shop 38</div>
+            <div class="card-tags">
+              <span class="mini-tag">Palm Oil</span>
+              <span class="mini-tag">Rice</span>
+              <span class="mini-tag">Spices</span>
+            </div>
+            <div class="rating-line">
+              <span>4.6</span>
+              <span class="stars">★★★★★</span>
+              <span class="review-count">(139)</span>
+            </div>
+            <div class="meta-line">Since 2016 • 980+ customers</div>
+            <div class="delivery-pill">🚚 Nationwide delivery available</div>
+            <a href="../shops/shops.html?shop=mamagold" class="view-shop-btn">View Shop</a>
+          </div>
+        </article>
+
+        <!-- Shop Card 4 -->
+        <article class="shop-card">
+          <div class="card-img-wrap">
+            <img src="https://picsum.photos/300/180?random=304" alt="Daily Fresh Market" />
+            <div class="fav-badge">♡</div>
+          </div>
+          <div class="card-content">
+            <div class="shop-title-row">
+              <img src="https://i.pravatar.cc/100?img=38" alt="Owner Avatar" class="shop-avatar" />
+              <h2 class="shop-title">Daily Fresh Market</h2>
+              <span class="verified-icon">✔</span>
+            </div>
+            <div class="shop-address">📍 Oshodi Main Market, Block M, Shop 22</div>
+            <div class="card-tags">
+              <span class="mini-tag">Beans</span>
+              <span class="mini-tag">Garri</span>
+              <span class="mini-tag">Vegetable Oil</span>
+            </div>
+            <div class="rating-line">
+              <span>4.5</span>
+              <span class="stars">★★★★★</span>
+              <span class="review-count">(98)</span>
+            </div>
+            <div class="meta-line">Since 2014 • 830+ customers</div>
+            <div class="delivery-pill">🚚 Nationwide delivery available</div>
+            <a href="../shops/shops.html?shop=dailyfresh" class="view-shop-btn">View Shop</a>
+          </div>
+        </article>
+      </main>
+    </div>
+  </div>
+
+  <div class="img-lightbox-overlay" id="img-lightbox-overlay">
+    <div class="img-lightbox-content">
+      <button class="img-lightbox-close" id="img-lightbox-close">✕</button>
+      <button class="img-lightbox-prev" id="img-lightbox-prev">‹</button>
+      <img id="img-lightbox-img" src="" alt="Shop image" />
+      <button class="img-lightbox-next" id="img-lightbox-next">›</button>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function buildVariants(src) {
+        if (src.includes('picsum.photos')) {
+          const base = src.split('?')[0];
+          const match = src.match(/random=(\d+)/);
+          const seed = match ? parseInt(match[1], 10) : Math.floor(Math.random() * 1000);
+          return [`${base}?random=${seed}`, `${base}?random=${seed + 1}`, `${base}?random=${seed + 2}`];
+        }
+        return [src, src, src];
+      }
+
+      const overlay = document.getElementById('img-lightbox-overlay');
+      const overlayImg = document.getElementById('img-lightbox-img');
+      let lightboxImages = [];
+      let lightboxIndex = 0;
+
+      function showLightbox(images, index) {
+        lightboxImages = images;
+        lightboxIndex = index;
+        overlayImg.src = lightboxImages[lightboxIndex];
+        overlay.classList.add('open');
+      }
+
+      function closeLightbox() {
+        overlay.classList.remove('open');
+      }
+
+      document.getElementById('img-lightbox-close').addEventListener('click', closeLightbox);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeLightbox(); });
+      document.getElementById('img-lightbox-prev').addEventListener('click', () => {
+        lightboxIndex = (lightboxIndex - 1 + lightboxImages.length) % lightboxImages.length;
+        overlayImg.src = lightboxImages[lightboxIndex];
+      });
+      document.getElementById('img-lightbox-next').addEventListener('click', () => {
+        lightboxIndex = (lightboxIndex + 1) % lightboxImages.length;
+        overlayImg.src = lightboxImages[lightboxIndex];
+      });
+      document.addEventListener('keydown', (e) => {
+        if (!overlay.classList.contains('open')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') document.getElementById('img-lightbox-prev').click();
+        if (e.key === 'ArrowRight') document.getElementById('img-lightbox-next').click();
+      });
+
+      document.querySelectorAll('.card-img-wrap').forEach((wrap) => {
+        const originalImg = wrap.querySelector('img');
+        if (!originalImg) return;
+        const alt = originalImg.alt;
+        const variants = buildVariants(originalImg.src);
+        const overlays = wrap.querySelectorAll('.fav-badge, .tag-top-rated');
+
+        originalImg.remove();
+
+        const slides = variants.map((src, i) => {
+          const slide = document.createElement('div');
+          slide.className = 'card-carousel-slide' + (i === 0 ? ' active' : '');
+          slide.innerHTML = `<img src="${src}" alt="${alt}" />`;
+          wrap.insertBefore(slide, wrap.firstChild);
+          return slide;
+        });
+
+        const dotsWrap = document.createElement('div');
+        dotsWrap.className = 'card-carousel-dots';
+        dotsWrap.innerHTML = variants.map((_, i) => `<span${i === 0 ? ' class="active"' : ''}></span>`).join('');
+        wrap.appendChild(dotsWrap);
+        overlays.forEach((el) => wrap.appendChild(el));
+
+        let current = 0;
+        setInterval(() => {
+          slides[current].classList.remove('active');
+          dotsWrap.children[current].classList.remove('active');
+          current = (current + 1) % slides.length;
+          slides[current].classList.add('active');
+          dotsWrap.children[current].classList.add('active');
+        }, 3000);
+
+        wrap.addEventListener('click', (e) => {
+          if (e.target.closest('.fav-badge')) return;
+          showLightbox(variants, current);
+        });
+      });
+    })();
+  </script>
+
+  <script src="../shops/shops-data.js"></script>
+  <script src="category-products-data.js"></script>
+  <script src="../search-index.js"></script>
+  <script src="../search.js"></script>
+
+</body>
+</html>
