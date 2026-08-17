@@ -26,19 +26,22 @@ const categoryPageMeta = {
 
       { key: 'ankara', label: 'Ankara Fabrics', icon: '🧵', match: ['ankara'] },
 
-      { key: 'lace', label: 'Lace Fabrics', icon: '🎀', match: ['lace'] },
+      { key: 'jonkoso', label: 'Jonkoso', icon: '🪢', match: ['jonkoso'] },
 
-      { key: 'voile', label: 'Voile Fabrics', icon: '🪡', match: ['voile'] },
+      { key: 'lana', label: 'Big & Small Lana', icon: '🧵', match: ['lana'] },
 
-      { key: 'cotton', label: 'Polished Cotton', icon: '🧶', match: ['cotton'] },
+      { key: '7star', label: '7 Star', icon: '⭐', match: ['7-star', '7 star'] },
 
       { key: 'senator', label: 'Senator Materials', icon: '👔', match: ['senator'] },
+      { key: 'brushmouth', label: 'Brushmouth', icon: '🖌️', match: ['brushmouth'] },
 
-      { key: 'asooke', label: 'Aso Oke', icon: '🧣', match: ['aso oke', 'asooke'] },
+      { key: 'checkers', label: 'Checkers', icon: '🏁', match: ['checkers'] },
+
+      { key: 'white', label: 'White', icon: '⚪', match: ['white'] },
 
       { key: 'silk', label: 'Silk & Damask', icon: '✨', match: ['silk', 'damask', 'jacquard', 'brocade'] },
 
-      { key: 'linen', label: 'Linen & George', icon: '🧵', match: ['linen', 'george'] }
+      { key: 'italianpigal', label: 'Italian Pigal', icon: '🇮🇹', match: ['italian pigal', 'pigal'] }
 
     ]
 

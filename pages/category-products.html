@@ -14,9 +14,9 @@
 
     :root {
 
-      --primary: #4f22b2;
+      --primary: #4B2E83;
 
-      --primary-hover: #401a93;
+      --primary-hover: #392065;
 
       --primary-light: #f3effc;
 
@@ -30,7 +30,7 @@
 
       --border: #e2e8f0;
 
-      --star: #ff9d00;
+      --star: #F4801F;
 
       --radius: 12px;
 
@@ -94,9 +94,7 @@
 
       display: flex;
 
-      flex-direction: column;
-
-      line-height: 0.9;
+      align-items: center;
 
       text-decoration: none;
 
@@ -106,29 +104,13 @@
 
 
 
-    .brand-title {
+    .brand-logo {
 
-      font-size: 1.8rem;
+      height: 56px;
 
-      font-weight: 900;
+      width: auto;
 
-      color: var(--primary);
-
-      letter-spacing: -0.04em;
-
-    }
-
-
-
-    .brand-sub {
-
-      font-size: 0.7rem;
-
-      font-weight: 700;
-
-      color: var(--primary);
-
-      margin-left: 2px;
+      display: block;
 
     }
 
@@ -964,9 +946,7 @@
 
     <a href="../main/index.html" class="brand">
 
-      <span class="brand-title">Oshodi</span>
-
-      <span class="brand-sub">online shops</span>
+      <img src="../assets/logo.png" alt="Oshodi Online Shops" class="brand-logo" />
 
     </a>
 
@@ -1353,7 +1333,7 @@
 
       grid.innerHTML = filtered.map((p) => `
 
-        <div class="product-card">
+        <a href="${productLink(p)}" class="product-card">
 
           <div class="product-img-wrap">
 
@@ -1375,11 +1355,11 @@
 
             <div class="product-rating"><span class="stars">★★★★★</span> ${p.score} (${p.count})</div>
 
-            <a href="${productLink(p)}" class="view-details-btn">View Details</a>
+            <span class="view-details-btn">View Details</span>
 
           </div>
 
-        </div>
+        </a>
 
       `).join('');
 

@@ -95,6 +95,12 @@
     var category = normalize(item.category);
     var score = 0;
 
+    // Special case: searching "senator" surfaces every fabric material except Ankara.
+    if (query === 'senator' && category === 'fabrics') {
+      if (name.indexOf('ankara') !== -1) return 0;
+      return name.indexOf('senator') !== -1 ? 100 : 30;
+    }
+
     if (name === query) score += 100;
     else if (name.indexOf(query) === 0) score += 70;
     else if (name.indexOf(query) !== -1) score += 50;

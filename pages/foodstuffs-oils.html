@@ -6,15 +6,15 @@
   <title>Foodstuffs & Oils in Oshodi Market - Oshodi Online Shops</title>
   <style>
     :root {
-      --primary: #4f22b2;
-      --primary-hover: #401a93;
+      --primary: #4B2E83;
+      --primary-hover: #392065;
       --primary-light: #f3effc;
       --bg: #f4f5f8;
       --card-bg: #ffffff;
       --text: #1a1a2e;
       --text-muted: #666e7a;
       --border: #e2e8f0;
-      --star: #ff9d00;
+      --star: #F4801F;
       --radius: 12px;
     }
 
@@ -45,24 +45,15 @@
 
     .brand {
       display: flex;
-      flex-direction: column;
-      line-height: 0.9;
+      align-items: center;
       text-decoration: none;
       cursor: pointer;
     }
 
-    .brand-title {
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: var(--primary);
-      letter-spacing: -0.04em;
-    }
-
-    .brand-sub {
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-left: 2px;
+    .brand-logo {
+      height: 56px;
+      width: auto;
+      display: block;
     }
 
     .search-container {
@@ -565,10 +556,9 @@
 
   <!-- Top Navigation -->
   <header class="topbar">
-<a href="../main/index.html" class="brand">
-        <span class="brand-title">Oshodi</span>
-        <span class="brand-sub">online shops</span>
-      </a>
+    <a href="../main/index.html" class="brand">
+      <img src="../assets/logo.png" alt="Oshodi Online Shops" class="brand-logo" />
+    </a>
 
     <div class="search-container">
       <button class="location-select">📍 All Nigeria ▾</button>

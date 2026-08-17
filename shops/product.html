@@ -6,15 +6,15 @@
     <title>Product Details - Oshodi Online Shops</title>
     <style>
       :root {
-        --primary: #4f22b2;
-        --primary-hover: #401a93;
+        --primary: #4B2E83;
+        --primary-hover: #392065;
         --primary-soft: #f3effc;
         --bg: #f4f5f8;
         --card-bg: #ffffff;
         --text: #1a1a2e;
         --text-muted: #666e7a;
         --border: #e2e8f0;
-        --star: #ff9d00;
+        --star: #F4801F;
         --whatsapp: #25d366;
         --whatsapp-hover: #1ebd5a;
         --radius: 12px;
@@ -49,24 +49,15 @@
 
       .brand {
         display: flex;
-        flex-direction: column;
-        line-height: 0.9;
+        align-items: center;
         text-decoration: none;
         cursor: pointer;
       }
 
-      .brand-title {
-        font-size: 1.8rem;
-        font-weight: 900;
-        color: var(--primary);
-        letter-spacing: -0.04em;
-      }
-
-      .brand-sub {
-        font-size: 0.7rem;
-        font-weight: 700;
-        color: var(--primary);
-        margin-left: 2px;
+      .brand-logo {
+        height: 56px;
+        width: auto;
+        display: block;
       }
 
       .search-container {
@@ -888,8 +879,7 @@
     <!-- Top Bar Navigation -->
     <header class="topbar">
       <a href="../main/index.html" class="brand">
-        <span class="brand-title">Oshodi</span>
-        <span class="brand-sub">online shops</span>
+        <img src="../assets/logo.png" alt="Oshodi Online Shops" class="brand-logo" />
       </a>
 
       <div class="search-container">
@@ -1003,7 +993,6 @@
 
             <ul class="sold-by-perks">
               <li>✅ Genuine Products</li>
-              <li>↩️ 7 Days Return Policy</li>
               <li>🚚 Delivery Available</li>
             </ul>
 
@@ -1089,6 +1078,16 @@
 
       function parsePrice(priceStr) {
         return parseInt(priceStr.replace(/[^0-9]/g, ''), 10);
+      }
+
+      function formatPriceRange(priceStr, seedKey) {
+        const num = parseInt(priceStr.replace(/[^0-9]/g, ''), 10);
+        if (!num) return priceStr;
+        const seed = hashString(seedKey || priceStr);
+        const variance = 0.08 + (seed % 10) / 100;
+        const low = Math.round((num * (1 - variance)) / 100) * 100;
+        const high = Math.round((num * (1 + variance)) / 100) * 100;
+        return `NGN ${low.toLocaleString()} - ${high.toLocaleString()}`;
       }
 
       function formatPrice(num) {
@@ -1205,26 +1204,14 @@
         renderThumbnails();
       });
 
-      // Discount & Price
-      const hasDiscount = seed % 3 === 0;
-      const discountPercent = hasDiscount ? 5 + (seed % 4) * 5 : 0;
-      const basePrice = parsePrice(product.price);
-      const discountBadge = document.getElementById('discount-badge');
+      // Price (shown as a range, no discount/strikethrough)
       const originalPriceEl = document.getElementById('original-price');
       const savingsEl = document.getElementById('savings-text');
 
-      document.getElementById('current-price').textContent = product.price;
+      document.getElementById('current-price').textContent = formatPriceRange(product.price, product.name);
+      originalPriceEl.style.display = 'none';
+      savingsEl.style.display = 'none';
 
-      if (hasDiscount) {
-        const originalPrice = Math.round((basePrice / (1 - discountPercent / 100)) / 100) * 100;
-        const savings = originalPrice - basePrice;
-        discountBadge.textContent = `-${discountPercent}%`;
-        discountBadge.style.display = 'block';
-        originalPriceEl.textContent = formatPrice(originalPrice);
-        originalPriceEl.style.display = 'inline';
-        savingsEl.textContent = `You save ${formatPrice(savings)} (${discountPercent}%)`;
-        savingsEl.style.display = 'block';
-      }
 
       // Top Rated Badge
       if (parseFloat(product.score) >= 4.7) {

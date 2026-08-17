@@ -6,8 +6,8 @@
     <title>Oshodi online shops</title>
     <style>
       :root {
-        --brand: #5d45d5;
-        --brand-dark: #4737b1;
+        --brand: #4B2E83;
+        --brand-dark: #392065;
         --hero-bg: linear-gradient(135deg, #e4d7fc 0%, #d2c2f8 100%);
         --panel-bg: #f8f9fa;
         --card-bg: #ffffff;
@@ -49,23 +49,15 @@
 
       .brand {
         display: flex;
-        align-items: flex-end;
-        gap: 6px;
-        font-weight: 900;
-        font-size: 2.2rem;
-        color: var(--brand);
-        line-height: 1;
-        letter-spacing: -0.05em;
+        align-items: center;
         text-decoration: none;
         cursor: pointer;
       }
 
-      .brand .small {
-        font-size: 1rem;
-        font-weight: 700;
-        letter-spacing: -0.03em;
-        color: var(--brand);
-        transform: translateY(-2px);
+      .brand-logo {
+        height: 60px;
+        width: auto;
+        display: block;
       }
 
       .nav-tools {
@@ -413,8 +405,7 @@
       <!-- Header -->
       <header class="topbar">
         <a href="index.html" class="brand">
-          <span>Oshodi</span>
-          <span class="small">online shops</span>
+          <img src="assets/logo.png" alt="Oshodi Online Shops" class="brand-logo" />
         </a>
 
         <div class="nav-tools">
