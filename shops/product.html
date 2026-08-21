@@ -1068,6 +1068,11 @@
     <script src="../search.js"></script>
     <script src="../account-popup.js"></script>
 
+    <!-- Supabase-backed Reviews -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="../supabase-config.js"></script>
+    <script src="../reviews.js"></script>
+
     <script>
       function hashString(str) {
         let h = 0;
@@ -1245,7 +1250,15 @@
 
       // Tags
       const tagsRow = document.getElementById('tags-row');
-      tagsRow.innerHTML = shop.categories.slice(0, 4).map((cat) => `<span class="product-tag">${cat}</span>`).join('');
+      let productTags;
+      if (/\/Senator\//i.test(product.image)) {
+        productTags = ['Senator', 'Trouser Material'];
+      } else if (/\/Ankara\//i.test(product.image)) {
+        productTags = ['Ankara'];
+      } else {
+        productTags = shop.categories.slice(0, 4);
+      }
+      tagsRow.innerHTML = productTags.map((cat) => `<span class="product-tag">${cat}</span>`).join('');
 
       // Sold By
       document.getElementById('sold-by-avatar').src = shop.thumb;
@@ -1340,6 +1353,19 @@
 
       let userReviews = [];
 
+      function formatTimeAgo(dateStr) {
+        const diffMs = Date.now() - new Date(dateStr).getTime();
+        const mins = Math.floor(diffMs / 60000);
+        if (mins < 1) return 'Just now';
+        if (mins < 60) return `${mins} minute${mins === 1 ? '' : 's'} ago`;
+        const hours = Math.floor(mins / 60);
+        if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+        const days = Math.floor(hours / 24);
+        if (days < 30) return `${days} day${days === 1 ? '' : 's'} ago`;
+        const months = Math.floor(days / 30);
+        return `${months} month${months === 1 ? '' : 's'} ago`;
+      }
+
       function renderReviews() {
         const allReviews = [...userReviews, ...seedReviews];
         const reviewsList = document.getElementById('reviews-list');
@@ -1367,6 +1393,32 @@
       }
 
       renderReviews();
+
+      // Load persisted reviews from Supabase and fold them into the summary
+      (async function loadPersistedReviews() {
+        const rows = await fetchProductReviews(shopKey, productIndex);
+        if (!rows.length) return;
+
+        rows.forEach((row) => {
+          const rating = row.rating;
+          const newTotal = totalReviews + 1;
+          const roundedRating = Math.round(rating);
+          distribution[roundedRating] = Math.round(((distribution[roundedRating] / 100 * totalReviews) + 1) / newTotal * 100);
+          score = ((score * totalReviews) + rating) / newTotal;
+          totalReviews = newTotal;
+        });
+
+        userReviews = rows.map((row) => ({
+          reviewer: row.reviewer_name,
+          comment: row.comment,
+          timeAgo: formatTimeAgo(row.created_at),
+          helpfulYes: 0,
+          rating: row.rating
+        }));
+
+        refreshSummary();
+        renderReviews();
+      })();
 
       // Write a Review Modal
       const reviewModalOverlay = document.getElementById('review-modal-overlay');
@@ -1405,23 +1457,42 @@
         if (e.target === reviewModalOverlay) closeReviewModal();
       });
 
-      reviewForm.addEventListener('submit', (e) => {
+      reviewForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const name = document.getElementById('review-name-input').value.trim() || 'Anonymous Buyer';
         const comment = document.getElementById('review-comment-input').value.trim() || 'Great product, would recommend!';
+        const rating = selectedRating || 5;
+
+        const submitBtn = reviewForm.querySelector('.btn-submit-review');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
+
+        const saved = await submitProductReview(shopKey, productIndex, {
+          reviewerName: name,
+          rating,
+          comment
+        });
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit Review';
+
+        if (!saved) {
+          alert('Sorry, we could not save your review right now. Please try again.');
+          return;
+        }
 
         userReviews.unshift({
           reviewer: name,
           comment,
           timeAgo: 'Just now',
           helpfulYes: 0,
-          rating: selectedRating || 5
+          rating
         });
 
         const newTotal = totalReviews + 1;
-        const roundedRating = Math.round(selectedRating || 5);
+        const roundedRating = Math.round(rating);
         distribution[roundedRating] = Math.round(((distribution[roundedRating] / 100 * totalReviews) + 1) / newTotal * 100);
-        score = ((score * totalReviews) + (selectedRating || 5)) / newTotal;
+        score = ((score * totalReviews) + rating) / newTotal;
         totalReviews = newTotal;
 
         refreshSummary();
@@ -1432,3 +1503,4 @@
     </script>
   </body>
 </html>
+

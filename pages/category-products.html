@@ -788,6 +788,11 @@
       margin-bottom: 14px;
     }
 
+    .filter-panel-options.scrollable {
+      max-height: 260px;
+      overflow-y: auto;
+    }
+
     .filter-panel-option {
       display: flex;
       align-items: center;
@@ -1212,9 +1217,13 @@
 
             <span class="filter-chip">⏚ Filters</span>
 
-            <span class="filter-chip">Location: All Oshodi ▾</span>
-
-            <span class="filter-chip">Condition ▾</span>
+            <div class="filter-dropdown-wrap">
+              <span class="filter-chip" id="location-filter-chip">Location: All Oshodi ▾</span>
+              <div class="filter-panel" id="location-filter-panel">
+                <div class="filter-panel-title">Location</div>
+                <div class="filter-panel-options scrollable" id="location-filter-options"></div>
+              </div>
+            </div>
 
             <div class="filter-dropdown-wrap">
               <span class="filter-chip" id="price-filter-chip">Price ▾</span>
@@ -1232,8 +1241,6 @@
                 </div>
               </div>
             </div>
-
-            <span class="filter-chip">Delivery ▾</span>
 
           </div>
 
@@ -1478,11 +1485,30 @@
       return parseInt(String(p.price).replace(/[^0-9]/g, ''), 10) || 0;
     }
 
+    const oshodiStreets = [
+      'Adejumobi Street', 'Adekunle Street', 'Adeoye Street', 'Adewale Crescent', 'Adeyemi Street',
+      'Akinpelu Street', 'Alimi Oke Street', 'Apapa-Oworonshoki Expressway', 'Araromi Street',
+      'Banjoko Street', 'Boladale Street', 'Boye Street', 'Brown Street', 'BRT Lane',
+      'Church Street',
+      'Enialonbinu Street', 'Ewenla Road',
+      'Ganikale Close',
+      'Igbehinadun Street', 'Inasa Street', 'Ishola Anigbjumo Street',
+      'Kunle Akinosi Street',
+      'Mabayoje Street', 'MacCarthy Lane', 'Mosaku Street',
+      'Okun Owa Street', 'Oredeyin Street', 'Orona Street', 'Oshodi Road', 'Owoseni Street', 'Oyetayo Street',
+      'Sabiolegbe Street', 'Seinde Callisto Street', 'Sodehinde Close', 'Soneye Street'
+    ];
+
     let priceFilter = null;
+    let locationFilter = null;
 
     function renderGrid(filterTag) {
 
       let filtered = filterTag ? products.filter((p) => p.tag === filterTag) : products;
+
+      if (locationFilter) {
+        filtered = filtered.filter((p) => (p.location || '').toLowerCase().includes(locationFilter.toLowerCase()));
+      }
 
       if (priceFilter) {
         filtered = filtered.filter((p) => {
@@ -1607,6 +1633,42 @@
     const priceClearBtn = document.getElementById('price-filter-clear');
     const priceSaveBtn = document.getElementById('price-filter-save');
 
+    // Location filter panel
+    const locationChip = document.getElementById('location-filter-chip');
+    const locationPanel = document.getElementById('location-filter-panel');
+    const locationOptionsWrap = document.getElementById('location-filter-options');
+
+    locationOptionsWrap.innerHTML = ['All Oshodi', ...oshodiStreets].map((street) => {
+      const value = street === 'All Oshodi' ? '' : street;
+      return `<div class="filter-panel-item${value === '' ? ' active' : ''}" data-street="${value}">${street}</div>`;
+    }).join('');
+
+    function closeLocationPanel() {
+      locationPanel.classList.remove('open');
+    }
+
+    locationChip.addEventListener('click', (e) => {
+      e.stopPropagation();
+      closePricePanel();
+      locationPanel.classList.toggle('open');
+    });
+
+    locationPanel.addEventListener('click', (e) => e.stopPropagation());
+
+    locationOptionsWrap.addEventListener('click', (e) => {
+      const item = e.target.closest('.filter-panel-item');
+      if (!item) return;
+      const street = item.dataset.street;
+      locationFilter = street || null;
+      locationChip.textContent = street ? `Location: ${street} ▾` : 'Location: All Oshodi ▾';
+      locationChip.classList.toggle('active-chip', !!street);
+      locationOptionsWrap.querySelectorAll('.filter-panel-item').forEach((el) => {
+        el.classList.toggle('active', el.dataset.street === street);
+      });
+      renderGrid(activeTag);
+      closeLocationPanel();
+    });
+
     const priceValues = products.map(getPriceValue).filter((v) => v > 0).sort((a, b) => a - b);
     const priceBands = [];
     if (priceValues.length) {
@@ -1639,12 +1701,13 @@
 
     priceChip.addEventListener('click', (e) => {
       e.stopPropagation();
+      closeLocationPanel();
       pricePanel.classList.toggle('open');
     });
 
     pricePanel.addEventListener('click', (e) => e.stopPropagation());
 
-    document.addEventListener('click', () => closePricePanel());
+    document.addEventListener('click', () => { closePricePanel(); closeLocationPanel(); });
 
     priceOptionsWrap.addEventListener('change', (e) => {
       const target = e.target.closest('input[type="radio"]');

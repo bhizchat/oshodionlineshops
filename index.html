@@ -146,7 +146,7 @@
         justify-content: center;
         position: relative;
         padding: 40px 20px;
-        overflow: hidden;
+        overflow: visible;
       }
 
       /* Subtle decorative abstract grid dots background */
@@ -188,7 +188,8 @@
         padding: 6px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
         position: relative;
-        z-index: 1;
+        z-index: 10;
+        overflow: visible;
       }
 
       .select-with-pin {
@@ -204,7 +205,7 @@
         margin-right: 6px;
       }
 
-      .category-select {
+      .location-select-button {
         background: transparent;
         border: none;
         border-right: 1px solid var(--border);
@@ -212,12 +213,53 @@
         color: #1f2937;
         padding: 10px 28px 10px 4px;
         font-weight: 700;
-        appearance: none;
         outline: none;
         cursor: pointer;
+        width: 130px;
+        max-width: 130px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: left;
+        font-family: inherit;
         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7280' viewBox='0 0 16 16'><path d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/></svg>");
         background-repeat: no-repeat;
         background-position: calc(100% - 8px) center;
+      }
+
+      .location-select-panel {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        width: 290px;
+        max-height: 260px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 12px;
+        box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+        display: none;
+        z-index: 50;
+        padding: 6px 0;
+      }
+
+      .location-select-panel.open {
+        display: block;
+      }
+
+      .location-select-item {
+        padding: 10px 16px;
+        font-size: 0.95rem;
+        color: #1f2937;
+        cursor: pointer;
+        white-space: normal;
+      }
+
+      .location-select-item:hover,
+      .location-select-item.active {
+        background: #f3ebff;
+        color: #4c1d95;
+        font-weight: 700;
       }
 
       .search-input {
@@ -427,28 +469,45 @@
         <div class="search-box" role="search">
           <div class="select-with-pin">
             <span class="location-pin">📍</span>
-            <select class="category-select" aria-label="location chooser">
-              <option>All Oshodi</option>
-              <option>Abayomi St</option>
-              <option>Abeokuta St</option>
-              <option>Abiodun St</option>
-              <option>Adedeji St</option>
-              <option>Adekunle St</option>
-              <option>Afariogun St</option>
-              <option>Agbalaya St</option>
-              <option>Agege Motor Rd</option>
-              <option>Airport Rd</option>
-              <option>Akinpelu St</option>
-              <option>Alade St</option>
-              <option>Alh. Azeez St</option>
-              <option>Alimi Oke St</option>
-              <option>Brown St</option>
-              <option>Church St</option>
-              <option>Makinde St</option>
-              <option>Oshodi Rd</option>
-              <option>Oyetayo St</option>
-              <option>Sadiku St</option>
-            </select>
+            <button type="button" class="location-select-button" id="locationSelectButton" aria-expanded="false">All Oshodi</button>
+            <div class="location-select-panel" id="locationSelectPanel" role="listbox" aria-label="Choose location">
+              <div class="location-select-item active" data-value="All Oshodi">All Oshodi</div>
+              <div class="location-select-item" data-value="Adejumobi Street">Adejumobi Street</div>
+              <div class="location-select-item" data-value="Adekunle Street">Adekunle Street</div>
+              <div class="location-select-item" data-value="Adeoye Street">Adeoye Street</div>
+              <div class="location-select-item" data-value="Adewale Crescent">Adewale Crescent</div>
+              <div class="location-select-item" data-value="Adeyemi Street">Adeyemi Street</div>
+              <div class="location-select-item" data-value="Akinpelu Street">Akinpelu Street</div>
+              <div class="location-select-item" data-value="Alimi Oke Street">Alimi Oke Street</div>
+              <div class="location-select-item" data-value="Apapa-Oworonshoki Expressway">Apapa-Oworonshoki Expressway</div>
+              <div class="location-select-item" data-value="Araromi Street">Araromi Street</div>
+              <div class="location-select-item" data-value="Banjoko Street">Banjoko Street</div>
+              <div class="location-select-item" data-value="Boladale Street">Boladale Street</div>
+              <div class="location-select-item" data-value="Boye Street">Boye Street</div>
+              <div class="location-select-item" data-value="Brown Street">Brown Street</div>
+              <div class="location-select-item" data-value="BRT Lane">BRT Lane</div>
+              <div class="location-select-item" data-value="Church Street">Church Street</div>
+              <div class="location-select-item" data-value="Enialonbinu Street">Enialonbinu Street</div>
+              <div class="location-select-item" data-value="Ewenla Road">Ewenla Road</div>
+              <div class="location-select-item" data-value="Ganikale Close">Ganikale Close</div>
+              <div class="location-select-item" data-value="Igbehinadun Street">Igbehinadun Street</div>
+              <div class="location-select-item" data-value="Inasa Street">Inasa Street</div>
+              <div class="location-select-item" data-value="Ishola Anigbjumo Street">Ishola Anigbjumo Street</div>
+              <div class="location-select-item" data-value="Kunle Akinosi Street">Kunle Akinosi Street</div>
+              <div class="location-select-item" data-value="Mabayoje Street">Mabayoje Street</div>
+              <div class="location-select-item" data-value="MacCarthy Lane">MacCarthy Lane</div>
+              <div class="location-select-item" data-value="Mosaku Street">Mosaku Street</div>
+              <div class="location-select-item" data-value="Okun Owa Street">Okun Owa Street</div>
+              <div class="location-select-item" data-value="Oredeyin Street">Oredeyin Street</div>
+              <div class="location-select-item" data-value="Orona Street">Orona Street</div>
+              <div class="location-select-item" data-value="Oshodi Road">Oshodi Road</div>
+              <div class="location-select-item" data-value="Owoseni Street">Owoseni Street</div>
+              <div class="location-select-item" data-value="Oyetayo Street">Oyetayo Street</div>
+              <div class="location-select-item" data-value="Sabiolegbe Street">Sabiolegbe Street</div>
+              <div class="location-select-item" data-value="Seinde Callisto Street">Seinde Callisto Street</div>
+              <div class="location-select-item" data-value="Sodehinde Close">Sodehinde Close</div>
+              <div class="location-select-item" data-value="Soneye Street">Soneye Street</div>
+            </div>
           </div>
 
           <input class="search-input" type="text" placeholder="I am looking for..." aria-label="search" autofocus />
@@ -537,6 +596,35 @@
     <script src="search-index.js"></script>
     <script src="search.js"></script>
     <script src="account-popup.js"></script>
+    <script>
+      const locationButton = document.getElementById('locationSelectButton');
+      const locationPanel = document.getElementById('locationSelectPanel');
+      const locationItems = document.querySelectorAll('.location-select-item');
+
+      locationButton.addEventListener('click', (event) => {
+        event.stopPropagation();
+        const isOpen = locationPanel.classList.contains('open');
+        locationPanel.classList.toggle('open', !isOpen);
+        locationButton.setAttribute('aria-expanded', String(!isOpen));
+      });
+
+      locationItems.forEach((item) => {
+        item.addEventListener('click', () => {
+          locationItems.forEach((entry) => entry.classList.remove('active'));
+          item.classList.add('active');
+          locationButton.textContent = item.dataset.value;
+          locationPanel.classList.remove('open');
+          locationButton.setAttribute('aria-expanded', 'false');
+        });
+      });
+
+      document.addEventListener('click', (event) => {
+        if (!event.target.closest('.select-with-pin')) {
+          locationPanel.classList.remove('open');
+          locationButton.setAttribute('aria-expanded', 'false');
+        }
+      });
+    </script>
   </body>
 </html>
 
