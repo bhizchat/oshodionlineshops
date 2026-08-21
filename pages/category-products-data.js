@@ -32,16 +32,17 @@ const categoryPageMeta = {
 
       { key: '7star', label: '7 Star', icon: '⭐', match: ['7-star', '7 star'] },
 
-      { key: 'senator', label: 'Senator Materials', icon: '👔', match: ['senator'] },
       { key: 'brushmouth', label: 'Brushmouth', icon: '🖌️', match: ['brushmouth'] },
 
       { key: 'checkers', label: 'Checkers', icon: '🏁', match: ['checkers'] },
 
-      { key: 'white', label: 'White', icon: '⚪', match: ['white'] },
+      { key: 'white', label: 'White', icon: '⚪', match: ['white senator'] },
 
       { key: 'silk', label: 'Silk & Damask', icon: '✨', match: ['silk', 'damask', 'jacquard', 'brocade'] },
 
-      { key: 'italianpigal', label: 'Italian Pigal', icon: '🇮🇹', match: ['italian pigal', 'pigal'] }
+      { key: 'italianpigal', label: 'Italian Pigal', icon: '🇮🇹', match: ['italian pigal', 'pigal'] },
+
+      { key: 'senator', label: 'Senator Materials', icon: '👔', match: ['senator'] }
 
     ]
 

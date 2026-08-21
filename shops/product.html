@@ -1066,6 +1066,7 @@
     <script src="../pages/category-products-data.js"></script>
     <script src="../search-index.js"></script>
     <script src="../search.js"></script>
+    <script src="../account-popup.js"></script>
 
     <script>
       function hashString(str) {
@@ -1170,14 +1171,22 @@
       breadcrumbShop.href = `shops.html?shop=${shopKey}`;
       document.getElementById('breadcrumb-product').textContent = product.name;
 
-      // Gallery
-      const thumbCount = 5;
-      const thumbImages = Array.from({ length: thumbCount }, () => product.image);
+      // Gallery — each product only has one real photo, so don't fake extra
+      // thumbnails by repeating it; just show the single image.
+      const thumbImages = [product.image];
       const mainImage = document.getElementById('main-product-image');
       const thumbnailRow = document.getElementById('thumbnail-row');
+      const galleryPrevBtn = document.getElementById('gallery-prev');
+      const galleryNextBtn = document.getElementById('gallery-next');
       let activeThumb = 0;
 
       function renderThumbnails() {
+        if (thumbImages.length <= 1) {
+          thumbnailRow.style.display = 'none';
+          galleryPrevBtn.style.display = 'none';
+          galleryNextBtn.style.display = 'none';
+          return;
+        }
         thumbnailRow.innerHTML = thumbImages.map((src, i) =>
           `<img src="${src}" alt="${product.name} view ${i + 1}" class="${i === activeThumb ? 'active' : ''}" data-index="${i}" />`
         ).join('');
@@ -1193,12 +1202,12 @@
       mainImage.src = thumbImages[activeThumb];
       renderThumbnails();
 
-      document.getElementById('gallery-prev').addEventListener('click', () => {
+      galleryPrevBtn.addEventListener('click', () => {
         activeThumb = (activeThumb - 1 + thumbImages.length) % thumbImages.length;
         mainImage.src = thumbImages[activeThumb];
         renderThumbnails();
       });
-      document.getElementById('gallery-next').addEventListener('click', () => {
+      galleryNextBtn.addEventListener('click', () => {
         activeThumb = (activeThumb + 1) % thumbImages.length;
         mainImage.src = thumbImages[activeThumb];
         renderThumbnails();
@@ -1248,7 +1257,7 @@
       // WhatsApp Message Button
       const whatsappBtn = document.getElementById('whatsapp-product-btn');
       if (shop.phone) {
-        const intlPhone = shop.phone.replace(/^0/, '234');
+        const intlPhone = shop.phone.replace(/^0/, '+234');
         const message = encodeURIComponent(`Hi ${shop.name}, I'm interested in the ${product.name} (${product.price}) I saw on Oshodi Online Shops.`);
         whatsappBtn.addEventListener('click', () => {
           window.open(`https://wa.me/${intlPhone}?text=${message}`, '_blank');
