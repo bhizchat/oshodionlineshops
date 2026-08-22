@@ -78,25 +78,15 @@ const categoryPageMeta = {
 
     products: [
 
-      { name: 'Ankara Gown (Ready to Wear)', price: 'NGN 22,000', score: '4.7', count: '58', image: 'https://picsum.photos/300/300?random=501', shop: 'Naija Chic Boutique', location: 'Oshodi Market, Block F, Shop 30', tag: 'women' },
+      { name: 'Unisex Denim Jeans', price: 'NGN 12,500', score: '4.5', count: '63', image: '../assets(items) /Clothing/unisexdeminjeans.jpeg', shop: 'Luna Fashion Hub', location: 'Oshodi Main Market, Block G, Shop 9', tag: 'unisex' },
 
-      { name: "Men's Native Senator Wear", price: 'NGN 28,000', score: '4.6', count: '41', image: 'https://picsum.photos/300/300?random=502', shop: 'Luna Fashion Hub', location: 'Oshodi Main Market, Block G, Shop 9', tag: 'traditional' },
+      { name: 'Ladies Handbag (Leather)', price: 'NGN 15,000', score: '4.8', count: '35', image: '../assets(items) /Clothing/ladieshandbag.jpeg', shop: 'Naija Chic Boutique', location: 'Oshodi Market, Block F, Shop 30', tag: 'shoes' },
 
-      { name: 'Unisex Denim Jeans', price: 'NGN 12,500', score: '4.5', count: '63', image: 'https://picsum.photos/300/300?random=503', shop: 'Luna Fashion Hub', location: 'Oshodi Main Market, Block G, Shop 9', tag: 'unisex' },
+      { name: 'Beaded Jewelry Set', price: 'NGN 6,500', score: '4.6', count: '44', image: '../assets(items) /Clothing/beadedjewelryset.jpeg', shop: 'Luna Fashion Hub', location: 'Oshodi Main Market, Block G, Shop 9', tag: 'jewelry' },
 
-      { name: 'Ladies Handbag (Leather)', price: 'NGN 15,000', score: '4.8', count: '35', image: 'https://picsum.photos/300/300?random=504', shop: 'Naija Chic Boutique', location: 'Oshodi Market, Block F, Shop 30', tag: 'shoes' },
+      { name: 'Sports Tracksuit', price: 'NGN 14,000', score: '4.5', count: '19', image: '../assets(items) /Clothing/sportstracksuit.jpeg', shop: 'Naija Chic Boutique', location: 'Oshodi Market, Block F, Shop 30', tag: 'sport' },
 
-      { name: "Kids Party Outfit", price: 'NGN 9,500', score: '4.7', count: '27', image: 'https://picsum.photos/300/300?random=505', shop: 'Naija Chic Boutique', location: 'Oshodi Market, Block F, Shop 30', tag: 'kids' },
-
-      { name: 'Beaded Jewelry Set', price: 'NGN 6,500', score: '4.6', count: '44', image: 'https://picsum.photos/300/300?random=506', shop: 'Luna Fashion Hub', location: 'Oshodi Main Market, Block G, Shop 9', tag: 'jewelry' },
-
-      { name: 'Sports Tracksuit', price: 'NGN 14,000', score: '4.5', count: '19', image: 'https://picsum.photos/300/300?random=507', shop: 'Naija Chic Boutique', location: 'Oshodi Market, Block F, Shop 30', tag: 'sport' },
-
-      { name: "Women's Office Blazer", price: 'NGN 19,500', score: '4.8', count: '30', image: 'https://picsum.photos/300/300?random=508', shop: 'Luna Fashion Hub', location: 'Oshodi Main Market, Block G, Shop 9', tag: 'women' },
-
-      { name: 'Casual Sneakers', price: 'NGN 17,000', score: '4.6', count: '38', image: 'https://picsum.photos/300/300?random=509', shop: 'Naija Chic Boutique', location: 'Oshodi Market, Block F, Shop 30', tag: 'shoes' },
-
-      { name: "Men's Agbada Set", price: 'NGN 35,000', score: '4.9', count: '22', image: 'https://picsum.photos/300/300?random=510', shop: 'Luna Fashion Hub', location: 'Oshodi Main Market, Block G, Shop 9', tag: 'traditional' }
+      { name: 'Casual Sneakers', price: 'NGN 17,000', score: '4.6', count: '38', image: '../assets(items) /Clothing/casualsneakers.jpeg', shop: 'Naija Chic Boutique', location: 'Oshodi Market, Block F, Shop 30', tag: 'shoes' }
 
     ]
 
@@ -162,21 +152,15 @@ const categoryPageMeta = {
 
     products: [
 
-      { name: 'Premium Rice (50kg Bag)', price: 'NGN 68,000', score: '4.7', count: '54', image: 'https://picsum.photos/300/300?random=601', shop: 'Fresh Basket Hub', location: 'Oshodi Main Market, Block J, Shop 6', tag: 'grains' },
+      { name: 'Premium Rice (50kg Bag)', price: 'NGN 68,000', score: '4.7', count: '54', image: '../assets(items) /Foodstuffs/PremiumRice (50kg Bag).jpeg', shop: 'Fresh Basket Hub', location: 'Oshodi Main Market, Block J, Shop 6', tag: 'grains' },
 
-      { name: 'Vegetable Oil (25L Keg)', price: 'NGN 42,000', score: '4.8', count: '61', image: 'https://picsum.photos/300/300?random=602', shop: 'Oshodi Food Mart', location: 'Oshodi Market, Block K, Shop 12', tag: 'oils' },
+      { name: 'Vegetable Oil (25L Keg)', price: 'NGN 42,000', score: '4.8', count: '61', image: '../assets(items) /Foodstuffs/VegetableOil (25L Keg).jpeg', shop: 'Oshodi Food Mart', location: 'Oshodi Market, Block K, Shop 12', tag: 'oils' },
 
-      { name: 'Assorted Spices Pack', price: 'NGN 5,500', score: '4.6', count: '38', image: 'https://picsum.photos/300/300?random=603', shop: 'Oshodi Food Mart', location: 'Oshodi Market, Block K, Shop 12', tag: 'oils' },
+      { name: 'Assorted Spices Pack', price: 'NGN 5,500', score: '4.6', count: '38', image: '../assets(items) /Foodstuffs/assortedspicespack.jpeg', shop: 'Oshodi Food Mart', location: 'Oshodi Market, Block K, Shop 12', tag: 'oils' },
 
-      { name: 'Brown Beans (10kg)', price: 'NGN 15,000', score: '4.7', count: '29', image: 'https://picsum.photos/300/300?random=604', shop: 'Fresh Basket Hub', location: 'Oshodi Main Market, Block J, Shop 6', tag: 'grains' },
+      { name: 'Brown Beans (10kg)', price: 'NGN 15,000', score: '4.7', count: '29', image: '../assets(items) /Foodstuffs/brownbeans(10kg).jpeg', shop: 'Fresh Basket Hub', location: 'Oshodi Main Market, Block J, Shop 6', tag: 'grains' },
 
-      { name: 'Fresh Tomatoes (Basket)', price: 'NGN 8,000', score: '4.5', count: '22', image: 'https://picsum.photos/300/300?random=605', shop: 'Fresh Basket Hub', location: 'Oshodi Main Market, Block J, Shop 6', tag: 'produce' },
-
-      { name: 'Frozen Chicken (Carton)', price: 'NGN 32,000', score: '4.8', count: '46', image: 'https://picsum.photos/300/300?random=606', shop: 'Oshodi Food Mart', location: 'Oshodi Market, Block K, Shop 12', tag: 'frozen' },
-
-      { name: 'Assorted Snack Pack', price: 'NGN 4,500', score: '4.6', count: '33', image: 'https://picsum.photos/300/300?random=607', shop: 'Fresh Basket Hub', location: 'Oshodi Main Market, Block J, Shop 6', tag: 'snacks' },
-
-      { name: 'Bottled Fruit Juice (Crate)', price: 'NGN 9,000', score: '4.7', count: '27', image: 'https://picsum.photos/300/300?random=608', shop: 'Oshodi Food Mart', location: 'Oshodi Market, Block K, Shop 12', tag: 'drinks' }
+      { name: 'Bottled Fruit Juice', price: 'NGN 9,000', score: '4.7', count: '27', image: '../assets(items) /Foodstuffs/BottledFruitJuice.jpeg', shop: 'Oshodi Food Mart', location: 'Oshodi Market, Block K, Shop 12', tag: 'drinks' }
 
     ]
 
@@ -212,21 +196,17 @@ const categoryPageMeta = {
 
     products: [
 
-      { name: 'Gold Plated Earrings', price: 'NGN 6,500', score: '4.7', count: '48', image: 'https://picsum.photos/300/300?random=701', shop: 'Glitzglow Accessories', location: 'Oshodi Market, Block O, Shop 11', tag: 'jewelry' },
+      { name: 'Gold Plated Earrings', price: 'NGN 6,500', score: '4.7', count: '48', image: '../assets(items) /Accessories/goldplatedearrings.jpeg', shop: 'Glitzglow Accessories', location: 'Oshodi Market, Block O, Shop 11', tag: 'jewelry' },
 
-      { name: 'Beaded Necklace Set', price: 'NGN 8,000', score: '4.6', count: '35', image: 'https://picsum.photos/300/300?random=702', shop: 'Glitzglow Accessories', location: 'Oshodi Market, Block O, Shop 11', tag: 'jewelry' },
+      { name: 'Leather Wallet', price: 'NGN 7,500', score: '4.8', count: '29', image: '../assets(items) /Accessories/leatherwallet.jpeg', shop: 'Pearl Addons', location: 'Oshodi Main Market, Block P, Shop 3', tag: 'bags' },
 
-      { name: 'Leather Wallet', price: 'NGN 7,500', score: '4.8', count: '29', image: 'https://picsum.photos/300/300?random=703', shop: 'Pearl Addons', location: 'Oshodi Main Market, Block P, Shop 3', tag: 'bags' },
+      { name: 'Designer Sunglasses', price: 'NGN 11,000', score: '4.5', count: '21', image: '../assets(items) /Accessories/desigersunglasses.jpeg', shop: 'Pearl Addons', location: 'Oshodi Main Market, Block P, Shop 3', tag: 'sunglasses' },
 
-      { name: 'Designer Sunglasses', price: 'NGN 11,000', score: '4.5', count: '21', image: 'https://picsum.photos/300/300?random=704', shop: 'Pearl Addons', location: 'Oshodi Main Market, Block P, Shop 3', tag: 'sunglasses' },
+      { name: 'Silk Scarf', price: 'NGN 5,000', score: '4.6', count: '18', image: '../assets(items) /Accessories/silkscarf.jpeg', shop: 'Pearl Addons', location: 'Oshodi Main Market, Block P, Shop 3', tag: 'scarves' },
 
-      { name: "Women's Analog Watch", price: 'NGN 18,500', score: '4.7', count: '33', image: 'https://picsum.photos/300/300?random=705', shop: 'Glitzglow Accessories', location: 'Oshodi Market, Block O, Shop 11', tag: 'watches' },
+      { name: 'Leather Belt', price: 'NGN 4,500', score: '4.5', count: '24', image: '../assets(items) /Accessories/leatherbelt.jpeg', shop: 'Glitzglow Accessories', location: 'Oshodi Market, Block O, Shop 11', tag: 'belts' },
 
-      { name: 'Silk Scarf', price: 'NGN 5,000', score: '4.6', count: '18', image: 'https://picsum.photos/300/300?random=706', shop: 'Pearl Addons', location: 'Oshodi Main Market, Block P, Shop 3', tag: 'scarves' },
-
-      { name: 'Leather Belt', price: 'NGN 4,500', score: '4.5', count: '24', image: 'https://picsum.photos/300/300?random=707', shop: 'Glitzglow Accessories', location: 'Oshodi Market, Block O, Shop 11', tag: 'belts' },
-
-      { name: 'Unisex Perfume (50ml)', price: 'NGN 13,000', score: '4.8', count: '40', image: 'https://picsum.photos/300/300?random=708', shop: 'Pearl Addons', location: 'Oshodi Main Market, Block P, Shop 3', tag: 'perfumes' }
+      { name: 'Unisex Perfume (50ml)', price: 'NGN 13,000', score: '4.8', count: '40', image: '../assets(items) /Accessories/unisexperfume.jpeg', shop: 'Pearl Addons', location: 'Oshodi Main Market, Block P, Shop 3', tag: 'perfumes' }
 
     ]
 

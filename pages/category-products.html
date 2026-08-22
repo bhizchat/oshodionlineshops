@@ -1405,7 +1405,12 @@
 
     } else {
 
-      products = (meta.products || []).map((p) => ({ ...p }));
+      products = (meta.products || []).map((p, index) => ({
+        ...p,
+        shopKey: `${cat}-demo`,
+        productIndex: index,
+        location: p.location || 'Oshodi Main Market, Oshodi-Isolo, Lagos'
+      }));
 
     }
 

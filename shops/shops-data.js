@@ -147,7 +147,7 @@ const shops = {
       { name: 'Ankara GTP Bright Magenta And Teal (1 Yard)', price: 'NGN 4,500', score: '4.7', count: '35', image: '../assets(items) /Fabrics/Ankara/GTP/gtp-bright-magenta-and-teal.png' },
       { name: 'Ankara GTP Bright Orange And Pale Yellow (1 Yard)', price: 'NGN 5,600', score: '4.7', count: '26', image: '../assets(items) /Fabrics/Ankara/GTP/gtp-bright-orange-and-pale-yellow.png' },
       { name: 'Senator Ankara Bright Red (1 Yard)', price: 'NGN 5,200', score: '4.7', count: '10', image: '../assets(items) /Fabrics/Ankara/SENATOR ANKARA /senator-ankara-bright-red.png' },
-      { name: 'Holland View Ankara Holland Tan 3 (1 Yard)', price: 'NGN 4,900', score: '4.9', count: '11', image: '../assets(items) /Fabrics/Ankara/holland view/holland-tan-3.png' },
+      { name: 'Holland View Ankara Holland Tan (1 Yard)', price: 'NGN 4,900', score: '4.9', count: '11', image: '../assets(items) /Fabrics/Ankara/holland view/holland-tan.png' },
       { name: 'Holland View Ankara Green (1 Yard)', price: 'NGN 5,300', score: '4.5', count: '14', image: '../assets(items) /Fabrics/Ankara/holland view/holland-view-green.png' },
       { name: 'Ankara Hollandise Bold Floral Pattern Of Vibrant Green (1 Yard)', price: 'NGN 6,300', score: '4.6', count: '25', image: '../assets(items) /Fabrics/Ankara/hollandise/hollandise-bold-floral-pattern-of-vibrant-green.png' },
       { name: 'Ankara Hollandise Bold Red And Black With Yellow (1 Yard)', price: 'NGN 4,800', score: '4.9', count: '27', image: '../assets(items) /Fabrics/Ankara/hollandise/hollandise-bold-red-and-black-with-yellow.png' },
@@ -837,7 +837,6 @@ const shops = {
       { name: 'Moonstar Senator Warm Light Beige (1 Yard)', price: 'NGN 1,900', score: '4.5', count: '23', image: '../assets(items) /Fabrics/Senator/moonstar /moonstar-warm-light-beige.png' },
       { name: 'Moonstar Senator Warm Medium Brown (1 Yard)', price: 'NGN 1,900', score: '4.7', count: '19', image: '../assets(items) /Fabrics/Senator/moonstar /moonstar-warm-medium-brown.png' },
       { name: 'Moonstar Senator Warm Taupe (1 Yard)', price: 'NGN 2,100', score: '4.6', count: '33', image: '../assets(items) /Fabrics/Senator/moonstar /moonstar-warm-taupe.png' },
-      { name: 'Small Lana 9 (1 Yard)', price: 'NGN 3,300', score: '4.8', count: '30', image: '../assets(items) /Fabrics/Senator/small lana /small-lana-9.png' },
       { name: 'Small Thick Senator Warm Rust Orange (1 Yard)', price: 'NGN 2,200', score: '4.7', count: '9', image: '../assets(items) /Fabrics/Senator/small thick/small-thick-warm-rust-orange.png' }
     ]
   },
@@ -929,7 +928,6 @@ const shops = {
     categories: ['Wool', 'Jacquard', 'Cashmere'],
     products: [
       { name: 'G-Star Ankara Veritable Wax Super Vinta (1 Yard)', price: 'NGN 5,400', score: '4.8', count: '24', image: '../assets(items) /Fabrics/Ankara/G-star /g-star-veritable-wax-super-vinta.png' },
-      { name: 'Ankara G-Star 5 (1 Yard)', price: 'NGN 5,400', score: '4.5', count: '18', image: '../assets(items) /Fabrics/Ankara/G-star /g-star-5.png' },
       { name: 'GP Ankara Light Blue Teal (1 Yard)', price: 'NGN 5,500', score: '4.7', count: '10', image: '../assets(items) /Fabrics/Ankara/GP/gp-light-blue-teal.png' },
       { name: 'GP Ankara Light Pink (1 Yard)', price: 'NGN 5,200', score: '4.7', count: '14', image: '../assets(items) /Fabrics/Ankara/GP/gp-light-pink.png' },
       { name: 'GP Ankara Teal (1 Yard)', price: 'NGN 4,800', score: '4.5', count: '31', image: '../assets(items) /Fabrics/Ankara/GP/gp-teal.png' },
@@ -941,7 +939,6 @@ const shops = {
       { name: 'Ankara GTP Yellow (1 Yard)', price: 'NGN 5,800', score: '4.7', count: '10', image: '../assets(items) /Fabrics/Ankara/GTP/gtp-yellow.png' },
       { name: 'Senator Ankara Vibrant Blue (1 Yard)', price: 'NGN 5,500', score: '4.6', count: '13', image: '../assets(items) /Fabrics/Ankara/SENATOR ANKARA /senator-ankara-vibrant-blue.png' },
       { name: 'Senator Ankara Warm Tan (1 Yard)', price: 'NGN 6,300', score: '4.5', count: '20', image: '../assets(items) /Fabrics/Ankara/SENATOR ANKARA /senator-ankara-warm-tan.png' },
-      { name: 'Ankara Holland View 4 (1 Yard)', price: 'NGN 5,000', score: '4.6', count: '33', image: '../assets(items) /Fabrics/Ankara/holland view/holland-view-4.png' },
       { name: 'Ankara Hollandise Vibrant Lime Green (1 Yard)', price: 'NGN 6,300', score: '4.9', count: '19', image: '../assets(items) /Fabrics/Ankara/hollandise/hollandise-vibrant-lime-green.png' },
       { name: 'Ankara Hollandise Vibrant Magenta And Cyan With White (1 Yard)', price: 'NGN 5,900', score: '4.5', count: '10', image: '../assets(items) /Fabrics/Ankara/hollandise/hollandise-vibrant-magenta-and-cyan-with-white.png' },
       { name: 'Ankara Hollandise Vibrant Magenta And Cyan (1 Yard)', price: 'NGN 5,900', score: '4.5', count: '32', image: '../assets(items) /Fabrics/Ankara/hollandise/hollandise-vibrant-magenta-and-cyan.png' },
@@ -969,9 +966,8 @@ const shops = {
       { name: 'Android Smartphone 128GB', price: 'NGN 185,000', score: '4.7', count: '42', image: '../assets(items) /Electronics/androidsmartphone.png' },
       { name: '10-inch Android Tablet', price: 'NGN 145,000', score: '4.6', count: '25', image: '../assets(items) /Electronics/10-inchAndroidTablet.png' },
       { name: '20000mAh Powerbank', price: 'NGN 18,500', score: '4.8', count: '61', image: '../assets(items) /Electronics/20000mAh Powerbank.png' },
-      { name: 'Wireless Earbuds', price: 'NGN 22,000', score: '4.5', count: '38', image: 'https://picsum.photos/seed/s54/300/300' },
-      { name: 'Phone Screen Protector Pack', price: 'NGN 3,500', score: '4.4', count: '54', image: 'https://picsum.photos/seed/s55/300/300' },
-      { name: 'Fast Charger (65W)', price: 'NGN 12,000', score: '4.7', count: '33', image: 'https://picsum.photos/seed/s56/300/300' }
+      { name: 'Wireless Earbuds', price: 'NGN 22,000', score: '4.5', count: '38', image: '../assets(items) /Electronics/WirelessEarbuds.png' },
+      { name: 'Fast Charger (65W)', price: 'NGN 12,000', score: '4.7', count: '33', image: '../assets(items) /Electronics/phonecharge(65W).jpeg' }
     ]
   },
   vibestech: {
@@ -985,11 +981,8 @@ const shops = {
     thumb: '../assets(shops)/vibestechhub.png',
     categories: ['Laptops', 'Audio', 'Smartwatches', 'Accessories'],
     products: [
-      { name: 'Core i5 Laptop 8GB/256GB', price: 'NGN 420,000', score: '4.8', count: '29', image: 'https://picsum.photos/seed/s61/300/300' },
-      { name: 'Bluetooth Speaker', price: 'NGN 25,000', score: '4.6', count: '47', image: 'https://picsum.photos/seed/s62/300/300' },
-      { name: 'Smartwatch Fitness Tracker', price: 'NGN 32,000', score: '4.7', count: '35', image: 'https://picsum.photos/seed/s63/300/300' },
-      { name: 'Over-Ear Headphones', price: 'NGN 28,500', score: '4.8', count: '40', image: 'https://picsum.photos/seed/s64/300/300' },
-      { name: 'Laptop Bag', price: 'NGN 9,500', score: '4.5', count: '22', image: 'https://picsum.photos/seed/s65/300/300' }
+      { name: 'Bluetooth Speaker', price: 'NGN 25,000', score: '4.6', count: '47', image: '../assets(items) /Electronics/bluetoothspeaker.jpeg' },
+      { name: 'Laptop Bag', price: 'NGN 9,500', score: '4.5', count: '22', image: '../assets(items) /Electronics/LaptopBag.jpeg' }
     ]
   },
   streetsmart: {
@@ -1003,11 +996,7 @@ const shops = {
     thumb: '../assets(shops)/streetsmartsgadgets.png',
     categories: ['Accessories', 'Earbuds', 'Cables', 'Chargers'],
     products: [
-      { name: 'Wired Earphones', price: 'NGN 4,500', score: '4.5', count: '58', image: 'https://picsum.photos/seed/s71/300/300' },
-      { name: 'USB-C Charging Cable', price: 'NGN 3,200', score: '4.6', count: '66', image: 'https://picsum.photos/seed/s72/300/300' },
-      { name: 'Phone Case & Cover', price: 'NGN 5,000', score: '4.4', count: '49', image: 'https://picsum.photos/seed/s73/300/300' },
-      { name: 'Car Charger (Dual Port)', price: 'NGN 6,500', score: '4.7', count: '31', image: 'https://picsum.photos/seed/s74/300/300' },
-      { name: 'Bluetooth Earbuds', price: 'NGN 15,000', score: '4.6', count: '44', image: 'https://picsum.photos/seed/s75/300/300' }
+      { name: 'Phone Case & Cover', price: 'NGN 5,000', score: '4.4', count: '49', image: '../assets(items) /Electronics/phonecase&cover.jpeg' }
     ]
   },
   phonelink: {
@@ -1020,18 +1009,86 @@ const shops = {
     heroBg: '../assets(shops)/phonelink.png',
     thumb: '../assets(shops)/phonelink.png',
     categories: ['iPhones', 'Android', 'Repairs', 'Accessories'],
+    products: []
+  }
+};
+
+Object.keys(shops).forEach((shopKey) => {
+  const shop = shops[shopKey];
+  if (shop.category !== 'electronics') return;
+  shop.products = (shop.products || []).filter((product) => {
+    const image = typeof product.image === 'string' ? product.image : '';
+    return image.includes('../assets(items) /Electronics/') || image.includes('/Electronics/');
+  });
+});
+
+
+// Remove fabrics products that do not use images from the Fabrics asset folders.
+const demoFallbackShops = {
+  'clothing-demo': {
+    name: 'Oshodi Fashion Hub',
+    category: 'clothing',
+    tagline: 'Trend-focused fashion essentials for everyday style',
+    location: 'Oshodi Main Market, Oshodi-Isolo Lagos',
+    phone: '08000000000',
+    followers: 'Local styles',
+    heroBg: 'https://picsum.photos/seed/fashion-demo/1200/400',
+    thumb: '../assets/logo.png',
+    categories: ['Women\'s Wear', "Men's Wear", 'Unisex Wear', 'Shoes & Bags', 'Traditional Wear', 'Kids Wear', 'Jewelry & Accessories', 'Sportswear'],
     products: [
-      { name: 'iPhone 128GB (UK Used)', price: 'NGN 380,000', score: '4.7', count: '52', image: 'https://picsum.photos/seed/s81/300/300' },
-      { name: 'Android Flagship 256GB', price: 'NGN 310,000', score: '4.6', count: '37', image: 'https://picsum.photos/seed/s82/300/300' },
-      { name: 'Screen Replacement Service', price: 'NGN 25,000', score: '4.8', count: '64', image: 'https://picsum.photos/seed/s83/300/300' },
-      { name: 'Battery Replacement Service', price: 'NGN 15,000', score: '4.7', count: '48', image: 'https://picsum.photos/seed/s84/300/300' },
-      { name: 'Phone Charger & Cable Set', price: 'NGN 7,500', score: '4.5', count: '30', image: 'https://picsum.photos/seed/s85/300/300' }
+      { name: 'Ankara Gown (Ready to Wear)', price: 'NGN 22,000', score: '4.7', count: '58', image: 'https://picsum.photos/300/300?random=501' },
+      { name: "Men's Native Senator Wear", price: 'NGN 28,000', score: '4.6', count: '41', image: 'https://picsum.photos/300/300?random=502' },
+      { name: 'Unisex Denim Jeans', price: 'NGN 12,500', score: '4.5', count: '63', image: '../assets(items) /Clothing/unisexdeminjeans.jpeg' },
+      { name: 'Ladies Handbag (Leather)', price: 'NGN 15,000', score: '4.8', count: '35', image: '../assets(items) /Clothing/ladieshandbag.jpeg' },
+      { name: "Kids Party Outfit", price: 'NGN 9,500', score: '4.7', count: '27', image: 'https://picsum.photos/300/300?random=505' },
+      { name: 'Beaded Jewelry Set', price: 'NGN 6,500', score: '4.6', count: '44', image: '../assets(items) /Clothing/beadedjewelryset.jpeg' },
+      { name: 'Sports Tracksuit', price: 'NGN 14,000', score: '4.5', count: '19', image: '../assets(items) /Clothing/sportstracksuit.jpeg' },
+      { name: "Women's Office Blazer", price: 'NGN 19,500', score: '4.8', count: '30', image: 'https://picsum.photos/300/300?random=508' },
+      { name: 'Casual Sneakers', price: 'NGN 17,000', score: '4.6', count: '38', image: '../assets(items) /Clothing/casualsneakers.jpeg' },
+      { name: "Men's Agbada Set", price: 'NGN 35,000', score: '4.9', count: '22', image: 'https://picsum.photos/300/300?random=510' }
+    ]
+  },
+  'foodstuffs-demo': {
+    name: 'Oshodi Food Basket',
+    category: 'foodstuffs',
+    tagline: 'Fresh produce and pantry essentials',
+    location: 'Oshodi Main Market, Oshodi-Isolo Lagos',
+    phone: '08000000001',
+    followers: 'Fresh picks',
+    heroBg: 'https://picsum.photos/seed/food-demo/1200/400',
+    thumb: '../assets/logo.png',
+    categories: ['Grains & Cereals', 'Oils & Spices', 'Snacks & Beverages'],
+    products: [
+      { name: 'Premium Rice (50kg Bag)', price: 'NGN 68,000', score: '4.7', count: '54', image: '../assets(items) /Foodstuffs/PremiumRice (50kg Bag).jpeg' },
+      { name: 'Vegetable Oil (25L Keg)', price: 'NGN 42,000', score: '4.8', count: '61', image: '../assets(items) /Foodstuffs/VegetableOil (25L Keg).jpeg' },
+      { name: 'Assorted Spices Pack', price: 'NGN 5,500', score: '4.6', count: '38', image: '../assets(items) /Foodstuffs/assortedspicespack.jpeg' },
+      { name: 'Brown Beans (10kg)', price: 'NGN 15,000', score: '4.7', count: '29', image: '../assets(items) /Foodstuffs/brownbeans(10kg).jpeg' },
+      { name: 'Bottled Fruit Juice', price: 'NGN 9,000', score: '4.7', count: '27', image: '../assets(items) /Foodstuffs/BottledFruitJuice.jpeg' }
+    ]
+  },
+  'accessories-demo': {
+    name: 'Oshodi Style Access',
+    category: 'accessories',
+    tagline: 'Fashion finishing touches for everyday looks',
+    location: 'Oshodi Main Market, Oshodi-Isolo Lagos',
+    phone: '08000000002',
+    followers: 'New arrivals',
+    heroBg: 'https://picsum.photos/seed/accessories-demo/1200/400',
+    thumb: '../assets/logo.png',
+    categories: ['Jewelry', 'Bags & Wallets', 'Sunglasses', 'Scarves', 'Belts', 'Perfumes'],
+    products: [
+      { name: 'Gold Plated Earrings', price: 'NGN 6,500', score: '4.7', count: '48', image: '../assets(items) /Accessories/goldplatedearrings.jpeg' },
+      { name: 'Leather Wallet', price: 'NGN 7,500', score: '4.8', count: '29', image: '../assets(items) /Accessories/leatherwallet.jpeg' },
+      { name: 'Designer Sunglasses', price: 'NGN 11,000', score: '4.5', count: '21', image: '../assets(items) /Accessories/desigersunglasses.jpeg' },
+      { name: 'Silk Scarf', price: 'NGN 5,000', score: '4.6', count: '18', image: '../assets(items) /Accessories/silkscarf.jpeg' },
+      { name: 'Leather Belt', price: 'NGN 4,500', score: '4.5', count: '24', image: '../assets(items) /Accessories/leatherbelt.jpeg' },
+      { name: 'Unisex Perfume (50ml)', price: 'NGN 13,000', score: '4.8', count: '40', image: '../assets(items) /Accessories/unisexperfume.jpeg' }
     ]
   }
 };
 
+Object.assign(shops, demoFallbackShops);
 
-// Remove fabrics products that do not use images from the Fabrics asset folders.
 Object.keys(shops).forEach((shopKey) => {
   const shop = shops[shopKey];
   if (shop.category !== 'fabrics') return;
