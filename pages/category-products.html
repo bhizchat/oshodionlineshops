@@ -1293,6 +1293,9 @@
   <script src="../search-index.js"></script>
 
   <script src="../search.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="../supabase-config.js"></script>
+  <script src="../analytics.js"></script>
   <script src="../account-popup.js"></script>
 
   <script>
@@ -1316,8 +1319,9 @@
     }
 
     const params = new URLSearchParams(window.location.search);
-
-    const cat = params.get('cat') || 'electronics';
+    const CAT_KEY_PATTERN = /^[a-z0-9_-]+$/i;
+    const rawCat = params.get('cat');
+    const cat = (rawCat && CAT_KEY_PATTERN.test(rawCat) && categoryPageMeta[rawCat]) ? rawCat : 'electronics';
 
     const meta = categoryPageMeta[cat] || categoryPageMeta.electronics;
 

@@ -1050,9 +1050,11 @@
             <span data-value="5">★</span>
           </div>
           <label for="review-name-input">Your Name</label>
-          <input type="text" id="review-name-input" placeholder="e.g. Adaeze O." />
+          <input type="text" id="review-name-input" placeholder="e.g. Adaeze O." maxlength="80" />
           <label for="review-comment-input">Your Review</label>
-          <textarea id="review-comment-input" placeholder="What did you like or dislike about this product?"></textarea>
+          <textarea id="review-comment-input" placeholder="What did you like or dislike about this product?" maxlength="600"></textarea>
+          <!-- Honeypot: hidden from real users, bots tend to fill every field they see. -->
+          <input type="text" id="review-honeypot" name="website_url_hp" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;" />
           <div class="review-modal-actions">
             <button type="button" class="btn-cancel-review" id="review-cancel-btn">Cancel</button>
             <button type="submit" class="btn-submit-review">Submit Review</button>
@@ -1071,6 +1073,7 @@
     <!-- Supabase-backed Reviews -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="../supabase-config.js"></script>
+    <script src="../analytics.js"></script>
     <script src="../reviews.js"></script>
 
     <script>
@@ -1153,9 +1156,16 @@
       const timeAgoPool = ['2 weeks ago', '1 month ago', '3 weeks ago', '5 days ago', '2 months ago'];
 
       const params = new URLSearchParams(window.location.search);
-      const shopKey = params.get('shop') || 'boluwatife';
+
+      // Strict whitelist validation: only accept identifier-shaped values for
+      // shop/product params, never raw/unvalidated strings into lookups or markup.
+      const KEY_PATTERN = /^[a-z0-9_-]+$/i;
+      const rawShopKey = params.get('shop');
+      const shopKey = (rawShopKey && KEY_PATTERN.test(rawShopKey) && shops[rawShopKey]) ? rawShopKey : 'boluwatife';
       const shop = shops[shopKey] || shops.boluwatife;
-      const productIndex = Math.max(0, Math.min(shop.products.length - 1, parseInt(params.get('product'), 10) || 0));
+      const rawProductIndex = params.get('product');
+      const parsedProductIndex = (rawProductIndex && /^[0-9]+$/.test(rawProductIndex)) ? parseInt(rawProductIndex, 10) : 0;
+      const productIndex = Math.max(0, Math.min(shop.products.length - 1, parsedProductIndex));
       const product = shop.products[productIndex];
       const meta = categoryMeta[shop.category] || categoryMeta.fabrics;
       const seed = hashString(product.name + shopKey);
@@ -1366,30 +1376,74 @@
         return `${months} month${months === 1 ? '' : 's'} ago`;
       }
 
+      // Reviewer name and comment come from user input (either seeded copy or
+      // Supabase-stored reviews), so this builds the DOM with textContent instead
+      // of innerHTML template strings to prevent stored XSS.
       function renderReviews() {
         const allReviews = [...userReviews, ...seedReviews];
         const reviewsList = document.getElementById('reviews-list');
-        reviewsList.innerHTML = allReviews.map((r) => {
+        reviewsList.innerHTML = '';
+        const fragment = document.createDocumentFragment();
+
+        allReviews.forEach((r) => {
           const initials = r.reviewer.trim()[0].toUpperCase();
           const starsDisplay = '★'.repeat(Math.round(r.rating)) + '☆'.repeat(5 - Math.round(r.rating));
-          return `
-            <article class="review-item">
-              <div class="review-avatar">${initials}</div>
-              <div style="flex:1;">
-                <div class="review-name-row">
-                  <span>${r.reviewer}</span>
-                  <span class="verified-buyer-tag">Verified Buyer</span>
-                  <span class="review-side-rating"><span class="stars-gold">${starsDisplay}</span> ${r.rating.toFixed(1)}</span>
-                </div>
-                <p class="review-comment">${r.comment}</p>
-                <div class="review-meta-row">
-                  <span>${r.timeAgo}</span>
-                  <span>Was this review helpful? 👍 Yes (${r.helpfulYes}) 👎 No (0)</span>
-                </div>
-              </div>
-            </article>
-          `;
-        }).join('');
+
+          const article = document.createElement('article');
+          article.className = 'review-item';
+
+          const avatar = document.createElement('div');
+          avatar.className = 'review-avatar';
+          avatar.textContent = initials;
+
+          const body = document.createElement('div');
+          body.style.flex = '1';
+
+          const nameRow = document.createElement('div');
+          nameRow.className = 'review-name-row';
+
+          const nameSpan = document.createElement('span');
+          nameSpan.textContent = r.reviewer;
+
+          const verifiedTag = document.createElement('span');
+          verifiedTag.className = 'verified-buyer-tag';
+          verifiedTag.textContent = 'Verified Buyer';
+
+          const sideRating = document.createElement('span');
+          sideRating.className = 'review-side-rating';
+          const starsGold = document.createElement('span');
+          starsGold.className = 'stars-gold';
+          starsGold.textContent = starsDisplay;
+          sideRating.appendChild(starsGold);
+          sideRating.appendChild(document.createTextNode(' ' + r.rating.toFixed(1)));
+
+          nameRow.appendChild(nameSpan);
+          nameRow.appendChild(verifiedTag);
+          nameRow.appendChild(sideRating);
+
+          const commentP = document.createElement('p');
+          commentP.className = 'review-comment';
+          commentP.textContent = r.comment;
+
+          const metaRow = document.createElement('div');
+          metaRow.className = 'review-meta-row';
+          const timeSpan = document.createElement('span');
+          timeSpan.textContent = r.timeAgo;
+          const helpfulSpan = document.createElement('span');
+          helpfulSpan.textContent = `Was this review helpful? 👍 Yes (${r.helpfulYes}) 👎 No (0)`;
+          metaRow.appendChild(timeSpan);
+          metaRow.appendChild(helpfulSpan);
+
+          body.appendChild(nameRow);
+          body.appendChild(commentP);
+          body.appendChild(metaRow);
+
+          article.appendChild(avatar);
+          article.appendChild(body);
+          fragment.appendChild(article);
+        });
+
+        reviewsList.appendChild(fragment);
       }
 
       renderReviews();
@@ -1444,6 +1498,7 @@
         setStarPicker(5);
         document.getElementById('review-name-input').value = '';
         document.getElementById('review-comment-input').value = '';
+        document.getElementById('review-honeypot').value = '';
         reviewModalOverlay.classList.add('open');
       }
 
@@ -1462,6 +1517,7 @@
         const name = document.getElementById('review-name-input').value.trim() || 'Anonymous Buyer';
         const comment = document.getElementById('review-comment-input').value.trim() || 'Great product, would recommend!';
         const rating = selectedRating || 5;
+        const honeypot = document.getElementById('review-honeypot').value;
 
         const submitBtn = reviewForm.querySelector('.btn-submit-review');
         submitBtn.disabled = true;
@@ -1470,7 +1526,8 @@
         const saved = await submitProductReview(shopKey, productIndex, {
           reviewerName: name,
           rating,
-          comment
+          comment,
+          honeypot
         });
 
         submitBtn.disabled = false;
