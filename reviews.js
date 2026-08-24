@@ -56,3 +56,33 @@ async function submitProductReview(shopKey, productIndex, { reviewerName, rating
     return null;
   }
 }
+
+// Records a "was this review helpful" vote via the vote-review Edge Function,
+// which atomically increments helpful_yes/helpful_no using the service_role
+// client (anon UPDATE on `reviews` is revoked, same as inserts). Returns the
+// updated counts on success or null on failure.
+async function voteReviewHelpful(reviewId, vote) {
+  try {
+    const response = await fetch(SUPABASE_VOTE_REVIEW_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        apikey: SUPABASE_ANON_KEY,
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`
+      },
+      body: JSON.stringify({ reviewId, vote })
+    });
+
+    const result = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      console.error('Failed to record vote:', result.error || response.statusText);
+      return null;
+    }
+
+    return { helpfulYes: result.helpfulYes, helpfulNo: result.helpfulNo };
+  } catch (error) {
+    console.error('Failed to record vote:', error.message);
+    return null;
+  }
+}

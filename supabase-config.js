@@ -12,6 +12,11 @@ window.supabaseClient = supabaseClient;
 // reviews table is revoked by reviews-security-schema.sql.
 const SUPABASE_SUBMIT_REVIEW_URL = `${SUPABASE_URL}/functions/v1/submit-review`;
 
+// Edge Function endpoint that records "was this review helpful" votes (see
+// supabase/functions/vote-review/index.ts). Direct anon UPDATE on the reviews
+// table is revoked, same as inserts.
+const SUPABASE_VOTE_REVIEW_URL = `${SUPABASE_URL}/functions/v1/vote-review`;
+
 // Optional: set this once you create a Cloudflare Turnstile widget for the
 // review form. Leave blank until then; bot verification stays off server-side
 // until CLOUDFLARE_TURNSTILE_SECRET_KEY is configured as a Supabase secret.

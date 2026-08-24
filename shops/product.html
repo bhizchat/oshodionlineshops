@@ -762,6 +762,28 @@
         font-size: 0.85rem;
       }
 
+      .review-helpful-row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      .helpful-btn {
+        border: 1px solid var(--border);
+        background: white;
+        border-radius: 999px;
+        padding: 2px 10px;
+        font-size: 0.78rem;
+        color: var(--text-muted);
+        cursor: pointer;
+      }
+
+      .helpful-btn:hover:not(:disabled) { background: #f3f4f6; }
+      .helpful-btn.voted { border-color: var(--primary); color: var(--primary); font-weight: 700; background: #f5f3ff; }
+      .helpful-btn:disabled { cursor: default; }
+      .helpful-btn:disabled:not(.voted) { opacity: 0.6; }
+
       @media (max-width: 1100px) {
         .product-layout { grid-template-columns: 1fr 1fr; }
         .sold-by-card, .help-card { grid-column: span 2; }
@@ -1748,6 +1770,55 @@
         if (e.key === 'ArrowRight') imageLightboxNextBtn.click();
       });
 
+      // Review helpfulness voting: persisted to Supabase via the vote-review Edge
+      // Function (see reviews.js voteReviewHelpful). Only reviews backed by a real
+      // DB row (r.id present) can be voted on — synthetic seed reviews are demo
+      // copy only and have no backend record to increment. A vote is remembered in
+      // localStorage so a visitor can't vote on the same review twice from this
+      // browser (soft client-side guard; there's no user account system).
+      const REVIEW_VOTES_STORAGE_KEY = 'oshodi_review_votes';
+
+      function getStoredVotes() {
+        try {
+          return JSON.parse(localStorage.getItem(REVIEW_VOTES_STORAGE_KEY)) || {};
+        } catch (e) {
+          return {};
+        }
+      }
+
+      function getStoredVote(reviewId) {
+        return getStoredVotes()[reviewId] || null;
+      }
+
+      function setStoredVote(reviewId, vote) {
+        const votes = getStoredVotes();
+        votes[reviewId] = vote;
+        try {
+          localStorage.setItem(REVIEW_VOTES_STORAGE_KEY, JSON.stringify(votes));
+        } catch (e) {
+          // localStorage unavailable (e.g. private browsing) — vote is still recorded server-side.
+        }
+      }
+
+      async function handleHelpfulVote(review, vote, yesBtn, noBtn) {
+        if (getStoredVote(review.id)) return;
+        yesBtn.disabled = true;
+        noBtn.disabled = true;
+        const result = await voteReviewHelpful(review.id, vote);
+        if (!result) {
+          yesBtn.disabled = false;
+          noBtn.disabled = false;
+          return;
+        }
+        review.helpfulYes = result.helpfulYes;
+        review.helpfulNo = result.helpfulNo;
+        setStoredVote(review.id, vote);
+        yesBtn.classList.toggle('voted', vote === 'yes');
+        noBtn.classList.toggle('voted', vote === 'no');
+        yesBtn.textContent = `👍 Yes (${review.helpfulYes})`;
+        noBtn.textContent = `👎 No (${review.helpfulNo})`;
+      }
+
       // Reviewer name and comment come from user input (either seeded copy or
       // Supabase-stored reviews), so this builds the DOM with textContent instead
       // of innerHTML template strings to prevent stored XSS.
@@ -1819,10 +1890,41 @@
           metaRow.className = 'review-meta-row';
           const timeSpan = document.createElement('span');
           timeSpan.textContent = r.timeAgo;
-          const helpfulSpan = document.createElement('span');
-          helpfulSpan.textContent = `Was this review helpful? 👍 Yes (${r.helpfulYes}) 👎 No (0)`;
+
+          const helpfulWrap = document.createElement('span');
+          helpfulWrap.className = 'review-helpful-row';
+          helpfulWrap.appendChild(document.createTextNode('Was this review helpful?'));
+
+          const yesBtn = document.createElement('button');
+          yesBtn.type = 'button';
+          yesBtn.className = 'helpful-btn helpful-yes-btn';
+          yesBtn.textContent = `👍 Yes (${r.helpfulYes || 0})`;
+
+          const noBtn = document.createElement('button');
+          noBtn.type = 'button';
+          noBtn.className = 'helpful-btn helpful-no-btn';
+          noBtn.textContent = `👎 No (${r.helpfulNo || 0})`;
+
+          if (r.id) {
+            const existingVote = getStoredVote(r.id);
+            if (existingVote) {
+              yesBtn.disabled = true;
+              noBtn.disabled = true;
+              yesBtn.classList.toggle('voted', existingVote === 'yes');
+              noBtn.classList.toggle('voted', existingVote === 'no');
+            }
+            yesBtn.addEventListener('click', () => handleHelpfulVote(r, 'yes', yesBtn, noBtn));
+            noBtn.addEventListener('click', () => handleHelpfulVote(r, 'no', yesBtn, noBtn));
+          } else {
+            yesBtn.disabled = true;
+            noBtn.disabled = true;
+          }
+
+          helpfulWrap.appendChild(yesBtn);
+          helpfulWrap.appendChild(noBtn);
+
           metaRow.appendChild(timeSpan);
-          metaRow.appendChild(helpfulSpan);
+          metaRow.appendChild(helpfulWrap);
 
           body.appendChild(nameRow);
           body.appendChild(commentP);
@@ -1854,10 +1956,12 @@
         });
 
         userReviews = rows.map((row) => ({
+          id: row.id,
           reviewer: row.reviewer_name,
           comment: row.comment,
           timeAgo: formatTimeAgo(row.created_at),
-          helpfulYes: 0,
+          helpfulYes: row.helpful_yes || 0,
+          helpfulNo: row.helpful_no || 0,
           rating: row.rating,
           images: Array.isArray(row.image_urls) ? row.image_urls : []
         }));
@@ -2054,10 +2158,12 @@
         }
 
         userReviews.unshift({
+          id: saved.id,
           reviewer: name,
           comment,
           timeAgo: 'Just now',
           helpfulYes: 0,
+          helpfulNo: 0,
           rating,
           images: imageUrls
         });
