@@ -121,7 +121,10 @@ serve(async (req: Request) => {
       );
     }
 
-    // 4. Insert as unapproved using the privileged service_role client.
+    // 4. Insert as approved using the privileged service_role client. All
+    // reviews (with or without emoji/images) are auto-approved immediately —
+    // no manual moderation step — since honeypot + strict field validation +
+    // image URL domain-checking above already guard against spam/abuse.
     const supabaseAdmin = createClient(
       supabaseUrl,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
@@ -135,7 +138,7 @@ serve(async (req: Request) => {
         reviewer_name: reviewerName,
         rating,
         comment,
-        is_approved: false,
+        is_approved: true,
         image_urls: imageUrls,
       }])
       .select();
@@ -149,7 +152,7 @@ serve(async (req: Request) => {
     }
 
     return new Response(
-      JSON.stringify({ success: true, message: "Thank you! Your review has been submitted for moderation.", review: data && data[0] }),
+      JSON.stringify({ success: true, message: "Thank you! Your review has been posted.", review: data && data[0] }),
       { status: 201, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   } catch (err) {
