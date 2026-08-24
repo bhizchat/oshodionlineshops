@@ -340,6 +340,15 @@
 
       .stars-gold { color: var(--star); letter-spacing: 1px; }
       .rating-num { font-weight: 700; }
+      .rating-dropdown-arrow {
+        font-size: 0.7rem;
+        color: var(--text-muted);
+        transition: transform 0.15s ease;
+      }
+      .stars-popover-wrap:hover .rating-dropdown-arrow,
+      .stars-popover-wrap:focus-within .rating-dropdown-arrow {
+        transform: translateY(1px);
+      }
       .review-count-link { color: var(--primary); font-weight: 600; }
       .review-count-link:hover { text-decoration: underline; }
 
@@ -1199,6 +1208,7 @@
             <div class="stars-popover-wrap" id="stars-popover-wrap" tabindex="0">
               <span class="stars-gold" id="product-stars">★★★★★</span>
               <span class="rating-num" id="product-score">4.8</span>
+              <span class="rating-dropdown-arrow" aria-hidden="true">▾</span>
               <div class="stars-popover" id="stars-popover">
                 <div class="popover-header">
                   <span class="popover-score-label"><span id="popover-score-num">4.8</span> out of 5</span>
@@ -1637,10 +1647,12 @@
       const seedReviews = Array.from({ length: reviewCount }, (_, i) => {
         const rSeed = seed + i * 17;
         return {
+          id: `seed-${shopKey}-${productIndex}-${i}`,
           reviewer: reviewerPool[rSeed % reviewerPool.length],
           comment: commentPool[rSeed % commentPool.length],
           timeAgo: timeAgoPool[rSeed % timeAgoPool.length],
           helpfulYes: 1 + (rSeed % 8),
+          helpfulNo: 0,
           rating: score
         };
       });
@@ -1771,11 +1783,14 @@
       });
 
       // Review helpfulness voting: persisted to Supabase via the vote-review Edge
-      // Function (see reviews.js voteReviewHelpful). Only reviews backed by a real
-      // DB row (r.id present) can be voted on — synthetic seed reviews are demo
-      // copy only and have no backend record to increment. A vote is remembered in
-      // localStorage so a visitor can't vote on the same review twice from this
-      // browser (soft client-side guard; there's no user account system).
+      // Function (see reviews.js voteReviewHelpful) for real, backend-backed
+      // reviews. Synthetic seed reviews (demo filler copy with no DB row) get a
+      // stable synthetic id (`seed-...`) so they can still be voted on
+      // independently — their counts are just tracked locally/in localStorage
+      // instead of the database, since there's no real row to increment. Each
+      // review's vote is tracked separately by id, so voting on one review never
+      // affects any other review; a stored vote only blocks switching between
+      // Yes/No on that same review.
       const REVIEW_VOTES_STORAGE_KEY = 'oshodi_review_votes';
 
       function getStoredVotes() {
@@ -1790,29 +1805,51 @@
         return getStoredVotes()[reviewId] || null;
       }
 
-      function setStoredVote(reviewId, vote) {
+      function setStoredVote(reviewId, vote, yes, no) {
         const votes = getStoredVotes();
-        votes[reviewId] = vote;
+        votes[reviewId] = { vote, yes, no };
         try {
           localStorage.setItem(REVIEW_VOTES_STORAGE_KEY, JSON.stringify(votes));
         } catch (e) {
-          // localStorage unavailable (e.g. private browsing) — vote is still recorded server-side.
+          // localStorage unavailable (e.g. private browsing) — vote is still recorded server-side for real reviews.
         }
       }
+
+      // Seed reviews are regenerated fresh on every page load, so re-apply any
+      // previously stored local vote counts for them (real reviews always get
+      // their counts freshly from Supabase instead, via loadPersistedReviews()).
+      seedReviews.forEach((r) => {
+        const stored = getStoredVote(r.id);
+        if (stored && typeof stored.yes === 'number' && typeof stored.no === 'number') {
+          r.helpfulYes = stored.yes;
+          r.helpfulNo = stored.no;
+        }
+      });
 
       async function handleHelpfulVote(review, vote, yesBtn, noBtn) {
         if (getStoredVote(review.id)) return;
         yesBtn.disabled = true;
         noBtn.disabled = true;
-        const result = await voteReviewHelpful(review.id, vote);
-        if (!result) {
-          yesBtn.disabled = false;
-          noBtn.disabled = false;
-          return;
+
+        const isSeedReview = String(review.id).startsWith('seed-');
+
+        if (isSeedReview) {
+          // No backing DB row for demo/seed reviews — reflect the vote locally only.
+          if (vote === 'yes') review.helpfulYes = (review.helpfulYes || 0) + 1;
+          else review.helpfulNo = (review.helpfulNo || 0) + 1;
+          setStoredVote(review.id, vote, review.helpfulYes, review.helpfulNo);
+        } else {
+          const result = await voteReviewHelpful(review.id, vote);
+          if (!result) {
+            yesBtn.disabled = false;
+            noBtn.disabled = false;
+            return;
+          }
+          review.helpfulYes = result.helpfulYes;
+          review.helpfulNo = result.helpfulNo;
+          setStoredVote(review.id, vote);
         }
-        review.helpfulYes = result.helpfulYes;
-        review.helpfulNo = result.helpfulNo;
-        setStoredVote(review.id, vote);
+
         yesBtn.classList.toggle('voted', vote === 'yes');
         noBtn.classList.toggle('voted', vote === 'no');
         yesBtn.textContent = `👍 Yes (${review.helpfulYes})`;
@@ -1910,8 +1947,8 @@
             if (existingVote) {
               yesBtn.disabled = true;
               noBtn.disabled = true;
-              yesBtn.classList.toggle('voted', existingVote === 'yes');
-              noBtn.classList.toggle('voted', existingVote === 'no');
+              yesBtn.classList.toggle('voted', existingVote.vote === 'yes');
+              noBtn.classList.toggle('voted', existingVote.vote === 'no');
             }
             yesBtn.addEventListener('click', () => handleHelpfulVote(r, 'yes', yesBtn, noBtn));
             noBtn.addEventListener('click', () => handleHelpfulVote(r, 'no', yesBtn, noBtn));
