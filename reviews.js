@@ -59,9 +59,11 @@ async function submitProductReview(shopKey, productIndex, { reviewerName, rating
 
 // Records a "was this review helpful" vote via the vote-review Edge Function,
 // which atomically increments helpful_yes/helpful_no using the service_role
-// client (anon UPDATE on `reviews` is revoked, same as inserts). Returns the
-// updated counts on success or null on failure.
-async function voteReviewHelpful(reviewId, vote) {
+// client (anon UPDATE on `reviews` is revoked, same as inserts). Pass
+// `previousVote` when the visitor is switching their vote (yes<->no) so the
+// prior choice is undone atomically server-side. Returns the updated counts
+// on success or null on failure.
+async function voteReviewHelpful(reviewId, vote, previousVote) {
   try {
     const response = await fetch(SUPABASE_VOTE_REVIEW_URL, {
       method: 'POST',
@@ -70,7 +72,7 @@ async function voteReviewHelpful(reviewId, vote) {
         apikey: SUPABASE_ANON_KEY,
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`
       },
-      body: JSON.stringify({ reviewId, vote })
+      body: JSON.stringify({ reviewId, vote, previousVote: previousVote || '' })
     });
 
     const result = await response.json().catch(() => ({}));

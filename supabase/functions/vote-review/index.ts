@@ -8,7 +8,9 @@
 // revoked at the database level (see reviews-security-schema.sql), so votes must
 // flow through here, which increments atomically via the
 // public.increment_review_vote() Postgres function (see
-// reviews-helpful-votes-schema.sql).
+// reviews-helpful-votes-schema.sql). Callers may pass `previousVote` when a
+// visitor is switching their vote (Yes -> No or vice versa); the Postgres
+// function undoes the previous choice and applies the new one atomically.
 
 import { serve } from "https://deno.land/std@0.177.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.39.8";
@@ -24,6 +26,7 @@ const corsHeaders = {
 interface VoteSubmission {
   reviewId: string;
   vote: string;
+  previousVote?: string;
 }
 
 const UUID_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -45,8 +48,14 @@ serve(async (req: Request) => {
 
     const reviewId = String(payload.reviewId || "").trim();
     const vote = String(payload.vote || "").trim().toLowerCase();
+    const previousVoteRaw = payload.previousVote ? String(payload.previousVote).trim().toLowerCase() : "";
+    const previousVote = previousVoteRaw === "yes" || previousVoteRaw === "no" ? previousVoteRaw : null;
 
-    if (!UUID_PATTERN.test(reviewId) || (vote !== "yes" && vote !== "no")) {
+    if (
+      !UUID_PATTERN.test(reviewId) ||
+      (vote !== "yes" && vote !== "no") ||
+      (previousVoteRaw && previousVote === null)
+    ) {
       return new Response(
         JSON.stringify({ error: "Invalid vote request." }),
         { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -59,7 +68,7 @@ serve(async (req: Request) => {
     );
 
     const { data, error } = await supabaseAdmin
-      .rpc("increment_review_vote", { p_review_id: reviewId, p_vote: vote });
+      .rpc("increment_review_vote", { p_review_id: reviewId, p_vote: vote, p_previous_vote: previousVote });
 
     if (error) {
       console.error("Vote increment error:", error.message);
