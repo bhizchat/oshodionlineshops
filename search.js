@@ -247,6 +247,20 @@
     document.head.appendChild(style);
   }
 
+  // ---- Search query logging (best-effort, fire-and-forget) --------------------
+  function logSearchQuery(query, resultsCount) {
+    var q = (query || '').trim();
+    if (!q || typeof SUPABASE_LOG_SEARCH_URL === 'undefined') return;
+    try {
+      fetch(SUPABASE_LOG_SEARCH_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: q, resultsCount: resultsCount }),
+        keepalive: true
+      }).catch(function () {});
+    } catch (e) {}
+  }
+
   // ---- Debounce ---------------------------------------------------------------
   function debounce(fn, wait) {
     var timer = null;
@@ -367,10 +381,13 @@
         setActive((activeIndex - 1 + currentResults.length) % currentResults.length);
       } else if (e.key === 'Enter') {
         e.preventDefault();
+        var enterQuery = input.value.trim();
         if (activeIndex >= 0 && currentResults[activeIndex]) {
+          logSearchQuery(enterQuery, currentResults.length);
           window.location.href = productHref(currentResults[activeIndex]);
-        } else if (input.value.trim()) {
-          window.location.href = searchResultsHref(input.value.trim());
+        } else if (enterQuery) {
+          logSearchQuery(enterQuery, searchProducts(enterQuery).length);
+          window.location.href = searchResultsHref(enterQuery);
         }
       } else if (e.key === 'Escape') {
         closeDropdown();
@@ -387,8 +404,10 @@
     if (searchBtn) {
       searchBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        if (input.value.trim()) {
-          window.location.href = searchResultsHref(input.value.trim());
+        var btnQuery = input.value.trim();
+        if (btnQuery) {
+          logSearchQuery(btnQuery, searchProducts(btnQuery).length);
+          window.location.href = searchResultsHref(btnQuery);
         }
       });
     }

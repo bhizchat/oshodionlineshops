@@ -17,6 +17,11 @@ const SUPABASE_SUBMIT_REVIEW_URL = `${SUPABASE_URL}/functions/v1/submit-review`;
 // table is revoked, same as inserts.
 const SUPABASE_VOTE_REVIEW_URL = `${SUPABASE_URL}/functions/v1/vote-review`;
 
+// Edge Function endpoint that logs what visitors search for (see
+// supabase/functions/log-search/index.ts). Direct anon INSERT on
+// search_queries is revoked, same pattern as reviews.
+const SUPABASE_LOG_SEARCH_URL = `${SUPABASE_URL}/functions/v1/log-search`;
+
 // Optional: set this once you create a Cloudflare Turnstile widget for the
 // review form. Leave blank until then; bot verification stays off server-side
 // until CLOUDFLARE_TURNSTILE_SECRET_KEY is configured as a Supabase secret.
