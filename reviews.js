@@ -22,7 +22,7 @@ async function fetchProductReviews(shopKey, productIndex) {
 // database level (see reviews-security-schema.sql). The function validates
 // input, checks a honeypot field, optionally verifies Cloudflare Turnstile,
 // and stores the review as unapproved (is_approved = false) for moderation.
-async function submitProductReview(shopKey, productIndex, { reviewerName, rating, comment, honeypot, turnstileToken }) {
+async function submitProductReview(shopKey, productIndex, { reviewerName, rating, comment, honeypot, turnstileToken, imageUrls }) {
   try {
     const response = await fetch(SUPABASE_SUBMIT_REVIEW_URL, {
       method: 'POST',
@@ -38,7 +38,8 @@ async function submitProductReview(shopKey, productIndex, { reviewerName, rating
         rating,
         comment,
         honeypot: honeypot || '',
-        turnstileToken: turnstileToken || ''
+        turnstileToken: turnstileToken || '',
+        imageUrls: Array.isArray(imageUrls) ? imageUrls : []
       })
     });
 

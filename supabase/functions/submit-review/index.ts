@@ -27,9 +27,11 @@ interface ReviewSubmission {
   comment: string;
   honeypot?: string;
   turnstileToken?: string;
+  imageUrls?: string[];
 }
 
 const KEY_PATTERN = /^[a-z0-9_-]+$/i;
+const MAX_REVIEW_IMAGES = 4;
 
 serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
@@ -99,9 +101,29 @@ serve(async (req: Request) => {
       );
     }
 
+    // Images are uploaded client-side directly to the "review-images" storage
+    // bucket (see reviews-images-schema.sql); only the resulting public URLs
+    // are sent here. Validate each URL actually points at that bucket so this
+    // column can't be used to store arbitrary/attacker-controlled links.
+    const supabaseUrl = Deno.env.get("SUPABASE_URL") ?? "";
+    const expectedImagePrefix = `${supabaseUrl}/storage/v1/object/public/review-images/`;
+    const rawImageUrls = Array.isArray(payload.imageUrls) ? payload.imageUrls : [];
+    const imageUrls = rawImageUrls
+      .filter((url): url is string => typeof url === "string")
+      .map((url) => url.trim())
+      .filter((url) => url.length > 0 && url.length <= 500 && url.startsWith(expectedImagePrefix))
+      .slice(0, MAX_REVIEW_IMAGES);
+
+    if (rawImageUrls.length > MAX_REVIEW_IMAGES) {
+      return new Response(
+        JSON.stringify({ error: `A maximum of ${MAX_REVIEW_IMAGES} images is allowed.` }),
+        { status: 422, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
     // 4. Insert as unapproved using the privileged service_role client.
     const supabaseAdmin = createClient(
-      Deno.env.get("SUPABASE_URL") ?? "",
+      supabaseUrl,
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
     );
 
@@ -114,6 +136,7 @@ serve(async (req: Request) => {
         rating,
         comment,
         is_approved: false,
+        image_urls: imageUrls,
       }])
       .select();
 

@@ -872,6 +872,112 @@
       }
 
       .btn-submit-review:hover { background: var(--primary-hover); }
+
+      .review-toolbar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 10px;
+      }
+
+      .review-toolbar-btn {
+        background: white;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .review-toolbar-btn:hover { background: #f3f4f6; }
+      .review-toolbar-btn.active { border-color: var(--primary); background: #f5f3ff; }
+
+      .emoji-picker-panel {
+        display: none;
+        grid-template-columns: repeat(8, 1fr);
+        gap: 4px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 8px;
+        margin-bottom: 14px;
+        max-height: 140px;
+        overflow-y: auto;
+      }
+
+      .emoji-picker-panel.open { display: grid; }
+
+      .emoji-picker-panel button {
+        border: none;
+        background: transparent;
+        font-size: 1.1rem;
+        cursor: pointer;
+        border-radius: 6px;
+        padding: 4px;
+      }
+
+      .emoji-picker-panel button:hover { background: #f3f4f6; }
+
+      .review-image-previews {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+
+      .review-image-previews:empty { margin-bottom: 0; }
+
+      .review-image-thumb {
+        position: relative;
+        width: 56px;
+        height: 56px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+      }
+
+      .review-image-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .review-image-thumb .remove-thumb-btn {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: rgba(17, 24, 39, 0.75);
+        color: white;
+        border: none;
+        font-size: 0.65rem;
+        line-height: 1;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .review-images-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 8px 0;
+      }
+
+      .review-images-row img {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -1053,6 +1159,13 @@
           <input type="text" id="review-name-input" placeholder="e.g. Adaeze O." maxlength="80" />
           <label for="review-comment-input">Your Review</label>
           <textarea id="review-comment-input" placeholder="What did you like or dislike about this product?" maxlength="600"></textarea>
+          <div class="review-toolbar">
+            <button type="button" class="review-toolbar-btn" id="review-emoji-btn" title="Add emoji" aria-label="Add emoji">😊</button>
+            <button type="button" class="review-toolbar-btn" id="review-attach-btn" title="Attach images" aria-label="Attach images">📎</button>
+            <input type="file" id="review-image-input" accept="image/*" multiple hidden />
+          </div>
+          <div class="emoji-picker-panel" id="emoji-picker-panel"></div>
+          <div class="review-image-previews" id="review-image-previews"></div>
           <!-- Honeypot: hidden from real users, bots tend to fill every field they see. -->
           <input type="text" id="review-honeypot" name="website_url_hp" autocomplete="off" tabindex="-1" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;" />
           <div class="review-modal-actions">
@@ -1425,6 +1538,23 @@
           commentP.className = 'review-comment';
           commentP.textContent = r.comment;
 
+          const reviewImages = Array.isArray(r.images) ? r.images : [];
+          let imagesRow = null;
+          if (reviewImages.length) {
+            imagesRow = document.createElement('div');
+            imagesRow.className = 'review-images-row';
+            reviewImages.forEach((url) => {
+              // Defense-in-depth: only render images hosted in our own Supabase Storage bucket.
+              if (typeof url !== 'string' || !url.includes('/storage/v1/object/public/review-images/')) return;
+              const img = document.createElement('img');
+              img.src = url;
+              img.alt = 'Review attachment';
+              img.loading = 'lazy';
+              img.addEventListener('click', () => window.open(url, '_blank', 'noopener'));
+              imagesRow.appendChild(img);
+            });
+          }
+
           const metaRow = document.createElement('div');
           metaRow.className = 'review-meta-row';
           const timeSpan = document.createElement('span');
@@ -1436,6 +1566,7 @@
 
           body.appendChild(nameRow);
           body.appendChild(commentP);
+          if (imagesRow) body.appendChild(imagesRow);
           body.appendChild(metaRow);
 
           article.appendChild(avatar);
@@ -1467,7 +1598,8 @@
           comment: row.comment,
           timeAgo: formatTimeAgo(row.created_at),
           helpfulYes: 0,
-          rating: row.rating
+          rating: row.rating,
+          images: Array.isArray(row.image_urls) ? row.image_urls : []
         }));
 
         refreshSummary();
@@ -1494,11 +1626,119 @@
         star.addEventListener('click', () => setStarPicker(parseInt(star.dataset.value, 10)));
       });
 
+      // Emoji picker: inserts an emoji at the current caret position in the review textarea.
+      const EMOJI_LIST = ['😀','😂','😍','😊','🙂','😉','😢','😡','👍','👎','🙌','🙏','💯','🔥','⭐','❤️','💜','💙','💚','💛','🧡','🛍️','📦','🚚','✅','❌','🤩','😴','😅','🤔','👌','💪','🥳','😭','🤗','😬'];
+      const emojiBtn = document.getElementById('review-emoji-btn');
+      const emojiPanel = document.getElementById('emoji-picker-panel');
+      const reviewCommentInput = document.getElementById('review-comment-input');
+
+      EMOJI_LIST.forEach((emoji) => {
+        const emojiOption = document.createElement('button');
+        emojiOption.type = 'button';
+        emojiOption.textContent = emoji;
+        emojiOption.addEventListener('click', () => {
+          const start = reviewCommentInput.selectionStart ?? reviewCommentInput.value.length;
+          const end = reviewCommentInput.selectionEnd ?? reviewCommentInput.value.length;
+          const current = reviewCommentInput.value;
+          reviewCommentInput.value = current.slice(0, start) + emoji + current.slice(end);
+          const newCursor = start + emoji.length;
+          reviewCommentInput.focus();
+          reviewCommentInput.setSelectionRange(newCursor, newCursor);
+        });
+        emojiPanel.appendChild(emojiOption);
+      });
+
+      emojiBtn.addEventListener('click', () => {
+        emojiPanel.classList.toggle('open');
+        emojiBtn.classList.toggle('active', emojiPanel.classList.contains('open'));
+      });
+
+      // Image attachments: up to 4 images, 5MB each, previewed locally before upload.
+      const MAX_REVIEW_IMAGES = 4;
+      const MAX_IMAGE_SIZE_BYTES = 5 * 1024 * 1024;
+      let selectedImageFiles = [];
+      const attachBtn = document.getElementById('review-attach-btn');
+      const imageInput = document.getElementById('review-image-input');
+      const imagePreviewsWrap = document.getElementById('review-image-previews');
+
+      function renderImagePreviews() {
+        imagePreviewsWrap.innerHTML = '';
+        selectedImageFiles.forEach((file, index) => {
+          const thumb = document.createElement('div');
+          thumb.className = 'review-image-thumb';
+
+          const img = document.createElement('img');
+          img.src = URL.createObjectURL(file);
+          img.alt = 'Attached image preview';
+
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'remove-thumb-btn';
+          removeBtn.textContent = '✕';
+          removeBtn.setAttribute('aria-label', 'Remove image');
+          removeBtn.addEventListener('click', () => {
+            selectedImageFiles.splice(index, 1);
+            renderImagePreviews();
+          });
+
+          thumb.appendChild(img);
+          thumb.appendChild(removeBtn);
+          imagePreviewsWrap.appendChild(thumb);
+        });
+      }
+
+      attachBtn.addEventListener('click', () => imageInput.click());
+
+      imageInput.addEventListener('change', () => {
+        const newFiles = Array.from(imageInput.files || []);
+        for (const file of newFiles) {
+          if (!file.type.startsWith('image/')) {
+            alert(`"${file.name}" is not an image and was skipped.`);
+            continue;
+          }
+          if (file.size > MAX_IMAGE_SIZE_BYTES) {
+            alert(`"${file.name}" is larger than 5MB and was skipped.`);
+            continue;
+          }
+          if (selectedImageFiles.length >= MAX_REVIEW_IMAGES) {
+            alert(`You can attach up to ${MAX_REVIEW_IMAGES} images.`);
+            break;
+          }
+          selectedImageFiles.push(file);
+        }
+        imageInput.value = '';
+        renderImagePreviews();
+      });
+
+      async function uploadReviewImages(files) {
+        const client = window.supabaseClient;
+        const urls = [];
+        for (let i = 0; i < files.length; i++) {
+          const file = files[i];
+          const extMatch = file.name.match(/\.([a-zA-Z0-9]+)$/);
+          const ext = extMatch ? extMatch[1].toLowerCase() : 'jpg';
+          const path = `${shopKey}/${productIndex}/${Date.now()}-${i}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+          const { error: uploadError } = await client.storage
+            .from('review-images')
+            .upload(path, file, { cacheControl: '3600', upsert: false, contentType: file.type });
+          if (uploadError) {
+            throw new Error(uploadError.message || 'Image upload failed.');
+          }
+          const { data } = client.storage.from('review-images').getPublicUrl(path);
+          urls.push(data.publicUrl);
+        }
+        return urls;
+      }
+
       function openReviewModal() {
         setStarPicker(5);
         document.getElementById('review-name-input').value = '';
         document.getElementById('review-comment-input').value = '';
         document.getElementById('review-honeypot').value = '';
+        selectedImageFiles = [];
+        renderImagePreviews();
+        emojiPanel.classList.remove('open');
+        emojiBtn.classList.remove('active');
         reviewModalOverlay.classList.add('open');
       }
 
@@ -1521,13 +1761,28 @@
 
         const submitBtn = reviewForm.querySelector('.btn-submit-review');
         submitBtn.disabled = true;
+
+        let imageUrls = [];
+        if (selectedImageFiles.length) {
+          submitBtn.textContent = 'Uploading images...';
+          try {
+            imageUrls = await uploadReviewImages(selectedImageFiles);
+          } catch (uploadErr) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Review';
+            alert('Sorry, we could not upload your images. Please try again.');
+            return;
+          }
+        }
+
         submitBtn.textContent = 'Submitting...';
 
         const saved = await submitProductReview(shopKey, productIndex, {
           reviewerName: name,
           rating,
           comment,
-          honeypot
+          honeypot,
+          imageUrls
         });
 
         submitBtn.disabled = false;
@@ -1543,7 +1798,8 @@
           comment,
           timeAgo: 'Just now',
           helpfulYes: 0,
-          rating
+          rating,
+          images: imageUrls
         });
 
         const newTotal = totalReviews + 1;
