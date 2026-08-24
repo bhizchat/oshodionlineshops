@@ -781,6 +781,14 @@
       const shopKey = (rawShopKey && KEY_PATTERN.test(rawShopKey) && shops[rawShopKey]) ? rawShopKey : 'boluwatife';
       const shop = shops[shopKey] || shops.boluwatife;
 
+      // Keep the demo shops' product lists in sync with categoryPageMeta so the
+      // index used here matches what product.html and category-products.html resolve
+      // (see the matching comment in shops/product.html for details).
+      const DEMO_CATEGORY_SHOP_KEYS = ['clothing-demo', 'foodstuffs-demo', 'accessories-demo'];
+      if (DEMO_CATEGORY_SHOP_KEYS.includes(shopKey) && categoryPageMeta[shop.category] && Array.isArray(categoryPageMeta[shop.category].products)) {
+        shop.products = categoryPageMeta[shop.category].products;
+      }
+
       const meta = categoryMeta[shop.category] || categoryMeta.fabrics;
 
       // Populate Text Elements

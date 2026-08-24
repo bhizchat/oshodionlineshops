@@ -10,6 +10,20 @@
 
 // file also supplies a static list of demo products.
 
+//
+
+// IMPORTANT: for clothing/foodstuffs/accessories, the `products` array below is the
+
+// SINGLE SOURCE OF TRUTH used by category-products.html, shops/shops.html, and
+
+// shops/product.html (which read it via categoryPageMeta at runtime). To add a new
+
+// product for one of these categories, add it to the relevant array here only — it
+
+// will automatically show up everywhere and get a stable index so its reviews persist
+
+// correctly.
+
 
 
 const categoryPageMeta = {

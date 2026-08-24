@@ -1024,6 +1024,14 @@ Object.keys(shops).forEach((shopKey) => {
 
 
 // Remove fabrics products that do not use images from the Fabrics asset folders.
+
+// Demo shop metadata (name/location/phone/etc.) for categories that don't have real
+// per-shop data yet. IMPORTANT: the `products` arrays below are placeholders only —
+// shops/product.html and shops/shops.html both override shop.products at runtime with
+// categoryPageMeta[category].products (defined in pages/category-products-data.js) so
+// that product indexes match what category-products.html links to and reviews always
+// attach to the right product. To add a new clothing/foodstuffs/accessories product,
+// edit pages/category-products-data.js, NOT the arrays here.
 const demoFallbackShops = {
   'clothing-demo': {
     name: 'Oshodi Fashion Hub',

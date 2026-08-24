@@ -1276,6 +1276,19 @@
       const rawShopKey = params.get('shop');
       const shopKey = (rawShopKey && KEY_PATTERN.test(rawShopKey) && shops[rawShopKey]) ? rawShopKey : 'boluwatife';
       const shop = shops[shopKey] || shops.boluwatife;
+
+      // clothing/foodstuffs/accessories don't have real per-shop product catalogs yet,
+      // so category-products.html links to a single demo shop per category (e.g.
+      // "clothing-demo") using indexes into categoryPageMeta[cat].products. Make this
+      // page's shop.products point at that exact same array so the product shown here
+      // (and any review saved against shopKey+productIndex) always matches what the
+      // user clicked — and stays in sync automatically when new products are added
+      // to categoryPageMeta in pages/category-products-data.js.
+      const DEMO_CATEGORY_SHOP_KEYS = ['clothing-demo', 'foodstuffs-demo', 'accessories-demo'];
+      if (DEMO_CATEGORY_SHOP_KEYS.includes(shopKey) && categoryPageMeta[shop.category] && Array.isArray(categoryPageMeta[shop.category].products)) {
+        shop.products = categoryPageMeta[shop.category].products;
+      }
+
       const rawProductIndex = params.get('product');
       const parsedProductIndex = (rawProductIndex && /^[0-9]+$/.test(rawProductIndex)) ? parseInt(rawProductIndex, 10) : 0;
       const productIndex = Math.max(0, Math.min(shop.products.length - 1, parsedProductIndex));
