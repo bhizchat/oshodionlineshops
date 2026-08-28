@@ -138,8 +138,78 @@
     }
 
     .cat-links { display: flex; align-items: center; gap: 16px; }
-    .cat-link { padding: 6px 14px; border-radius: 16px; color: rgba(255, 255, 255, 0.85); }
+    .cat-link { padding: 6px 14px; border-radius: 16px; color: rgba(255, 255, 255, 0.85); display: flex; align-items: center; gap: 6px; }
     .cat-link.active { background: white; color: var(--primary); font-weight: 700; }
+    .cat-link .cat-icon { display: none; }
+
+    .mobile-back-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--primary);
+      cursor: pointer;
+      padding: 4px 8px 4px 0;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
+    .filter-bar {
+      display: none;
+      background: #ffffff;
+      border-bottom: 1px solid var(--border);
+      gap: 8px;
+      padding: 10px 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-pill {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      border: 1px solid var(--border);
+      background: #ffffff;
+      color: var(--text);
+      border-radius: 20px;
+      padding: 7px 14px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filter-pill.active { border-color: var(--primary); color: var(--primary); }
+
+    .filter-dropdown {
+      position: fixed;
+      inset: auto 12px auto 12px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+      z-index: 200;
+      display: none;
+      padding: 6px;
+      max-height: 260px;
+      overflow-y: auto;
+    }
+
+    .filter-dropdown.open { display: block; }
+
+    .filter-dropdown-item {
+      padding: 10px 12px;
+      font-size: 0.85rem;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .filter-dropdown-item:hover, .filter-dropdown-item.active {
+      background: var(--primary-light);
+      color: var(--primary);
+      font-weight: 700;
+    }
 
     .container { max-width: 1440px; margin: 0 auto; padding: 24px 32px; }
 
@@ -258,7 +328,59 @@
     }
 
     @media (max-width: 768px) {
-      .search-container { width: auto; flex: 1; margin: 0 12px; }
+      .topbar {
+        height: auto;
+        padding: 10px 12px;
+        gap: 8px;
+      }
+      .brand { display: none; }
+      .mobile-back-btn { display: inline-flex; }
+      .search-container { width: auto; flex: 1; margin: 0; }
+      .user-actions { display: none; }
+
+      .cat-bar {
+        background: #ffffff;
+        height: auto;
+        padding: 10px 8px 4px;
+      }
+      .cat-links {
+        gap: 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 4px;
+      }
+      .cat-link {
+        flex: 0 0 23%;
+        min-width: 68px;
+        flex-direction: column;
+        gap: 5px;
+        padding: 2px 4px;
+        border-radius: 0;
+        color: var(--text);
+        text-align: center;
+      }
+      .cat-link.active { background: none; color: var(--primary); }
+      .cat-link .cat-icon {
+        display: flex;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+      .cat-link.active .cat-icon { background: var(--primary); color: #fff; }
+      .cat-link .cat-label {
+        font-size: 0.64rem;
+        font-weight: 700;
+        line-height: 1.15;
+        white-space: normal;
+      }
+
+      .filter-bar { display: flex; }
+
       .product-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
@@ -267,6 +389,8 @@
 
   <!-- Top Navigation Header -->
   <header class="topbar">
+    <button type="button" class="mobile-back-btn" onclick="history.back()" aria-label="Go back">&#8592;</button>
+
     <a href="../main/index.html" class="brand">
       <img src="../assets/logo.png" alt="Oshodi Online Shops" class="brand-logo" />
     </a>
@@ -291,14 +415,54 @@
   <!-- Secondary Category Navigation Bar -->
   <nav class="cat-bar">
     <div class="cat-links" id="cat-links">
-      <a href="../main/index.html" class="cat-link">☰ All Categories</a>
-      <a href="category-products.html?cat=fabrics" class="cat-link" data-cat="fabrics">Fabrics & Textiles</a>
-      <a href="category-products.html?cat=clothing" class="cat-link" data-cat="clothing">Clothing & Fashion</a>
-      <a href="category-products.html?cat=electronics" class="cat-link" data-cat="electronics">Electronics & Gadgets</a>
-      <a href="category-products.html?cat=foodstuffs" class="cat-link" data-cat="foodstuffs">Foodstuffs & Oils</a>
-      <a href="category-products.html?cat=accessories" class="cat-link" data-cat="accessories">Accessories</a>
+      <a href="../main/index.html" class="cat-link">
+        <span class="cat-icon">☰</span>
+        <span class="cat-label">All Categories</span>
+      </a>
+      <a href="category-products.html?cat=fabrics" class="cat-link" data-cat="fabrics">
+        <span class="cat-icon">🧵</span>
+        <span class="cat-label">Fabrics & Textiles</span>
+      </a>
+      <a href="category-products.html?cat=clothing" class="cat-link" data-cat="clothing">
+        <span class="cat-icon">👗</span>
+        <span class="cat-label">Clothing & Fashion</span>
+      </a>
+      <a href="category-products.html?cat=electronics" class="cat-link" data-cat="electronics">
+        <span class="cat-icon">💻</span>
+        <span class="cat-label">Electronics & Gadgets</span>
+      </a>
+      <a href="category-products.html?cat=foodstuffs" class="cat-link" data-cat="foodstuffs">
+        <span class="cat-icon">🍲</span>
+        <span class="cat-label">Foodstuffs & Oils</span>
+      </a>
+      <a href="category-products.html?cat=accessories" class="cat-link" data-cat="accessories">
+        <span class="cat-icon">👜</span>
+        <span class="cat-label">Accessories</span>
+      </a>
     </div>
   </nav>
+
+  <!-- Mobile-only Region / Price Filter Bar -->
+  <div class="filter-bar" id="filter-bar">
+    <button type="button" class="filter-pill" id="region-filter-pill">📍 Region ▾</button>
+    <button type="button" class="filter-pill" id="price-filter-pill">₦ Price ▾</button>
+  </div>
+
+  <div class="filter-dropdown" id="region-filter-dropdown">
+    <div class="filter-dropdown-item active" data-value="All Oshodi">All Oshodi</div>
+    <div class="filter-dropdown-item" data-value="Oshodi Market">Oshodi Market</div>
+    <div class="filter-dropdown-item" data-value="Mafoluku">Mafoluku</div>
+    <div class="filter-dropdown-item" data-value="Isolo Road">Isolo Road</div>
+    <div class="filter-dropdown-item" data-value="Bolade">Bolade</div>
+  </div>
+
+  <div class="filter-dropdown" id="price-filter-dropdown">
+    <div class="filter-dropdown-item active" data-value="Any Price">Any Price</div>
+    <div class="filter-dropdown-item" data-value="Under ₦5,000">Under ₦5,000</div>
+    <div class="filter-dropdown-item" data-value="₦5,000 - ₦20,000">₦5,000 - ₦20,000</div>
+    <div class="filter-dropdown-item" data-value="₦20,000 - ₦50,000">₦20,000 - ₦50,000</div>
+    <div class="filter-dropdown-item" data-value="Above ₦50,000">Above ₦50,000</div>
+  </div>
 
   <!-- Main Container -->
   <div class="container">
@@ -377,6 +541,47 @@
     }
 
     render();
+
+    // ---- Mobile Region / Price filter pills (display-only selection) ----
+    function setupFilterPill(pillId, dropdownId) {
+      var pill = document.getElementById(pillId);
+      var dropdown = document.getElementById(dropdownId);
+      if (!pill || !dropdown) return;
+
+      function closeDropdown() {
+        dropdown.classList.remove('open');
+      }
+
+      pill.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var isOpen = dropdown.classList.contains('open');
+        document.querySelectorAll('.filter-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+        if (isOpen) return;
+        var rect = pill.getBoundingClientRect();
+        dropdown.style.top = (rect.bottom + 6) + 'px';
+        dropdown.style.left = rect.left + 'px';
+        dropdown.style.right = 'auto';
+        dropdown.classList.add('open');
+      });
+
+      dropdown.querySelectorAll('.filter-dropdown-item').forEach(function (item) {
+        item.addEventListener('click', function () {
+          dropdown.querySelectorAll('.filter-dropdown-item').forEach(function (i) { i.classList.remove('active'); });
+          item.classList.add('active');
+          var prefix = pillId === 'region-filter-pill' ? '📍 ' : '₦ ';
+          pill.textContent = prefix + item.dataset.value + ' ▾';
+          pill.classList.toggle('active', item.dataset.value !== 'All Oshodi' && item.dataset.value !== 'Any Price');
+          closeDropdown();
+        });
+      });
+    }
+
+    setupFilterPill('region-filter-pill', 'region-filter-dropdown');
+    setupFilterPill('price-filter-pill', 'price-filter-dropdown');
+
+    document.addEventListener('click', function () {
+      document.querySelectorAll('.filter-dropdown.open').forEach(function (d) { d.classList.remove('open'); });
+    });
   </script>
 </body>
 </html>

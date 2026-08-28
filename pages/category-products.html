@@ -364,6 +364,22 @@
 
     }
 
+    .cat-link { display: flex; align-items: center; gap: 6px; }
+
+    .cat-link .cat-icon { display: none; }
+
+    .mobile-back-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: var(--primary);
+      cursor: pointer;
+      padding: 4px 8px 4px 0;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+
 
 
     /* Page Layout Grid */
@@ -659,6 +675,12 @@
       margin-bottom: 6px;
 
     }
+
+    .back-to-cats-btn { display: none; }
+
+    .subcat-more-btn { display: none; }
+
+    .subcat-more-backdrop { display: none; }
 
 
 
@@ -1076,6 +1098,138 @@
 
       .product-grid { grid-template-columns: repeat(2, 1fr); }
 
+      .topbar { height: auto; padding: 10px 12px; gap: 8px; }
+      .brand { display: none; }
+      .mobile-back-btn { display: inline-flex; }
+      .search-container { width: auto; flex: 1; margin: 0; }
+      .user-actions { display: none; }
+
+      .cat-bar { background: #ffffff; height: auto; padding: 10px 8px 4px; }
+      .cat-links { gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+      .cat-link {
+        flex: 0 0 23%;
+        min-width: 68px;
+        flex-direction: column;
+        gap: 5px;
+        padding: 2px 4px;
+        border-radius: 0;
+        color: var(--text);
+        text-align: center;
+      }
+      .cat-link.active { background: none; color: var(--primary); }
+      .cat-link .cat-icon {
+        display: flex;
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: var(--primary-light);
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+      .cat-link.active .cat-icon { background: var(--primary); color: #fff; }
+      .cat-link .cat-label { font-size: 0.64rem; font-weight: 700; line-height: 1.15; white-space: normal; }
+
+      .breadcrumb { display: none; }
+      .page-head p { display: none; }
+      .page-head h1 { font-size: 1.15rem; margin-bottom: 10px; }
+
+      /* Phase 1: subcategory picker (no subcategory chosen yet) */
+      main { display: none; }
+      .sidebar { width: 100%; }
+      .subcat-all-pill {
+        border-radius: 12px 12px 0 0;
+        margin-bottom: 0;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-bottom: none;
+      }
+      .subcat-all-pill.active { background: var(--primary-light); color: var(--primary); }
+      .subcat-list { border-radius: 0 0 12px 12px; }
+
+      /* Phase 2: subcategory chosen -> show product browsing, hide picker list */
+      body.subcat-chosen main { display: block; }
+      body.subcat-chosen .sidebar { display: none; }
+
+      .back-to-cats-btn {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        color: var(--primary);
+        font-weight: 700;
+        font-size: 0.8rem;
+        padding: 0 0 10px;
+        cursor: pointer;
+      }
+
+      /* Compact icon row: first 3 subcategories + "Other" tile */
+      .subcat-icon-wrap {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .subcat-icon-row {
+        display: contents;
+      }
+      .subcat-icon-card { width: auto; padding: 10px 4px; font-size: 0.66rem; overflow-x: visible; }
+      .subcat-icon-card .icon-emoji { font-size: 1.3rem; margin-bottom: 4px; }
+      .subcat-icon-card:nth-child(n+4) { display: none; }
+
+      .subcat-more-btn {
+        width: auto;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 10px 4px;
+        text-align: center;
+        cursor: pointer;
+        font-size: 0.66rem;
+        font-weight: 600;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .subcat-more-btn .icon-emoji { font-size: 1.3rem; margin-bottom: 4px; }
+
+      /* "Other" reveals the full subcategory list as a bottom sheet */
+      body.subcat-more-open {
+        overflow: hidden;
+      }
+      body.subcat-more-open .subcat-more-backdrop {
+        display: block;
+      }
+      body.subcat-chosen.subcat-more-open .sidebar {
+        display: block;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        max-height: 70vh;
+        overflow-y: auto;
+        background: #ffffff;
+        z-index: 500;
+        border-radius: 16px 16px 0 0;
+        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.18);
+        padding: 14px;
+        margin: 0;
+      }
+
+      .subcat-more-backdrop {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.4);
+        z-index: 400;
+      }
+
+      .filter-bar { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+      .filter-right { flex-shrink: 0; }
+
     }
 
   </style>
@@ -1095,6 +1249,8 @@
   <!-- Top Navigation Header -->
 
   <header class="topbar">
+
+    <button type="button" class="mobile-back-btn" onclick="history.back()" aria-label="Go back">&#8592;</button>
 
     <a href="../main/index.html" class="brand">
 
@@ -1139,17 +1295,35 @@
 
     <div class="cat-links" id="cat-links">
 
-      <a href="../main/index.html" class="cat-link">☰ All Categories</a>
+      <a href="../main/index.html" class="cat-link">
+        <span class="cat-icon">☰</span>
+        <span class="cat-label">All Categories</span>
+      </a>
 
-      <a href="category-products.html?cat=fabrics" class="cat-link" data-cat="fabrics">Fabrics & Textiles</a>
+      <a href="category-products.html?cat=fabrics" class="cat-link" data-cat="fabrics">
+        <span class="cat-icon">🧵</span>
+        <span class="cat-label">Fabrics & Textiles</span>
+      </a>
 
-      <a href="category-products.html?cat=clothing" class="cat-link" data-cat="clothing">Clothing & Fashion</a>
+      <a href="category-products.html?cat=clothing" class="cat-link" data-cat="clothing">
+        <span class="cat-icon">👗</span>
+        <span class="cat-label">Clothing & Fashion</span>
+      </a>
 
-      <a href="category-products.html?cat=electronics" class="cat-link" data-cat="electronics">Electronics & Gadgets</a>
+      <a href="category-products.html?cat=electronics" class="cat-link" data-cat="electronics">
+        <span class="cat-icon">💻</span>
+        <span class="cat-label">Electronics & Gadgets</span>
+      </a>
 
-      <a href="category-products.html?cat=foodstuffs" class="cat-link" data-cat="foodstuffs">Foodstuffs & Oils</a>
+      <a href="category-products.html?cat=foodstuffs" class="cat-link" data-cat="foodstuffs">
+        <span class="cat-icon">🍲</span>
+        <span class="cat-label">Foodstuffs & Oils</span>
+      </a>
 
-      <a href="category-products.html?cat=accessories" class="cat-link" data-cat="accessories">Accessories</a>
+      <a href="category-products.html?cat=accessories" class="cat-link" data-cat="accessories">
+        <span class="cat-icon">👜</span>
+        <span class="cat-label">Accessories</span>
+      </a>
 
     </div>
 
@@ -1205,7 +1379,16 @@
 
       <main>
 
-        <div class="subcat-icon-row" id="subcat-icon-row"></div>
+        <button type="button" class="back-to-cats-btn" id="back-to-cats-btn">&#8592; All subcategories</button>
+
+        <div class="subcat-icon-wrap">
+          <div class="subcat-icon-row" id="subcat-icon-row"></div>
+
+          <button type="button" class="subcat-more-btn" id="subcat-more-btn">
+            <span class="icon-emoji">⋯</span>
+            <span>Other</span>
+          </button>
+        </div>
 
 
 
@@ -1279,6 +1462,8 @@
       </main>
 
     </div>
+
+    <div class="subcat-more-backdrop" id="subcat-more-backdrop"></div>
 
   </div>
 
@@ -1519,6 +1704,11 @@
 
     `).join('');
 
+    const subcatMoreBtnEl = document.getElementById('subcat-more-btn');
+    if (subcatMoreBtnEl && meta.subcategories.length <= 3) {
+      subcatMoreBtnEl.style.display = 'none';
+    }
+
 
 
     function productLink(p) {
@@ -1645,7 +1835,13 @@
 
     let activeTag = null;
 
+    function isMobileView() {
+      return window.matchMedia('(max-width: 768px)').matches;
+    }
 
+    function closeMorePanel() {
+      document.body.classList.remove('subcat-more-open');
+    }
 
     function setActive(tag) {
 
@@ -1667,9 +1863,13 @@
 
       renderGrid(tag);
 
+      document.body.classList.add('subcat-chosen');
+
+      closeMorePanel();
+
+      if (isMobileView()) window.scrollTo(0, 0);
+
     }
-
-
 
     document.getElementById('subcat-all').addEventListener('click', () => setActive(null));
 
@@ -1689,10 +1889,35 @@
 
     });
 
+    const backToCatsBtn = document.getElementById('back-to-cats-btn');
+    if (backToCatsBtn) {
+      backToCatsBtn.addEventListener('click', () => {
+        document.body.classList.remove('subcat-chosen');
+        closeMorePanel();
+        window.scrollTo(0, 0);
+      });
+    }
+
+    const subcatMoreBtn = document.getElementById('subcat-more-btn');
+    if (subcatMoreBtn) {
+      subcatMoreBtn.addEventListener('click', () => {
+        document.body.classList.toggle('subcat-more-open');
+      });
+    }
+
+    const subcatMoreBackdrop = document.getElementById('subcat-more-backdrop');
+    if (subcatMoreBackdrop) {
+      subcatMoreBackdrop.addEventListener('click', closeMorePanel);
+    }
+
     const initialSub = params.get('sub');
     if (initialSub && meta.subcategories.some((s) => s.key === initialSub)) {
+      // Enters "browse mode" directly (adds body.subcat-chosen), skipping
+      // the mobile subcategory picker since a subcategory was pre-selected.
       setActive(initialSub);
     } else {
+      // No subcategory pre-selected: render all products for desktop, and
+      // on mobile the picker list stays visible until setActive() runs.
       renderGrid(null);
     }
 
