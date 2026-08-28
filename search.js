@@ -35,7 +35,7 @@
     var variance = 0.08 + (seed % 10) / 100;
     var low = Math.round((num * (1 - variance)) / 100) * 100;
     var high = Math.round((num * (1 + variance)) / 100) * 100;
-    return 'N' + low.toLocaleString() + ' - ' + high.toLocaleString();
+    return '₦' + low.toLocaleString() + ' - ' + high.toLocaleString();
   }
 
   function escapeHtml(str) {

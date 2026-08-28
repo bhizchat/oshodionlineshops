@@ -755,6 +755,32 @@
         margin: 6px 0;
       }
 
+      .shop-reply-box {
+        margin: 8px 0 6px 0;
+        padding: 10px 12px;
+        background: #f5f6f9;
+        border: 1px solid var(--border);
+        border-left: 3px solid var(--primary);
+        border-radius: 8px;
+      }
+
+      .shop-reply-header {
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 4px;
+      }
+
+      .shop-reply-date {
+        font-weight: 500;
+        color: var(--text-muted);
+      }
+
+      .shop-reply-text {
+        font-size: 0.85rem;
+        color: var(--text);
+      }
+
       .review-meta-row {
         display: flex;
         align-items: center;
@@ -1222,7 +1248,7 @@
           </div>
 
           <div class="price-row">
-            <span class="current-price" id="current-price">NGN 0</span>
+            <span class="current-price" id="current-price">₦0</span>
             <span class="original-price" id="original-price" style="display:none;"></span>
           </div>
           <div class="savings-text" id="savings-text" style="display:none;"></div>
@@ -1375,11 +1401,11 @@
         const variance = 0.08 + (seed % 10) / 100;
         const low = Math.round((num * (1 - variance)) / 100) * 100;
         const high = Math.round((num * (1 + variance)) / 100) * 100;
-        return `NGN ${low.toLocaleString()} - ${high.toLocaleString()}`;
+        return `₦${low.toLocaleString()} - ${high.toLocaleString()}`;
       }
 
       function formatPrice(num) {
-        return 'NGN ' + Math.round(num).toLocaleString('en-NG');
+        return '₦' + Math.round(num).toLocaleString('en-NG');
       }
 
       const categorySpecs = {
@@ -1913,6 +1939,29 @@
           commentP.className = 'review-comment';
           commentP.textContent = r.comment;
 
+          let replyBox = null;
+          if (r.shopReply) {
+            replyBox = document.createElement('div');
+            replyBox.className = 'shop-reply-box';
+
+            const replyHeader = document.createElement('div');
+            replyHeader.className = 'shop-reply-header';
+            replyHeader.textContent = `Reply from ${shop.name || 'the shop'}`;
+            if (r.shopReplyAt) {
+              const replyDate = document.createElement('span');
+              replyDate.className = 'shop-reply-date';
+              replyDate.textContent = ' · ' + formatTimeAgo(r.shopReplyAt);
+              replyHeader.appendChild(replyDate);
+            }
+
+            const replyText = document.createElement('div');
+            replyText.className = 'shop-reply-text';
+            replyText.textContent = r.shopReply;
+
+            replyBox.appendChild(replyHeader);
+            replyBox.appendChild(replyText);
+          }
+
           const reviewImages = Array.isArray(r.images) ? r.images : [];
           let imagesRow = null;
           if (reviewImages.length) {
@@ -1971,6 +2020,7 @@
 
           body.appendChild(nameRow);
           body.appendChild(commentP);
+          if (replyBox) body.appendChild(replyBox);
           if (imagesRow) body.appendChild(imagesRow);
           body.appendChild(metaRow);
 
@@ -2006,7 +2056,9 @@
           helpfulYes: row.helpful_yes || 0,
           helpfulNo: row.helpful_no || 0,
           rating: row.rating,
-          images: Array.isArray(row.image_urls) ? row.image_urls : []
+          images: Array.isArray(row.image_urls) ? row.image_urls : [],
+          shopReply: row.shop_reply || '',
+          shopReplyAt: row.shop_reply_at || null
         }));
 
         refreshSummary();

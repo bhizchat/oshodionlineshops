@@ -122,6 +122,10 @@
     trackEvent('Messages', details);
   }
 
+  function trackShopVisit(details) {
+    trackEvent('Shop clicks', details);
+  }
+
   function handleViewDetailsClick(target) {
     var viewBtn = target.closest('.view-details-btn');
     if (!viewBtn) return;
@@ -176,11 +180,30 @@
     });
   }
 
+  function handleVisitShopClick(target) {
+    var link = target.closest('#visit-shop-btn, #sold-by-name-link');
+    if (!link) return;
+
+    var breadcrumbProduct = document.getElementById('breadcrumb-product');
+    var productName = breadcrumbProduct ? breadcrumbProduct.textContent.trim() : null;
+    var href = link.getAttribute('href');
+
+    trackShopVisit({
+      eventLabel: 'Visit Shop',
+      productName: productName,
+      targetUrl: href,
+      metadata: {
+        pageTitle: document.title
+      }
+    });
+  }
+
   document.addEventListener('click', function (event) {
     var target = event.target;
     handleViewDetailsClick(target);
     handleCallClick(target);
     handleWhatsappClick(target);
+    handleVisitShopClick(target);
   }, true);
 
   window.addEventListener('pageshow', function () {
@@ -198,6 +221,7 @@
     trackProductClick: trackProductClick,
     trackCall: trackCall,
     trackMessage: trackMessage,
+    trackShopVisit: trackShopVisit,
     flushQueue: flushQueue
   };
 })();

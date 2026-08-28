@@ -270,26 +270,6 @@
         gap: 8px;
       }
 
-      .follow-shop-btn {
-        background: rgba(255, 255, 255, 0.15);
-        border: 1px solid rgba(255, 255, 255, 0.4);
-        color: white;
-        padding: 8px 18px;
-        border-radius: 8px;
-        font-weight: 700;
-        font-size: 0.82rem;
-        cursor: pointer;
-        backdrop-filter: blur(4px);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-      }
-
-      .followers-count {
-        font-size: 0.78rem;
-        opacity: 0.85;
-      }
-
       .share-shop-link {
         font-size: 0.78rem;
         color: white;
@@ -679,8 +659,6 @@
             <div class="shop-location" id="shop-location">📍 Oshodi Main Market, Block A, Row 12</div>
           </div>
           <div class="hero-right-actions">
-            <button class="follow-shop-btn">♡ Follow Shop</button>
-            <span class="followers-count" id="followers">1.2K+ Followers</span>
             <a href="#" class="share-shop-link">🔗 Share Shop</a>
           </div>
         </div>
@@ -705,7 +683,7 @@
               <span>4.8 (128)</span>
             </div>
             <div class="mini-meta">
-              <span>Since 2010 • <span id="mini-customers">1.2K+</span> customers</span>
+              <span>Since <span id="mini-since-year">2010</span> • <span id="mini-customers">1.2K+</span> customers</span>
             </div>
             <div class="action-btn-group">
               <button class="btn-msg" id="whatsapp-shop-btn"><svg class="whatsapp-icon" viewBox="0 0 32 32" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M16.001 3C9.373 3 4 8.373 4 15c0 2.36.687 4.56 1.87 6.41L4 29l7.77-1.83A11.94 11.94 0 0 0 16 27c6.627 0 12-5.373 12-12S22.628 3 16.001 3zm0 21.8c-1.86 0-3.6-.5-5.1-1.37l-.366-.21-4.61 1.09 1.11-4.49-.24-.38A9.77 9.77 0 0 1 5.2 15c0-5.96 4.84-10.8 10.8-10.8S26.8 9.04 26.8 15 21.96 24.8 16.001 24.8zm5.94-8.13c-.325-.163-1.924-.95-2.222-1.058-.298-.109-.515-.163-.732.163-.217.325-.84 1.058-1.03 1.276-.19.217-.38.244-.705.081-.325-.163-1.372-.505-2.613-1.612-.966-.86-1.618-1.923-1.808-2.248-.19-.325-.02-.5.143-.663.147-.146.325-.38.488-.57.163-.19.217-.325.325-.542.109-.217.054-.407-.027-.57-.081-.163-.732-1.766-1.003-2.418-.264-.634-.532-.548-.732-.558l-.623-.011c-.217 0-.57.081-.868.407-.298.325-1.14 1.114-1.14 2.717 0 1.603 1.167 3.152 1.33 3.37.163.217 2.297 3.506 5.566 4.917.778.336 1.385.537 1.858.687.78.248 1.49.213 2.052.129.626-.094 1.924-.786 2.196-1.545.271-.76.271-1.41.19-1.546-.081-.135-.298-.217-.623-.38z"/></svg> WhatsApp Message</button>
@@ -751,6 +729,7 @@
     <script src="../search.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="../supabase-config.js"></script>
+    <script src="../sx-products.js"></script>
     <script src="../analytics.js"></script>
 
     <!-- Script Logic to populate details based on Shop -->
@@ -770,14 +749,103 @@
         const variance = 0.08 + (seed % 10) / 100;
         const low = Math.round((num * (1 - variance)) / 100) * 100;
         const high = Math.round((num * (1 + variance)) / 100) * 100;
-        return `N${low.toLocaleString()} - ${high.toLocaleString()}`;
+        return `₦${low.toLocaleString()} - ${high.toLocaleString()}`;
       }
 
-      const params = new URLSearchParams(window.location.search);
-      const KEY_PATTERN = /^[a-z0-9_-]+$/i;
-      const rawShopKey = params.get('shop');
-      const shopKey = (rawShopKey && KEY_PATTERN.test(rawShopKey) && shops[rawShopKey]) ? rawShopKey : 'boluwatife';
-      const shop = shops[shopKey] || shops.boluwatife;
+      // Renders a product card's rating line from real review stats (see
+      // fetchSxReviewStats in sx-products.js) — "New listing" until at least
+      // one genuine review exists, never a fabricated score/count.
+      function sxRatingHtml(reviewStats, productId) {
+        const stats = reviewStats && reviewStats[String(productId).toLowerCase()];
+        if (stats && stats.count > 0) {
+          const rounded = Math.round(stats.avg);
+          const stars = '★'.repeat(rounded) + '☆'.repeat(5 - rounded);
+          return `<span class="stars-gold">${stars}</span> <span class="score-num">${stats.avg.toFixed(1)}</span> <span class="count-muted">(${stats.count})</span>`;
+        }
+        return 'New listing';
+      }
+
+      (async function renderShop() {
+        const params = new URLSearchParams(window.location.search);
+        const KEY_PATTERN = /^[a-z0-9_-]+$/i;
+        const UUID_PATTERN = /^[0-9a-f-]{36}$/i;
+
+        let shop;
+        let shopKey;
+
+        // Real Strategic X shops (created via onboarding "Complete Setup")
+        // are looked up by database id via ?sxshop=<uuid>, from the public,
+        // PII-free sx_shops_public view. These start with 0 products since
+        // there is no product-adding flow yet.
+        // Strategic X onboarding category values (fabrics/fashion/electronics/
+        // foodstuff/accessories/other) don't exactly match this page's
+        // categoryMeta keys (fabrics/clothing/electronics/foodstuffs/accessories),
+        // so map between them; unrecognized/"other" falls back to fabrics.
+        const SX_CATEGORY_TO_META_KEY = {
+          fabrics: 'fabrics',
+          fashion: 'clothing',
+          electronics: 'electronics',
+          foodstuff: 'foodstuffs',
+          accessories: 'accessories'
+        };
+        const rawSxShopId = params.get('sxshop');
+        if (rawSxShopId && UUID_PATTERN.test(rawSxShopId)) {
+          const result = await supabaseClient
+            .from('sx_shops_public')
+            .select('*')
+            .eq('id', rawSxShopId)
+            .maybeSingle();
+          if (result.data) {
+            const row = result.data;
+            shopKey = 'sxshop-' + row.id;
+            // Every shop automatically shows a generic "1K+" customers/
+            // followers figure from the moment it's created (no real
+            // follower-tracking feature exists yet), and its "Since <year>"
+            // line uses the shop's actual signup date (row.created_at) rather
+            // than the hardcoded "2010" used for the static demo shops.
+            shop = {
+              name: row.shop_name,
+              category: SX_CATEGORY_TO_META_KEY[row.category] || 'fabrics',
+              tagline: row.tagline || '',
+              location: row.location || '',
+              phone: row.phone || '',
+              followers: '1K+ Followers',
+              sinceYear: row.created_at ? new Date(row.created_at).getFullYear() : new Date().getFullYear(),
+              heroBg: row.banner_url || 'https://picsum.photos/seed/sx/1200/400',
+              thumb: row.logo_url || '../assets(shops)/ETI(logo).png',
+              categories: [],
+              products: []
+            };
+
+            // Live published products for this vendor, queried fresh on every
+            // page load (no client-side caching) — no category filter here,
+            // every product tied to this shop_id shows regardless of its own
+            // `category` value.
+            try {
+              const productsResult = await supabaseClient
+                .from('sx_products_public')
+                .select('*')
+                .eq('shop_id', row.id)
+                .order('created_at', { ascending: false });
+              if (!productsResult.error && productsResult.data) {
+                shop.sxProducts = productsResult.data;
+
+                // Real review stats (never fabricated) so a product's card
+                // can switch from "New listing" to an actual star rating +
+                // review count the moment a genuine review is submitted.
+                shop.sxReviewStats = await fetchSxReviewStats(supabaseClient, productsResult.data.map((p) => p.id));
+              }
+            } catch (err) {
+              console.warn('Could not load Strategic X products for this shop:', err);
+            }
+          }
+        }
+
+        if (!shop) {
+          const rawShopKey = params.get('shop');
+          shopKey = (rawShopKey && KEY_PATTERN.test(rawShopKey) && shops[rawShopKey]) ? rawShopKey : 'boluwatife';
+          shop = shops[shopKey] || shops.boluwatife;
+        }
 
       // Keep the demo shops' product lists in sync with categoryPageMeta so the
       // index used here matches what product.html and category-products.html resolve
@@ -800,12 +868,12 @@
       document.getElementById('shop-name').childNodes[0].nodeValue = shop.name + ' ';
       document.getElementById('shop-tagline').textContent = shop.tagline;
       document.getElementById('shop-location').textContent = `📍 ${shop.location}`;
-      document.getElementById('followers').textContent = shop.followers;
       document.getElementById('shop-hero-bg').src = shop.heroBg;
 
       document.getElementById('mini-thumb').src = shop.thumb;
       document.getElementById('mini-title').childNodes[0].nodeValue = shop.name + ' ';
       document.getElementById('mini-location-text').textContent = shop.location;
+      document.getElementById('mini-since-year').textContent = shop.sinceYear || 2010;
       document.getElementById('mini-customers').textContent = shop.followers.replace(' Followers', '');
 
       // Call Shop Button
@@ -834,11 +902,38 @@
       const categoryList = document.getElementById('category-list');
       categoryList.innerHTML = shop.categories.map((cat) => `<li>${cat}</li>`).join('');
 
-      // Products Count
-      document.getElementById('products-count').textContent = shop.products.length;
+      // Products Count (real Strategic X products when this is a live vendor
+      // shop, otherwise the static demo/real shop products array as before)
+      const sxProducts = shop.sxProducts || null;
+      document.getElementById('products-count').textContent = sxProducts ? sxProducts.length : shop.products.length;
 
       // Render Products
       const productGrid = document.getElementById('product-grid');
+      if (sxProducts) {
+        if (!sxProducts.length) {
+          productGrid.innerHTML = `<p style="padding:24px 0;color:#666e7a;">This shop hasn't added any products yet.</p>`;
+          return;
+        }
+        productGrid.innerHTML = sxProducts.map((p) => `
+          <a href="sx-product.html?id=${p.id}" class="product-card">
+            <div class="product-img-wrap">
+              <img src="${escapeHtml(sxProductThumb(p.images))}" alt="${escapeHtml(p.product_name)}" />
+              <div class="card-fav">♡</div>
+            </div>
+            <div class="product-card-body">
+              <div class="product-title">${escapeHtml(p.product_name)}</div>
+              <div class="product-price">${formatNaira(p.selling_price)}</div>
+              <div class="product-rating">${sxRatingHtml(shop.sxReviewStats, p.id)}</div>
+              <span class="view-details-btn">View Details</span>
+            </div>
+          </a>
+        `).join('');
+        return;
+      }
+      if (!shop.products.length) {
+        productGrid.innerHTML = `<p style="padding:24px 0;color:#666e7a;">This shop hasn't added any products yet.</p>`;
+        return;
+      }
       productGrid.innerHTML = shop.products.map((p, index) => `
         <a href="product.html?shop=${shopKey}&product=${index}" class="product-card">
           <div class="product-img-wrap">
@@ -857,6 +952,7 @@
           </div>
         </a>
       `).join('');
+      })();
     </script>
   </body>
 </html>

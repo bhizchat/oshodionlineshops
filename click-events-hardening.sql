@@ -15,9 +15,18 @@ begin
   if not exists (select 1 from pg_constraint where conname = 'click_events_event_type_check') then
     alter table public.click_events
       add constraint click_events_event_type_check
-      check (event_type in ('Product clicks', 'Calls', 'Messages'));
+      check (event_type in ('Product clicks', 'Calls', 'Messages', 'Shop clicks'));
   end if;
 end $$;
+
+-- 'Shop clicks' (Visit Shop button on product pages) was added after this
+-- file's original constraint shipped. On a database where the constraint
+-- already exists with only the original 3 values, replace it so 'Shop
+-- clicks' inserts aren't rejected. Safe/idempotent to re-run.
+alter table public.click_events drop constraint if exists click_events_event_type_check;
+alter table public.click_events
+  add constraint click_events_event_type_check
+  check (event_type in ('Product clicks', 'Calls', 'Messages', 'Shop clicks'));
 
 do $$
 begin

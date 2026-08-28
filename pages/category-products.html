@@ -1226,7 +1226,7 @@
             <div class="filter-dropdown-wrap">
               <span class="filter-chip" id="price-filter-chip">Price ▾</span>
               <div class="filter-panel" id="price-filter-panel">
-                <div class="filter-panel-title">Price, NGN</div>
+                <div class="filter-panel-title">Price, ₦</div>
                 <div class="filter-panel-range">
                   <input type="number" id="price-min-input" placeholder="min" min="0" />
                   <span>–</span>
@@ -1293,6 +1293,7 @@
   <script src="../search.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="../supabase-config.js"></script>
+  <script src="../sx-products.js"></script>
   <script src="../analytics.js"></script>
 
   <script>
@@ -1312,8 +1313,10 @@
       const variance = 0.08 + (seed % 10) / 100;
       const low = Math.round((num * (1 - variance)) / 100) * 100;
       const high = Math.round((num * (1 + variance)) / 100) * 100;
-      return `N${low.toLocaleString()} - ${high.toLocaleString()}`;
+      return `₦${low.toLocaleString()} - ${high.toLocaleString()}`;
     }
+
+    (async function () {
 
     const params = new URLSearchParams(window.location.search);
     const CAT_KEY_PATTERN = /^[a-z0-9_-]+$/i;
@@ -1321,6 +1324,16 @@
     const cat = (rawCat && CAT_KEY_PATTERN.test(rawCat) && categoryPageMeta[rawCat]) ? rawCat : 'electronics';
 
     const meta = categoryPageMeta[cat] || categoryPageMeta.electronics;
+
+    // Maps this page's category keys to the category values used by the
+    // Strategic X onboarding form / sx_products_public.category column.
+    const META_KEY_TO_SX_CATEGORY = {
+      fabrics: 'fabrics',
+      clothing: 'fashion',
+      electronics: 'electronics',
+      foodstuffs: 'foodstuff',
+      accessories: 'accessories'
+    };
 
 
 
@@ -1415,6 +1428,43 @@
 
     }
 
+    // Merge in real Strategic X vendor products (sx_products_public) for this
+    // category, restricted to the Oshodi Market Online platform. Queried fresh
+    // on every page load/refresh (no client-side caching of the results), so
+    // newly published/edited vendor listings always show up immediately.
+    const sxCategory = META_KEY_TO_SX_CATEGORY[cat];
+    let sxReviewStats = {};
+    if (sxCategory) {
+      try {
+        const sxResult = await supabaseClient
+          .from('sx_products_public')
+          .select('*')
+          .eq('market_platform', 'oshodi-market-online')
+          .eq('category', sxCategory)
+          .order('created_at', { ascending: false });
+        if (!sxResult.error && sxResult.data) {
+          sxResult.data.forEach((row) => {
+            products.push({
+              name: row.product_name,
+              price: row.selling_price,
+              image: sxProductThumb(row.images),
+              shop: row.shop_name || 'Strategic X Vendor',
+              location: '',
+              tag: 'other',
+              sxId: row.id
+            });
+          });
+
+          // Real review stats (never fabricated) so a product's card can
+          // switch from "New listing" to an actual star rating + review
+          // count the moment a genuine review is submitted for it.
+          sxReviewStats = await fetchSxReviewStats(supabaseClient, sxResult.data.map((row) => row.id));
+        }
+      } catch (err) {
+        console.warn('Could not load Strategic X products:', err);
+      }
+    }
+
 
 
     // Render sidebar subcategory counts
@@ -1473,6 +1523,12 @@
 
     function productLink(p) {
 
+      if (p.sxId) {
+
+        return `../shops/sx-product.html?id=${p.sxId}`;
+
+      }
+
       if (p.shopKey !== undefined) {
 
         return `../shops/product.html?shop=${p.shopKey}&product=${p.productIndex}`;
@@ -1507,6 +1563,16 @@
 
     let priceFilter = null;
     let locationFilter = null;
+
+    function sxRatingHtml(sxId) {
+      const stats = sxReviewStats[String(sxId).toLowerCase()];
+      if (stats && stats.count > 0) {
+        const rounded = Math.round(stats.avg);
+        const stars = '★'.repeat(rounded) + '☆'.repeat(5 - rounded);
+        return `<span class="stars">${stars}</span> ${stats.avg.toFixed(1)} (${stats.count})`;
+      }
+      return 'New listing';
+    }
 
     function renderGrid(filterTag) {
 
@@ -1547,7 +1613,7 @@
 
           <div class="product-img-wrap">
 
-            <img src="${p.image}" alt="${p.name}" />
+            <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" />
 
             <span class="verified-badge">✔ Verified</span>
 
@@ -1557,13 +1623,13 @@
 
           <div class="product-body">
 
-            <div class="product-name">${p.name}</div>
+            <div class="product-name">${escapeHtml(p.name)}</div>
 
-            <div class="product-spec">${p.shop}</div>
+            <div class="product-spec">${escapeHtml(p.shop)}</div>
 
-            <div class="product-price">${formatPriceRange(p.price, p.name)}</div>
+            <div class="product-price">${p.sxId ? formatNaira(p.price) : formatPriceRange(p.price, p.name)}</div>
 
-            <div class="product-rating"><span class="stars">★★★★★</span> ${p.score} (${p.count})</div>
+            ${p.sxId ? `<div class="product-rating">${sxRatingHtml(p.sxId)}</div>` : `<div class="product-rating"><span class="stars">★★★★★</span> ${p.score} (${p.count})</div>`}
 
             <span class="view-details-btn">View Details</span>
 
@@ -1743,6 +1809,8 @@
 
     const pageLoader = document.getElementById('page-loader');
     if (pageLoader) pageLoader.classList.add('hidden');
+
+    })();
 
   </script>
 
