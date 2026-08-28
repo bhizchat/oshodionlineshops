@@ -856,6 +856,8 @@
 
       .mobile-product-summary { display: none; }
 
+      .mobile-shop-card { display: none; }
+
       @media (max-width: 768px) {
         .topbar { height: auto; padding: 10px 12px; gap: 8px; }
         .brand { display: none; }
@@ -907,6 +909,31 @@
         }
 
         .sidebar-col { display: none; }
+
+        .mobile-shop-card {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background: var(--card-bg);
+          border: 1px solid var(--border);
+          border-radius: var(--radius);
+          padding: 12px 14px;
+          margin-top: 12px;
+        }
+        .mobile-shop-card img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
+        .mobile-shop-info { flex: 1; min-width: 0; }
+        .mobile-shop-label { font-size: 0.7rem; color: var(--text-muted); }
+        .mobile-shop-name { font-size: 0.9rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mobile-view-shop-btn {
+          flex-shrink: 0;
+          padding: 8px 14px;
+          border-radius: 8px;
+          background: var(--primary-soft);
+          color: var(--primary);
+          font-weight: 700;
+          font-size: 0.8rem;
+          border: 1px solid #e2d9f8;
+        }
       }
 
       /* Write a Review Modal */
@@ -1393,6 +1420,15 @@
         </div>
       </div>
 
+      <div class="mobile-shop-card" id="mobile-shop-card">
+        <img id="mobile-shop-avatar" src="" alt="" />
+        <div class="mobile-shop-info">
+          <div class="mobile-shop-label">Sold by</div>
+          <div class="mobile-shop-name" id="mobile-shop-name"></div>
+        </div>
+        <a href="#" id="mobile-view-shop-btn" class="mobile-view-shop-btn">View Shop</a>
+      </div>
+
       <!-- Product Reviews -->
       <section class="reviews-section" id="reviews-section">
         <h2 class="reviews-heading" id="reviews-heading">Product Reviews</h2>
@@ -1691,6 +1727,11 @@
       document.getElementById('sold-by-avatar').src = shop.thumb;
       document.getElementById('sold-by-name-text').textContent = shop.name;
       document.getElementById('sold-by-name-link').href = `shops.html?shop=${shopKey}`;
+
+      document.getElementById('mobile-shop-avatar').src = shop.thumb;
+      document.getElementById('mobile-shop-name').textContent = shop.name;
+      document.getElementById('mobile-view-shop-btn').href = `shops.html?shop=${shopKey}`;
+
       document.getElementById('sold-by-location').textContent = `📍 ${shop.location}`;
       document.getElementById('mobile-shop-location').textContent = `📍 ${shop.location}`;
       document.getElementById('sold-by-customers').textContent = shop.followers.replace(' Followers', '');
