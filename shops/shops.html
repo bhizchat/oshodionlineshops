@@ -53,6 +53,18 @@
         cursor: pointer;
       }
 
+      .mobile-back-btn {
+        display: none;
+        background: none;
+        border: none;
+        font-size: 1.3rem;
+        color: var(--primary);
+        cursor: pointer;
+        padding: 4px 8px 4px 0;
+        line-height: 1;
+        flex-shrink: 0;
+      }
+
       .brand-logo {
         height: 56px;
         width: auto;
@@ -605,6 +617,43 @@
       @media (max-width: 768px) {
         .layout-grid { grid-template-columns: 1fr; }
         .product-grid { grid-template-columns: repeat(2, 1fr); }
+
+        .topbar { height: auto; padding: 10px 12px; gap: 8px; }
+        .brand { display: none; }
+        .mobile-back-btn { display: inline-flex; }
+        .search-container { width: auto; flex: 1; margin: 0; }
+        .user-actions { display: none; }
+        .location-select { display: none; }
+        .search-btn { display: none; }
+        .search-input { padding: 12px 14px; }
+
+        .cat-bar {
+          padding: 0 12px;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+        }
+        .cat-bar::-webkit-scrollbar { display: none; }
+        .cat-links { flex-wrap: nowrap; white-space: nowrap; }
+        .cat-link { flex-shrink: 0; }
+
+        .breadcrumb { display: none; }
+
+        .container { padding: 14px 12px 32px; }
+
+        .shop-hero { height: 130px; border-radius: 12px; margin-bottom: 14px; }
+        .hero-overlay { padding: 0 16px; }
+        .shop-meta h1 { font-size: 1.1rem; }
+        .shop-subtitle { font-size: 0.78rem; margin-bottom: 4px; }
+        .shop-location { font-size: 0.72rem; }
+        .hero-right-actions { display: none; }
+
+        .back-link { display: none; }
+
+        .results-head { flex-wrap: wrap; gap: 8px; }
+        .results-head h2 { font-size: 1.05rem; }
+        .sort-select { display: none; }
+        .btn-filter-icon { padding: 7px 10px; font-size: 0.78rem; }
       }
     </style>
   </head>
@@ -612,6 +661,7 @@
 
     <!-- Top Bar Navigation -->
     <header class="topbar">
+      <button type="button" class="mobile-back-btn" id="mobile-back-btn" aria-label="Go back">&#8592;</button>
       <a href="../main/index.html" class="brand">
         <img src="../assets/logo.png" alt="Oshodi Online Shops" class="brand-logo" />
       </a>
@@ -768,6 +818,11 @@
       }
 
       (async function renderShop() {
+        const mobileBackBtn = document.getElementById('mobile-back-btn');
+        if (mobileBackBtn) {
+          mobileBackBtn.addEventListener('click', () => history.back());
+        }
+
         const params = new URLSearchParams(window.location.search);
         const KEY_PATTERN = /^[a-z0-9_-]+$/i;
         const UUID_PATTERN = /^[0-9a-f-]{36}$/i;
