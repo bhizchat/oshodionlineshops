@@ -1104,32 +1104,11 @@
       .search-container { width: auto; flex: 1; margin: 0; }
       .user-actions { display: none; }
 
-      .cat-bar { background: #ffffff; height: auto; padding: 10px 8px 4px; }
-      .cat-links { gap: 0; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
-      .cat-link {
-        flex: 0 0 23%;
-        min-width: 68px;
-        flex-direction: column;
-        gap: 5px;
-        padding: 2px 4px;
-        border-radius: 0;
-        color: var(--text);
-        text-align: center;
-      }
-      .cat-link.active { background: none; color: var(--primary); }
-      .cat-link .cat-icon {
-        display: flex;
-        width: 42px;
-        height: 42px;
-        border-radius: 50%;
-        background: var(--primary-light);
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        flex-shrink: 0;
-      }
-      .cat-link.active .cat-icon { background: var(--primary); color: #fff; }
-      .cat-link .cat-label { font-size: 0.64rem; font-weight: 700; line-height: 1.15; white-space: normal; }
+      .location-select { display: none; }
+      .search-btn { display: none; }
+      .search-input { padding: 12px 14px; }
+
+      .cat-bar { display: none; }
 
       .breadcrumb { display: none; }
       .page-head p { display: none; }
@@ -1227,8 +1206,34 @@
         z-index: 400;
       }
 
-      .filter-bar { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-      .filter-right { flex-shrink: 0; }
+      .filter-bar {
+        flex-wrap: nowrap;
+        overflow-x: visible;
+        justify-content: flex-start;
+        gap: 8px;
+      }
+      .filter-left { flex-wrap: nowrap; gap: 8px; width: 100%; }
+      .filter-left > .filter-chip:first-child { display: none; }
+      .filter-dropdown-wrap { flex: 1 1 0; min-width: 0; }
+      .filter-dropdown-wrap .filter-chip {
+        display: block;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-align: center;
+        padding: 8px 6px;
+      }
+      .filter-panel { width: 220px; }
+      .filter-right { display: none; }
+
+      .subcat-search-empty {
+        display: none;
+        padding: 16px;
+        text-align: center;
+        color: var(--text-muted);
+        font-size: 0.85rem;
+      }
 
     }
 
@@ -1264,7 +1269,7 @@
 
       <button class="location-select">📍 All Oshodi ▾</button>
 
-      <input type="text" class="search-input" placeholder="Search for products in Oshodi..." />
+      <input type="text" class="search-input" data-subcat-search placeholder="Search for products in Oshodi..." />
 
       <button class="search-btn" aria-label="search button">
         <svg viewBox="0 0 24 24">
@@ -1370,6 +1375,8 @@
         </div>
 
         <div class="subcat-list" id="subcat-list"></div>
+
+        <div class="subcat-search-empty" id="subcat-search-empty">No matching subcategory found.</div>
 
       </aside>
 
@@ -1910,6 +1917,48 @@
       subcatMoreBackdrop.addEventListener('click', closeMorePanel);
     }
 
+    // Mobile-only subcategory search: the header search bar is simplified to
+    // a plain input (no location pill, no search button) and, on this page,
+    // pressing Enter filters the subcategory list instead of searching
+    // products site-wide (handled by search.js for `data-subcat-search`).
+    const subcatSearchInput = document.querySelector('.search-input[data-subcat-search]');
+    const subcatSearchEmpty = document.getElementById('subcat-search-empty');
+
+    function applyMobilePlaceholder() {
+      if (!subcatSearchInput) return;
+      subcatSearchInput.placeholder = isMobileView()
+        ? 'Find subcategory...'
+        : 'Search for products in Oshodi...';
+    }
+
+    function filterSubcatList(query) {
+      const rows = document.querySelectorAll('#subcat-list .subcat-row');
+      let anyVisible = false;
+      rows.forEach((row) => {
+        const nameEl = row.querySelector('.subcat-name');
+        const name = nameEl ? nameEl.textContent.toLowerCase() : '';
+        const match = !query || name.includes(query);
+        row.style.display = match ? '' : 'none';
+        if (match) anyVisible = true;
+      });
+      const allPill = document.getElementById('subcat-all');
+      if (allPill) allPill.style.display = query ? 'none' : '';
+      if (subcatSearchEmpty) {
+        subcatSearchEmpty.style.display = (!anyVisible && query) ? 'block' : 'none';
+      }
+    }
+
+    if (subcatSearchInput) {
+      applyMobilePlaceholder();
+      window.addEventListener('resize', applyMobilePlaceholder);
+
+      subcatSearchInput.addEventListener('keydown', (e) => {
+        if (e.key !== 'Enter' || !isMobileView()) return;
+        e.preventDefault();
+        filterSubcatList(subcatSearchInput.value.trim().toLowerCase());
+      });
+    }
+
     const initialSub = params.get('sub');
     if (initialSub && meta.subcategories.some((s) => s.key === initialSub)) {
       // Enters "browse mode" directly (adds body.subcat-chosen), skipping
@@ -1944,6 +1993,17 @@
       locationPanel.classList.remove('open');
     }
 
+    function updateLocationChipLabel(street) {
+      if (isMobileView()) {
+        locationChip.textContent = street ? `Region: ${street} ▾` : 'Region ▾';
+      } else {
+        locationChip.textContent = street ? `Location: ${street} ▾` : 'Location: All Oshodi ▾';
+      }
+    }
+
+    updateLocationChipLabel(null);
+    window.addEventListener('resize', () => updateLocationChipLabel(locationFilter));
+
     locationChip.addEventListener('click', (e) => {
       e.stopPropagation();
       closePricePanel();
@@ -1957,7 +2017,7 @@
       if (!item) return;
       const street = item.dataset.street;
       locationFilter = street || null;
-      locationChip.textContent = street ? `Location: ${street} ▾` : 'Location: All Oshodi ▾';
+      updateLocationChipLabel(street);
       locationChip.classList.toggle('active-chip', !!street);
       locationOptionsWrap.querySelectorAll('.filter-panel-item').forEach((el) => {
         el.classList.toggle('active', el.dataset.street === street);

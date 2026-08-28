@@ -584,6 +584,7 @@
     }
 
     var debouncedRender = debounce(function () {
+      if (isMobile() && input.hasAttribute('data-subcat-search')) return;
       var q = input.value.trim();
       if (!q) {
         closeDropdown();
@@ -596,6 +597,7 @@
 
     input.addEventListener('click', function () {
       if (isMobile()) {
+        if (input.hasAttribute('data-subcat-search')) return;
         input.blur();
         openOverlay(input);
       }
@@ -608,6 +610,7 @@
     });
 
     input.addEventListener('keydown', function (e) {
+      if (isMobile() && input.hasAttribute('data-subcat-search')) return;
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         if (!currentResults.length) return;
