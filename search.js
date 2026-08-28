@@ -317,8 +317,47 @@
       '  background: #f3effc;',
       '  border-color: #c9b8f0;',
       '}',
-      '.oshodi-search-overlay-results .oshodi-search-item {',
-      '  padding: 10px 4px;',
+      '.oshodi-search-overlay-results {',
+      '  max-height: 220px;',
+      '  overflow-y: auto;',
+      '  border: 1px solid #e5e7eb;',
+      '  border-radius: 10px;',
+      '}',
+      '.oshodi-search-suggest-item {',
+      '  display: flex;',
+      '  align-items: center;',
+      '  gap: 8px;',
+      '  padding: 9px 10px;',
+      '  border-bottom: 1px solid #f0f0f0;',
+      '  text-decoration: none;',
+      '  color: inherit;',
+      '}',
+      '.oshodi-search-suggest-item:last-child { border-bottom: none; }',
+      '.oshodi-search-suggest-item:hover, .oshodi-search-suggest-item:active {',
+      '  background: #f8f7fc;',
+      '}',
+      '.oshodi-search-suggest-thumb {',
+      '  width: 28px;',
+      '  height: 28px;',
+      '  border-radius: 6px;',
+      '  object-fit: cover;',
+      '  flex-shrink: 0;',
+      '  background: #e2e8f0;',
+      '}',
+      '.oshodi-search-suggest-name {',
+      '  font-size: 0.82rem;',
+      '  font-weight: 600;',
+      '  color: #1a1a2e;',
+      '  white-space: nowrap;',
+      '  overflow: hidden;',
+      '  text-overflow: ellipsis;',
+      '  flex: 1;',
+      '  min-width: 0;',
+      '}',
+      '.oshodi-search-suggest-name mark {',
+      '  background: #ffe8a3;',
+      '  color: inherit;',
+      '  border-radius: 2px;',
       '}'
     ].join('\n');
     document.head.appendChild(style);
@@ -348,20 +387,16 @@
       return;
     }
     overlaySuggest.style.display = 'none';
-    var results = searchProducts(query, 20);
+    var results = searchProducts(query, 8);
     if (!results.length) {
       overlayResults.innerHTML = '<div class="oshodi-search-empty">No products found for &ldquo;' + escapeHtml(query) + '&rdquo;. Try a different keyword.</div>';
       return;
     }
     overlayResults.innerHTML = results.map(function (item) {
       return (
-        '<a href="' + productHref(item) + '" class="oshodi-search-item">' +
-          '<img src="' + item.image + '" alt="" />' +
-          '<div class="oshodi-search-item-info">' +
-            '<div class="oshodi-search-item-name">' + highlightMatch(item.name, query) + '</div>' +
-            '<div class="oshodi-search-item-meta">' + escapeHtml(item.shop || '') + '</div>' +
-          '</div>' +
-          '<div class="oshodi-search-item-price">' + escapeHtml(formatPriceRange(item.price, item.name)) + '</div>' +
+        '<a href="' + productHref(item) + '" class="oshodi-search-suggest-item">' +
+          '<img class="oshodi-search-suggest-thumb" src="' + item.image + '" alt="" />' +
+          '<span class="oshodi-search-suggest-name">' + highlightMatch(item.name, query) + '</span>' +
         '</a>'
       );
     }).join('');
@@ -395,9 +430,11 @@
 
     overlayEl.querySelectorAll('.oshodi-search-overlay-tag').forEach(function (btn) {
       btn.addEventListener('click', function () {
-        overlayInput.value = btn.textContent;
-        if (overlayActiveInput) overlayActiveInput.value = btn.textContent;
-        renderOverlayResults(btn.textContent);
+        var tagQuery = btn.textContent;
+        overlayInput.value = tagQuery;
+        if (overlayActiveInput) overlayActiveInput.value = tagQuery;
+        logSearchQuery(tagQuery, searchProducts(tagQuery).length);
+        window.location.href = searchResultsHref(tagQuery);
       });
     });
 
