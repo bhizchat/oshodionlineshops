@@ -8,6 +8,13 @@
 // (no shops as standalone results), so search results are always individual products.
 
 (function () {
+  // A product image is only considered "real" if it's a non-empty string that
+  // isn't a generic picsum.photos stock-photo placeholder (those return an
+  // unrelated random photo on every request, not an actual product photo).
+  function hasRealImage(image) {
+    return typeof image === 'string' && image.trim() !== '' && image.indexOf('picsum.photos') === -1;
+  }
+
   function buildSearchIndex() {
     const index = [];
 
@@ -16,6 +23,7 @@
       Object.keys(shops).forEach((shopKey) => {
         const shop = shops[shopKey];
         (shop.products || []).forEach((product, productIndex) => {
+          if (!hasRealImage(product.image)) return;
           index.push({
             id: `shop-${shopKey}-${productIndex}`,
             name: product.name,
@@ -39,6 +47,7 @@
       Object.keys(categoryPageMeta).forEach((catKey) => {
         const meta = categoryPageMeta[catKey];
         (meta.products || []).forEach((product, productIndex) => {
+          if (!hasRealImage(product.image)) return;
           index.push({
             id: `cat-${catKey}-${productIndex}`,
             name: product.name,

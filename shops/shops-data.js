@@ -1044,16 +1044,11 @@ const demoFallbackShops = {
     thumb: '../assets/logo.png',
     categories: ['Women\'s Wear', "Men's Wear", 'Unisex Wear', 'Shoes & Bags', 'Traditional Wear', 'Kids Wear', 'Jewelry & Accessories', 'Sportswear'],
     products: [
-      { name: 'Ankara Gown (Ready to Wear)', price: 'NGN 22,000', score: '4.7', count: '58', image: 'https://picsum.photos/300/300?random=501' },
-      { name: "Men's Native Senator Wear", price: 'NGN 28,000', score: '4.6', count: '41', image: 'https://picsum.photos/300/300?random=502' },
       { name: 'Unisex Denim Jeans', price: 'NGN 12,500', score: '4.5', count: '63', image: '../assets(items) /Clothing/unisexdeminjeans.jpeg' },
       { name: 'Ladies Handbag (Leather)', price: 'NGN 15,000', score: '4.8', count: '35', image: '../assets(items) /Clothing/ladieshandbag.jpeg' },
-      { name: "Kids Party Outfit", price: 'NGN 9,500', score: '4.7', count: '27', image: 'https://picsum.photos/300/300?random=505' },
       { name: 'Beaded Jewelry Set', price: 'NGN 6,500', score: '4.6', count: '44', image: '../assets(items) /Clothing/beadedjewelryset.jpeg' },
       { name: 'Sports Tracksuit', price: 'NGN 14,000', score: '4.5', count: '19', image: '../assets(items) /Clothing/sportstracksuit.jpeg' },
-      { name: "Women's Office Blazer", price: 'NGN 19,500', score: '4.8', count: '30', image: 'https://picsum.photos/300/300?random=508' },
-      { name: 'Casual Sneakers', price: 'NGN 17,000', score: '4.6', count: '38', image: '../assets(items) /Clothing/casualsneakers.jpeg' },
-      { name: "Men's Agbada Set", price: 'NGN 35,000', score: '4.9', count: '22', image: 'https://picsum.photos/300/300?random=510' }
+      { name: 'Casual Sneakers', price: 'NGN 17,000', score: '4.6', count: '38', image: '../assets(items) /Clothing/casualsneakers.jpeg' }
     ]
   },
   'foodstuffs-demo': {
