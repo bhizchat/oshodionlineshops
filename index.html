@@ -438,7 +438,31 @@
         .brand { font-size: 1.8rem; }
         .brand .small { display: none; }
         .content { padding: 24px 16px; }
-        .promo-grid { grid-template-columns: repeat(2, 1fr); }
+
+        /* Compact search bar */
+        .hero { min-height: 200px; padding: 20px 16px 28px; }
+        .search-title { font-size: 1.3rem; margin-bottom: 4px; }
+        .search-subtitle { font-size: 0.75rem; margin-bottom: 14px; }
+        .search-box { width: 100%; border-radius: 10px; padding: 3px; }
+        .location-select-button {
+          width: 78px;
+          max-width: 78px;
+          font-size: 0.72rem;
+          padding: 8px 18px 8px 4px;
+          background-size: 9px 9px;
+        }
+        .search-input { font-size: 0.8rem; padding: 8px 10px; }
+        .search-button { width: 34px; height: 34px; border-radius: 8px; }
+        .search-button svg { width: 15px; height: 15px; }
+
+        /* Smaller, denser category icons */
+        .promo-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+        .promo-card { border-radius: 12px; }
+        .promo-card-top { height: 62px; padding: 4px; }
+        .promo-image { max-height: 46px; }
+        .badge-icon { width: 22px; height: 22px; font-size: 0.65rem; bottom: -10px; }
+        .promo-card-body { padding: 14px 4px 10px; }
+        .promo-title { font-size: 0.66rem; margin-bottom: 0; line-height: 1.2; }
       }
     </style>
   </head>
