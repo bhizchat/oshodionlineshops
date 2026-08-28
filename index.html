@@ -434,9 +434,20 @@
       }
 
       @media (max-width: 640px) {
-        .topbar { padding: 0 16px; }
+        .topbar { padding: 10px 12px; height: auto; justify-content: flex-start; gap: 10px; }
         .brand { font-size: 1.8rem; }
         .brand .small { display: none; }
+        .brand-logo { height: 36px; }
+        .nav-tools { margin-left: auto; gap: 6px; }
+        .lang-pill { padding: 5px 10px; font-size: 0.62rem; white-space: nowrap; }
+        .sell-btn {
+          padding: 0 10px;
+          height: 30px;
+          font-size: 0.56rem;
+          letter-spacing: 0.01em;
+          border-radius: 15px;
+          white-space: nowrap;
+        }
         .content { padding: 24px 16px; }
 
         /* Compact search bar */
@@ -444,12 +455,16 @@
         .search-title { font-size: 1.3rem; margin-bottom: 4px; }
         .search-subtitle { font-size: 0.75rem; margin-bottom: 14px; }
         .search-box { width: 100%; border-radius: 10px; padding: 3px; }
+        .select-with-pin { padding-left: 10px; }
+        .location-pin { display: none; }
         .location-select-button {
-          width: 78px;
-          max-width: 78px;
-          font-size: 0.72rem;
-          padding: 8px 18px 8px 4px;
-          background-size: 9px 9px;
+          width: 118px;
+          max-width: 118px;
+          font-size: 0.85rem;
+          font-weight: 800;
+          color: #1e1b4b;
+          padding: 8px 20px 8px 0;
+          background-size: 10px 10px;
         }
         .search-input { font-size: 0.8rem; padding: 8px 10px; }
         .search-button { width: 34px; height: 34px; border-radius: 8px; }

@@ -242,9 +242,201 @@
       '  text-align: center;',
       '  font-size: 0.82rem;',
       '  color: #666e7a;',
+      '}',
+      /* ---- Mobile full-screen search overlay (Jiji-style expanded search) ---- */
+      '.oshodi-search-overlay {',
+      '  position: fixed;',
+      '  inset: 0;',
+      '  background: #ffffff;',
+      '  z-index: 10000;',
+      '  display: none;',
+      '  flex-direction: column;',
+      '}',
+      '.oshodi-search-overlay.open { display: flex; }',
+      'body.oshodi-search-overlay-open { overflow: hidden; }',
+      '.oshodi-search-overlay-bar {',
+      '  display: flex;',
+      '  align-items: center;',
+      '  gap: 10px;',
+      '  padding: 14px;',
+      '  border-bottom: 1px solid #e5e7eb;',
+      '  flex-shrink: 0;',
+      '}',
+      '.oshodi-search-overlay-back {',
+      '  background: none;',
+      '  border: none;',
+      '  font-size: 1.4rem;',
+      '  color: #4B2E83;',
+      '  cursor: pointer;',
+      '  padding: 4px 6px;',
+      '  line-height: 1;',
+      '  flex-shrink: 0;',
+      '}',
+      '.oshodi-search-overlay-input {',
+      '  flex: 1;',
+      '  min-width: 0;',
+      '  border: none;',
+      '  background: #f3f4f6;',
+      '  border-radius: 24px;',
+      '  padding: 12px 16px;',
+      '  font-size: 0.95rem;',
+      '  color: #1d2734;',
+      '  outline: none;',
+      '}',
+      '.oshodi-search-overlay-body {',
+      '  flex: 1;',
+      '  overflow-y: auto;',
+      '  padding: 18px 16px;',
+      '  -webkit-overflow-scrolling: touch;',
+      '}',
+      '.oshodi-search-overlay-suggest-title {',
+      '  font-size: 0.72rem;',
+      '  font-weight: 800;',
+      '  letter-spacing: 0.04em;',
+      '  color: #6b7280;',
+      '  text-transform: uppercase;',
+      '  margin: 0 0 14px;',
+      '}',
+      '.oshodi-search-overlay-tags {',
+      '  display: flex;',
+      '  flex-wrap: wrap;',
+      '  gap: 10px;',
+      '}',
+      '.oshodi-search-overlay-tag {',
+      '  background: #ffffff;',
+      '  border: 1px solid #e2e8f0;',
+      '  border-radius: 8px;',
+      '  padding: 10px 16px;',
+      '  font-size: 0.85rem;',
+      '  font-weight: 600;',
+      '  color: #1d2734;',
+      '  cursor: pointer;',
+      '}',
+      '.oshodi-search-overlay-tag:active,',
+      '.oshodi-search-overlay-tag:hover {',
+      '  background: #f3effc;',
+      '  border-color: #c9b8f0;',
+      '}',
+      '.oshodi-search-overlay-results .oshodi-search-item {',
+      '  padding: 10px 4px;',
       '}'
     ].join('\n');
     document.head.appendChild(style);
+  }
+
+  // ---- Mobile full-screen search overlay -----------------------------------
+  var MOBILE_QUERY = '(max-width: 640px)';
+  var POPULAR_SEARCHES = [
+    'Ankara', 'Senator', 'Lace Material', 'Wristwatch', 'Rice', 'Groundnut Oil',
+    'Phone Charger', 'Ladies Bag', 'Shoes', 'Jewelry Set', 'Kitchen Utensils', 'Perfume'
+  ];
+
+  var overlayEl = null;
+  var overlayInput = null;
+  var overlayResults = null;
+  var overlaySuggest = null;
+  var overlayActiveInput = null;
+
+  function isMobile() {
+    return typeof window.matchMedia === 'function' && window.matchMedia(MOBILE_QUERY).matches;
+  }
+
+  function renderOverlayResults(query) {
+    if (!query) {
+      overlaySuggest.style.display = '';
+      overlayResults.innerHTML = '';
+      return;
+    }
+    overlaySuggest.style.display = 'none';
+    var results = searchProducts(query, 20);
+    if (!results.length) {
+      overlayResults.innerHTML = '<div class="oshodi-search-empty">No products found for &ldquo;' + escapeHtml(query) + '&rdquo;. Try a different keyword.</div>';
+      return;
+    }
+    overlayResults.innerHTML = results.map(function (item) {
+      return (
+        '<a href="' + productHref(item) + '" class="oshodi-search-item">' +
+          '<img src="' + item.image + '" alt="" />' +
+          '<div class="oshodi-search-item-info">' +
+            '<div class="oshodi-search-item-name">' + highlightMatch(item.name, query) + '</div>' +
+            '<div class="oshodi-search-item-meta">' + escapeHtml(item.shop || '') + '</div>' +
+          '</div>' +
+          '<div class="oshodi-search-item-price">' + escapeHtml(formatPriceRange(item.price, item.name)) + '</div>' +
+        '</a>'
+      );
+    }).join('');
+  }
+
+  function buildOverlay() {
+    if (overlayEl) return;
+    overlayEl = document.createElement('div');
+    overlayEl.className = 'oshodi-search-overlay';
+    overlayEl.innerHTML =
+      '<div class="oshodi-search-overlay-bar">' +
+        '<button type="button" class="oshodi-search-overlay-back" aria-label="Close search">&#8592;</button>' +
+        '<input type="text" class="oshodi-search-overlay-input" placeholder="I am looking for..." aria-label="search" />' +
+      '</div>' +
+      '<div class="oshodi-search-overlay-body">' +
+        '<div class="oshodi-search-overlay-suggest">' +
+          '<div class="oshodi-search-overlay-suggest-title">Everyone is searching</div>' +
+          '<div class="oshodi-search-overlay-tags">' +
+            POPULAR_SEARCHES.map(function (tag) {
+              return '<button type="button" class="oshodi-search-overlay-tag">' + escapeHtml(tag) + '</button>';
+            }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div class="oshodi-search-overlay-results"></div>' +
+      '</div>';
+    document.body.appendChild(overlayEl);
+
+    overlayInput = overlayEl.querySelector('.oshodi-search-overlay-input');
+    overlayResults = overlayEl.querySelector('.oshodi-search-overlay-results');
+    overlaySuggest = overlayEl.querySelector('.oshodi-search-overlay-suggest');
+
+    overlayEl.querySelectorAll('.oshodi-search-overlay-tag').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        overlayInput.value = btn.textContent;
+        if (overlayActiveInput) overlayActiveInput.value = btn.textContent;
+        renderOverlayResults(btn.textContent);
+      });
+    });
+
+    overlayEl.querySelector('.oshodi-search-overlay-back').addEventListener('click', closeOverlay);
+
+    overlayInput.addEventListener('input', debounce(function () {
+      var q = overlayInput.value.trim();
+      if (overlayActiveInput) overlayActiveInput.value = q;
+      renderOverlayResults(q);
+    }, 200));
+
+    overlayInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        var q = overlayInput.value.trim();
+        if (q) {
+          logSearchQuery(q, searchProducts(q).length);
+          window.location.href = searchResultsHref(q);
+        }
+      } else if (e.key === 'Escape') {
+        closeOverlay();
+      }
+    });
+  }
+
+  function openOverlay(originalInput) {
+    buildOverlay();
+    overlayActiveInput = originalInput;
+    overlayInput.value = originalInput.value || '';
+    document.body.classList.add('oshodi-search-overlay-open');
+    overlayEl.classList.add('open');
+    renderOverlayResults(overlayInput.value.trim());
+    setTimeout(function () { overlayInput.focus(); }, 50);
+  }
+
+  function closeOverlay() {
+    if (!overlayEl) return;
+    overlayEl.classList.remove('open');
+    document.body.classList.remove('oshodi-search-overlay-open');
   }
 
   // ---- Search query logging (best-effort, fire-and-forget) --------------------
@@ -365,7 +557,15 @@
 
     input.addEventListener('input', debouncedRender);
 
+    input.addEventListener('click', function () {
+      if (isMobile()) {
+        input.blur();
+        openOverlay(input);
+      }
+    });
+
     input.addEventListener('focus', function () {
+      if (isMobile()) return;
       var q = input.value.trim();
       if (q) renderResults(q);
     });
