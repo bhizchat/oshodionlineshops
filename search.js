@@ -583,8 +583,12 @@
       input.setAttribute('aria-expanded', 'true');
     }
 
+    function isSubcatPickerMode() {
+      return input.hasAttribute('data-subcat-search') && !document.body.classList.contains('subcat-chosen');
+    }
+
     var debouncedRender = debounce(function () {
-      if (isMobile() && input.hasAttribute('data-subcat-search')) return;
+      if (isMobile() && isSubcatPickerMode()) return;
       var q = input.value.trim();
       if (!q) {
         closeDropdown();
@@ -597,7 +601,7 @@
 
     input.addEventListener('click', function () {
       if (isMobile()) {
-        if (input.hasAttribute('data-subcat-search')) return;
+        if (isSubcatPickerMode()) return;
         input.blur();
         openOverlay(input);
       }
@@ -610,7 +614,7 @@
     });
 
     input.addEventListener('keydown', function (e) {
-      if (isMobile() && input.hasAttribute('data-subcat-search')) return;
+      if (isMobile() && isSubcatPickerMode()) return;
       if (e.key === 'ArrowDown') {
         e.preventDefault();
         if (!currentResults.length) return;

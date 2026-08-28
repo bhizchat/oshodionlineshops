@@ -676,8 +676,6 @@
 
     }
 
-    .back-to-cats-btn { display: none; }
-
     .subcat-more-btn { display: none; }
 
     .subcat-more-backdrop { display: none; }
@@ -1131,19 +1129,6 @@
       body.subcat-chosen main { display: block; }
       body.subcat-chosen .sidebar { display: none; }
 
-      .back-to-cats-btn {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        background: none;
-        border: none;
-        color: var(--primary);
-        font-weight: 700;
-        font-size: 0.8rem;
-        padding: 0 0 10px;
-        cursor: pointer;
-      }
-
       /* Compact icon row: first 3 subcategories + "Other" tile */
       .subcat-icon-wrap {
         display: grid;
@@ -1255,7 +1240,7 @@
 
   <header class="topbar">
 
-    <button type="button" class="mobile-back-btn" onclick="history.back()" aria-label="Go back">&#8592;</button>
+    <button type="button" class="mobile-back-btn" id="mobile-back-btn" aria-label="Go back">&#8592;</button>
 
     <a href="../main/index.html" class="brand">
 
@@ -1385,8 +1370,6 @@
       <!-- Main content -->
 
       <main>
-
-        <button type="button" class="back-to-cats-btn" id="back-to-cats-btn">&#8592; All subcategories</button>
 
         <div class="subcat-icon-wrap">
           <div class="subcat-icon-row" id="subcat-icon-row"></div>
@@ -1876,6 +1859,8 @@
 
       if (isMobileView()) window.scrollTo(0, 0);
 
+      applyMobilePlaceholder();
+
     }
 
     document.getElementById('subcat-all').addEventListener('click', () => setActive(null));
@@ -1896,15 +1881,6 @@
 
     });
 
-    const backToCatsBtn = document.getElementById('back-to-cats-btn');
-    if (backToCatsBtn) {
-      backToCatsBtn.addEventListener('click', () => {
-        document.body.classList.remove('subcat-chosen');
-        closeMorePanel();
-        window.scrollTo(0, 0);
-      });
-    }
-
     const subcatMoreBtn = document.getElementById('subcat-more-btn');
     if (subcatMoreBtn) {
       subcatMoreBtn.addEventListener('click', () => {
@@ -1917,16 +1893,36 @@
       subcatMoreBackdrop.addEventListener('click', closeMorePanel);
     }
 
+    // Mobile back button: while browsing a subcategory's products, it returns
+    // to the subcategory picker list; otherwise it behaves like a normal
+    // browser back button.
+    const mobileBackBtn = document.getElementById('mobile-back-btn');
+    if (mobileBackBtn) {
+      mobileBackBtn.addEventListener('click', () => {
+        if (isMobileView() && document.body.classList.contains('subcat-chosen')) {
+          document.body.classList.remove('subcat-chosen');
+          closeMorePanel();
+          window.scrollTo(0, 0);
+          applyMobilePlaceholder();
+        } else {
+          history.back();
+        }
+      });
+    }
+
     // Mobile-only subcategory search: the header search bar is simplified to
-    // a plain input (no location pill, no search button) and, on this page,
-    // pressing Enter filters the subcategory list instead of searching
-    // products site-wide (handled by search.js for `data-subcat-search`).
+    // a plain input (no location pill, no search button). While no
+    // subcategory is chosen yet (picker list), pressing Enter filters that
+    // list. Once a subcategory is chosen, the input behaves like a normal
+    // product search bar again (handled by search.js, guarded by the
+    // `subcat-chosen` body class).
     const subcatSearchInput = document.querySelector('.search-input[data-subcat-search]');
     const subcatSearchEmpty = document.getElementById('subcat-search-empty');
 
     function applyMobilePlaceholder() {
       if (!subcatSearchInput) return;
-      subcatSearchInput.placeholder = isMobileView()
+      var pickerMode = isMobileView() && !document.body.classList.contains('subcat-chosen');
+      subcatSearchInput.placeholder = pickerMode
         ? 'Find subcategory...'
         : 'Search for products in Oshodi...';
     }
@@ -1954,6 +1950,7 @@
 
       subcatSearchInput.addEventListener('keydown', (e) => {
         if (e.key !== 'Enter' || !isMobileView()) return;
+        if (document.body.classList.contains('subcat-chosen')) return;
         e.preventDefault();
         filterSubcatList(subcatSearchInput.value.trim().toLowerCase());
       });
