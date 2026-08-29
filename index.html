@@ -275,26 +275,27 @@
       }
 
       .search-button {
-        width: 44px;
-        height: 44px;
+        width: 40px;
+        height: 40px;
         border: none;
-        background: var(--brand);
-        border-radius: 10px;
+        background: transparent;
+        border-radius: 50%;
         display: grid;
         place-items: center;
         cursor: pointer;
         transition: background 0.2s;
+        flex-shrink: 0;
       }
 
       .search-button:hover {
-        background: var(--brand-dark);
+        background: #f3ebff;
       }
 
       .search-button svg {
-        width: 20px;
-        height: 20px;
-        stroke: #ffffff;
-        stroke-width: 2.5;
+        width: 19px;
+        height: 19px;
+        stroke: var(--brand);
+        stroke-width: 2.4;
         fill: none;
       }
 
@@ -469,8 +470,8 @@
           background-size: 10px 10px;
         }
         .search-input { font-size: 16px; padding: 8px 10px; }
-        .search-button { width: 34px; height: 34px; border-radius: 8px; }
-        .search-button svg { width: 15px; height: 15px; }
+        .search-button { width: 32px; height: 32px; }
+        .search-button svg { width: 16px; height: 16px; }
 
         /* Smaller, denser category icons */
         .promo-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
