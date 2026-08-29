@@ -436,6 +436,20 @@
       }
 
       @media (max-width: 640px) {
+        html, body {
+          height: 100%;
+          overflow: hidden;
+          overscroll-behavior: none;
+        }
+        body {
+          position: fixed;
+          inset: 0;
+          width: 100%;
+        }
+        .page {
+          height: 100%;
+          overflow: hidden;
+        }
         .topbar { padding: 10px 12px; height: auto; justify-content: flex-start; gap: 10px; }
         .brand { font-size: 1.8rem; }
         .brand .small { display: none; }
@@ -669,6 +683,15 @@
           locationButton.setAttribute('aria-expanded', 'false');
         }
       });
+
+      // Lock page scrolling on mobile so swipe-up can't move/hide the header
+      if (window.matchMedia('(max-width: 640px)').matches) {
+        document.addEventListener('touchmove', (event) => {
+          if (!event.target.closest('.location-select-panel')) {
+            event.preventDefault();
+          }
+        }, { passive: false });
+      }
     </script>
   <script defer src="/_vercel/insights/script.js"></script>
   </body>
