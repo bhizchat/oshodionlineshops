@@ -1825,7 +1825,7 @@
       });
 
       // Synthetic seed reviews + user-submitted reviews
-      const reviewCount = Math.min(3, Math.max(1, Math.floor(totalReviews / 15) + 1));
+      const reviewCount = Math.max(0, totalReviews);
       const seedReviews = Array.from({ length: reviewCount }, (_, i) => {
         const rSeed = seed + i * 17;
         return {
