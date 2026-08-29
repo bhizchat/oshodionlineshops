@@ -1623,16 +1623,27 @@
           .order('created_at', { ascending: false });
         if (!sxResult.error && sxResult.data) {
           sxResult.data.forEach((row) => {
+            // Vendors pick `subcategory` from a dropdown scoped to their
+            // chosen category, so its value always exactly matches one of
+            // this category's `meta.subcategories[].label` strings (except
+            // for the `other` top-level category, which has no subcategory
+            // list and always sends `subcategory: null`). Falls back to
+            // 'other' (shown only under "All <Category>", not any specific
+            // subcategory tile) if it's missing or doesn't match anything.
+            const matchedSub = row.subcategory
+              ? meta.subcategories.find((sub) => sub.label === row.subcategory)
+              : null;
             products.push({
               name: row.product_name,
               price: row.selling_price,
               image: sxProductThumb(row.images),
               shop: row.shop_name || 'Strategic X Vendor',
               location: '',
-              tag: 'other',
+              tag: matchedSub ? matchedSub.key : 'other',
               sxId: row.id
             });
           });
+
 
           // Real review stats (never fabricated) so a product's card can
           // switch from "New listing" to an actual star rating + review

@@ -1126,6 +1126,7 @@
         const specList = document.getElementById('spec-list');
         const specs = [];
         if (p.category) specs.push(['Category', p.category]);
+        if (p.brand) specs.push(['Brand', p.brand]);
         if (p.condition) specs.push(['Condition', p.condition]);
         if (p.warranty) specs.push(['Warranty', p.warranty]);
         specList.innerHTML = specs.map(([label, value]) => `
