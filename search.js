@@ -112,8 +112,12 @@
       if (exact) score += 20;
       else if (starts) score += 12;
       else {
+        // Typo tolerance only, not loose "sounds kinda similar" matching:
+        // the allowed edit distance scales with word length so short words
+        // (e.g. "phone" vs "tone") don't falsely match each other.
+        var maxAllowedDistance = qt.length <= 5 ? 1 : 2;
         var close = nameTokens.some(function (nt) {
-          return Math.abs(nt.length - qt.length) <= 2 && levenshtein(nt, qt) <= 2;
+          return Math.abs(nt.length - qt.length) <= 2 && levenshtein(nt, qt) <= maxAllowedDistance;
         });
         if (close) score += 8;
       }
