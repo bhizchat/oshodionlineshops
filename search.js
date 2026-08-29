@@ -111,13 +111,18 @@
       var starts = nameTokens.some(function (nt) { return nt.indexOf(qt) === 0; });
       if (exact) score += 20;
       else if (starts) score += 12;
-      else {
-        // Typo tolerance only, not loose "sounds kinda similar" matching:
-        // the allowed edit distance scales with word length so short words
-        // (e.g. "phone" vs "tone") don't falsely match each other.
-        var maxAllowedDistance = qt.length <= 5 ? 1 : 2;
+      else if (qt.length >= 6) {
+        // Typo tolerance only, not loose "sounds kinda similar" matching.
+        // Requiring the first letter to match (typos rarely change the
+        // first letter) plus a length-scaled max edit distance prevents
+        // short, unrelated real words from cross-matching each other
+        // (e.g. "phone" vs "tone", "rice" vs "rich", "jeans" vs "beans").
+        // Words of 5 letters or fewer get NO fuzzy matching at all.
+        var maxAllowedDistance = qt.length <= 8 ? 1 : 2;
         var close = nameTokens.some(function (nt) {
-          return Math.abs(nt.length - qt.length) <= 2 && levenshtein(nt, qt) <= maxAllowedDistance;
+          return nt.charAt(0) === qt.charAt(0) &&
+            Math.abs(nt.length - qt.length) <= 2 &&
+            levenshtein(nt, qt) <= maxAllowedDistance;
         });
         if (close) score += 8;
       }
