@@ -279,7 +279,7 @@
       '  background: #f3f4f6;',
       '  border-radius: 24px;',
       '  padding: 12px 16px;',
-      '  font-size: 0.95rem;',
+      '  font-size: 16px;',
       '  color: #1d2734;',
       '  outline: none;',
       '}',
