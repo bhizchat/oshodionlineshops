@@ -275,27 +275,26 @@
       }
 
       .search-button {
-        width: 40px;
-        height: 40px;
+        width: 44px;
+        height: 44px;
         border: none;
-        background: transparent;
-        border-radius: 50%;
+        background: var(--brand);
+        border-radius: 10px;
         display: grid;
         place-items: center;
         cursor: pointer;
         transition: background 0.2s;
-        flex-shrink: 0;
       }
 
       .search-button:hover {
-        background: #f3ebff;
+        background: var(--brand-dark);
       }
 
       .search-button svg {
-        width: 19px;
-        height: 19px;
-        stroke: var(--brand);
-        stroke-width: 2.4;
+        width: 20px;
+        height: 20px;
+        stroke: #ffffff;
+        stroke-width: 2.5;
         fill: none;
       }
 
@@ -457,7 +456,7 @@
         .hero { min-height: 200px; padding: 20px 16px 28px; }
         .search-title { font-size: 1.3rem; margin-bottom: 4px; }
         .search-subtitle { font-size: 0.75rem; margin-bottom: 14px; }
-        .search-box { width: 100%; border-radius: 10px; padding: 3px; }
+        .search-box { width: 100%; border-radius: 10px; padding: 3px 6px 3px 3px; }
         .select-with-pin { padding-left: 10px; }
         .location-pin { display: none; }
         .location-select-button {
@@ -469,9 +468,16 @@
           padding: 8px 20px 8px 0;
           background-size: 10px 10px;
         }
-        .search-input { font-size: 16px; padding: 8px 10px; }
-        .search-button { width: 32px; height: 32px; }
-        .search-button svg { width: 16px; height: 16px; }
+        .search-input { font-size: 16px; padding: 8px 6px 8px 10px; }
+        .search-button {
+          width: 26px;
+          height: 26px;
+          background: transparent;
+          border-radius: 50%;
+          flex-shrink: 0;
+        }
+        .search-button:hover { background: transparent; }
+        .search-button svg { width: 17px; height: 17px; stroke: var(--brand); stroke-width: 2.4; }
 
         /* Smaller, denser category icons */
         .promo-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
