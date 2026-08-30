@@ -359,6 +359,20 @@
       .overall-score-out { font-size: 1rem; color: var(--text-muted); font-weight: 600; }
       .stars-gold { color: var(--star); letter-spacing: 1px; }
 
+      /* Proportional star fill so an average like 4.5 renders as a half star,
+         while individual reviews (always whole numbers) still look identical
+         to the plain repeat("★")/repeat("☆") rendering used elsewhere. */
+      .star-rating { position: relative; display: inline-block; white-space: nowrap; letter-spacing: 1px; }
+      .star-rating-back { color: #d1d5db; }
+      .star-rating-front {
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        color: var(--star);
+      }
+
       .rating-row {
         display: flex;
         align-items: center;
@@ -1267,20 +1281,26 @@
           }).join('');
         }
 
+        // Proportional fill (e.g. 90% for a 4.5 average) renders a clean half
+        // star instead of always rounding up/down to a whole star.
+        function starRatingHtml(rating) {
+          const pct = Math.max(0, Math.min(100, (rating / 5) * 100));
+          return `<span class="star-rating"><span class="star-rating-back">★★★★★</span><span class="star-rating-front" style="width:${pct}%">★★★★★</span></span>`;
+        }
+
         function refreshSummary() {
           document.getElementById('reviews-heading').textContent = `Product Reviews (${totalReviews})`;
           const scoreBlock = document.getElementById('overall-score-block');
           const ratingRow = document.getElementById('product-rating-row');
           if (totalReviews > 0) {
-            const starsDisplay = '★'.repeat(Math.round(score)) + '☆'.repeat(5 - Math.round(score));
             scoreBlock.innerHTML = `
               <span class="overall-score-num">${score.toFixed(1)}</span>
               <span class="overall-score-out">out of 5</span>
-              <div><span class="stars-gold">${starsDisplay}</span></div>
+              <div>${starRatingHtml(score)}</div>
             `;
             // Mirror the same rating under the product title (like the
             // hardcoded product pages) now that a real review exists.
-            document.getElementById('product-stars').textContent = starsDisplay;
+            document.getElementById('product-stars').innerHTML = starRatingHtml(score);
             document.getElementById('product-score').textContent = score.toFixed(1);
             document.getElementById('product-review-count').textContent = `(${totalReviews} review${totalReviews === 1 ? '' : 's'})`;
             ratingRow.style.display = 'flex';

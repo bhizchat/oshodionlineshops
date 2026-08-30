@@ -341,6 +341,21 @@
       }
 
       .stars-gold { color: var(--star); letter-spacing: 1px; }
+
+      /* Proportional star fill so an average like 4.5 renders as a half star,
+         while individual reviews (always whole numbers) still look identical
+         to the plain repeat("★")/repeat("☆") rendering used elsewhere. */
+      .star-rating { position: relative; display: inline-block; white-space: nowrap; letter-spacing: 1px; }
+      .star-rating-back { color: #d1d5db; }
+      .star-rating-front {
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        color: var(--star);
+      }
+
       .rating-num { font-weight: 700; }
       .rating-dropdown-arrow {
         font-size: 0.7rem;
@@ -1779,17 +1794,59 @@
 
       // Reviews
       let totalReviews = parseInt(product.count, 10) || 0;
-      let score = parseFloat(product.score) || 4.5;
+      const targetScore = parseFloat(product.score) || 4.5;
 
-      let distribution;
-      if (score >= 4.7) distribution = { 5: 78, 4: 16, 3: 4, 2: 1, 1: 1 };
-      else if (score >= 4.4) distribution = { 5: 65, 4: 24, 3: 7, 2: 2, 1: 2 };
-      else distribution = { 5: 50, 4: 30, 3: 12, 2: 5, 1: 3 };
+      // Build one whole-star rating (1-5) per seed review so the histogram,
+      // the average score, and every individual review card all reflect the
+      // exact same underlying numbers — no more reviews that each claim an
+      // impossible "4.5" star rating while the bars imply a 3/4/1/0/0 split.
+      let distribution = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+      let ratingsArray = [];
+      if (totalReviews > 0) {
+        let percentByStar;
+        if (targetScore >= 4.7) percentByStar = { 5: 78, 4: 16, 3: 4, 2: 1, 1: 1 };
+        else if (targetScore >= 4.4) percentByStar = { 5: 65, 4: 24, 3: 7, 2: 2, 1: 2 };
+        else percentByStar = { 5: 50, 4: 30, 3: 12, 2: 5, 1: 3 };
+
+        // Largest-remainder method: convert percentages into exact integer
+        // counts that always sum to totalReviews (no rounding drift between
+        // the bars and the actual number of review cards rendered).
+        const stars = [5, 4, 3, 2, 1];
+        const exactCounts = stars.map((star) => ({ star, exact: (percentByStar[star] / 100) * totalReviews }));
+        exactCounts.forEach(({ star, exact }) => { distribution[star] = Math.floor(exact); });
+        let assigned = exactCounts.reduce((sum, r) => sum + Math.floor(r.exact), 0);
+        const remainders = exactCounts
+          .map((r) => ({ star: r.star, rem: r.exact - Math.floor(r.exact) }))
+          .sort((a, b) => b.rem - a.rem);
+        let remIdx = 0;
+        while (assigned < totalReviews) {
+          distribution[remainders[remIdx % remainders.length].star]++;
+          assigned++;
+          remIdx++;
+        }
+
+        // Flatten into one rating per review, then deterministically shuffle
+        // (seeded) so products sharing the same score bucket don't all show
+        // reviews in the same "5,5,5,4" clumped order.
+        stars.forEach((star) => {
+          for (let i = 0; i < distribution[star]; i++) ratingsArray.push(star);
+        });
+        ratingsArray = ratingsArray
+          .map((rating, i) => ({ rating, key: hashString(`${seed}-${i}`) }))
+          .sort((a, b) => a.key - b.key)
+          .map((entry) => entry.rating);
+      }
+
+      // The displayed average is the true mean of the whole-star ratings
+      // above, so it will always match what the review cards actually show.
+      let score = ratingsArray.length
+        ? ratingsArray.reduce((sum, r) => sum + r, 0) / ratingsArray.length
+        : targetScore;
 
       function renderRatingBars(container, compact) {
         container.innerHTML = [5, 4, 3, 2, 1].map((star) => {
-          const percent = distribution[star];
-          const count = Math.round((percent / 100) * totalReviews);
+          const count = distribution[star] || 0;
+          const percent = totalReviews ? Math.round((count / totalReviews) * 100) : 0;
           return `
             <div class="rating-bar-row">
               <span>${star} star</span>
@@ -1800,6 +1857,13 @@
         }).join('');
       }
 
+      // Proportional fill (e.g. 90% for a 4.5 average) renders a clean half
+      // star instead of always rounding up/down to a whole star.
+      function starRatingHtml(rating) {
+        const pct = Math.max(0, Math.min(100, (rating / 5) * 100));
+        return `<span class="star-rating"><span class="star-rating-back">★★★★★</span><span class="star-rating-front" style="width:${pct}%">★★★★★</span></span>`;
+      }
+
       function refreshSummary() {
         document.getElementById('reviews-heading').textContent = `Product Reviews (${totalReviews})`;
         document.getElementById('overall-score-num').textContent = score.toFixed(1);
@@ -1807,6 +1871,8 @@
         document.getElementById('product-review-count').textContent = `(${totalReviews} reviews)`;
         document.getElementById('popover-score-num').textContent = score.toFixed(1);
         document.getElementById('popover-global-count').textContent = `${totalReviews} global ratings`;
+        document.getElementById('product-stars').innerHTML = starRatingHtml(score);
+        document.getElementById('overall-stars').innerHTML = starRatingHtml(score);
         renderRatingBars(document.getElementById('rating-bars'), false);
         renderRatingBars(document.getElementById('popover-rating-bars'), true);
       }
@@ -1835,7 +1901,7 @@
           timeAgo: timeAgoPool[rSeed % timeAgoPool.length],
           helpfulYes: 1 + (rSeed % 8),
           helpfulNo: 0,
-          rating: score
+          rating: ratingsArray[i]
         };
       });
 
@@ -2200,8 +2266,8 @@
         rows.forEach((row) => {
           const rating = row.rating;
           const newTotal = totalReviews + 1;
-          const roundedRating = Math.round(rating);
-          distribution[roundedRating] = Math.round(((distribution[roundedRating] / 100 * totalReviews) + 1) / newTotal * 100);
+          const roundedRating = Math.min(5, Math.max(1, Math.round(rating)));
+          distribution[roundedRating] = (distribution[roundedRating] || 0) + 1;
           score = ((score * totalReviews) + rating) / newTotal;
           totalReviews = newTotal;
         });
@@ -2422,8 +2488,8 @@
         });
 
         const newTotal = totalReviews + 1;
-        const roundedRating = Math.round(rating);
-        distribution[roundedRating] = Math.round(((distribution[roundedRating] / 100 * totalReviews) + 1) / newTotal * 100);
+        const roundedRating = Math.min(5, Math.max(1, Math.round(rating)));
+        distribution[roundedRating] = (distribution[roundedRating] || 0) + 1;
         score = ((score * totalReviews) + rating) / newTotal;
         totalReviews = newTotal;
 
