@@ -581,6 +581,19 @@
         letter-spacing: -0.5px;
       }
 
+      /* Proportional star fill so a computed average like 4.75 ("4.8") shows
+         a near-full last star instead of always rounding to a whole star. */
+      .star-rating { position: relative; display: inline-block; white-space: nowrap; letter-spacing: -0.5px; }
+      .star-rating-back { color: #d1d5db; }
+      .star-rating-front {
+        position: absolute;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        white-space: nowrap;
+        color: var(--star);
+      }
+
       .score-num {
         font-weight: 700;
         color: #1e293b;
@@ -1001,8 +1014,8 @@
             <div class="product-title">${p.name}</div>
             <div class="product-price">${formatPriceRange(p.price, p.name)}</div>
             <div class="product-rating">
-              <span class="stars-gold">★★★★★</span>
-              <span class="score-num">${p.score}</span>
+              ${window.OshodiSearch.starRatingHtml(window.OshodiSearch.computeEffectiveScore(p.score, p.count))}
+              <span class="score-num">${window.OshodiSearch.computeEffectiveScore(p.score, p.count).toFixed(1)}</span>
               <span class="count-muted">(${p.count})</span>
             </div>
             <span class="view-details-btn">View Details</span>

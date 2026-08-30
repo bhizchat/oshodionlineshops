@@ -1018,6 +1018,19 @@
 
     .product-rating .stars { color: var(--star); }
 
+    /* Proportional star fill so a computed average like 4.75 ("4.8") shows
+       a near-full last star instead of always rounding to a whole star. */
+    .star-rating { position: relative; display: inline-block; white-space: nowrap; }
+    .star-rating-back { color: #d1d5db; }
+    .star-rating-front {
+      position: absolute;
+      top: 0;
+      left: 0;
+      overflow: hidden;
+      white-space: nowrap;
+      color: var(--star);
+    }
+
     .view-details-btn {
       display: block;
       width: 100%;
@@ -1824,7 +1837,7 @@
 
             <div class="product-price">${p.sxId ? formatNaira(p.price) : formatPriceRange(p.price, p.name)}</div>
 
-            ${p.sxId ? `<div class="product-rating">${sxRatingHtml(p.sxId)}</div>` : `<div class="product-rating"><span class="stars">★★★★★</span> ${p.score} (${p.count})</div>`}
+            ${p.sxId ? `<div class="product-rating">${sxRatingHtml(p.sxId)}</div>` : `<div class="product-rating">${window.OshodiSearch.starRatingHtml(window.OshodiSearch.computeEffectiveScore(p.score, p.count))} ${window.OshodiSearch.computeEffectiveScore(p.score, p.count).toFixed(1)} (${p.count})</div>`}
 
             <span class="view-details-btn">View Details</span>
 

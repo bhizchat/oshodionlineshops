@@ -59,6 +59,56 @@
     );
   }
 
+  // ---- Review rating consistency helpers ------------------------------------
+  // A demo product's data only stores a target `score` (e.g. "4.5") and a
+  // review `count`. Both the product detail page and every product card must
+  // derive the same star histogram + average from those two numbers, or the
+  // card and the detail page will disagree (e.g. card shows 4.5 while the
+  // detail page's per-review breakdown actually averages to 4.8). This uses
+  // the exact same bucket percentages + largest-remainder rounding as
+  // shops/product.html and shops/sx-product.html so all three surfaces match.
+  function computeEffectiveScore(score, count) {
+    var targetScore = parseFloat(score) || 4.5;
+    var totalReviews = parseInt(count, 10) || 0;
+    if (totalReviews <= 0) return targetScore;
+
+    var percentByStar;
+    if (targetScore >= 4.7) percentByStar = { 5: 78, 4: 16, 3: 4, 2: 1, 1: 1 };
+    else if (targetScore >= 4.4) percentByStar = { 5: 65, 4: 24, 3: 7, 2: 2, 1: 2 };
+    else percentByStar = { 5: 50, 4: 30, 3: 12, 2: 5, 1: 3 };
+
+    var stars = [5, 4, 3, 2, 1];
+    var exactCounts = stars.map(function (star) {
+      return { star: star, exact: (percentByStar[star] / 100) * totalReviews };
+    });
+    var distribution = {};
+    var assigned = 0;
+    exactCounts.forEach(function (entry) {
+      distribution[entry.star] = Math.floor(entry.exact);
+      assigned += Math.floor(entry.exact);
+    });
+    var remainders = exactCounts
+      .map(function (entry) { return { star: entry.star, rem: entry.exact - Math.floor(entry.exact) }; })
+      .sort(function (a, b) { return b.rem - a.rem; });
+    var remIdx = 0;
+    while (assigned < totalReviews) {
+      distribution[remainders[remIdx % remainders.length].star]++;
+      assigned++;
+      remIdx++;
+    }
+
+    var sum = stars.reduce(function (acc, star) { return acc + star * distribution[star]; }, 0);
+    return sum / totalReviews;
+  }
+
+  // Proportional gold-over-gray star fill so a 4.5 average renders as a
+  // visible half star instead of always rounding to a whole star.
+  function starRatingHtml(rating) {
+    var pct = Math.max(0, Math.min(100, (rating / 5) * 100));
+    return '<span class="star-rating"><span class="star-rating-back">★★★★★</span>' +
+      '<span class="star-rating-front" style="width:' + pct + '%">★★★★★</span></span>';
+  }
+
   // ---- Search algorithm -----------------------------------------------------
   function normalize(str) {
     return (str || '').toString().toLowerCase().trim();
@@ -172,7 +222,9 @@
     productHref: productHref,
     formatPriceRange: formatPriceRange,
     highlightMatch: highlightMatch,
-    escapeHtml: escapeHtml
+    escapeHtml: escapeHtml,
+    computeEffectiveScore: computeEffectiveScore,
+    starRatingHtml: starRatingHtml
   };
 
   // ---- Dropdown styles (injected once) -----------------------------------------
