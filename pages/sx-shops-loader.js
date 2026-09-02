@@ -47,12 +47,12 @@
 
         card.innerHTML =
           '<div class="card-img-wrap">' +
-            '<img src="' + img + '" alt="' + name + '" />' +
+            '<img src="' + img + '" alt="' + name + '" loading="lazy" decoding="async" />' +
             '<div class="fav-badge">\u2661</div>' +
           '</div>' +
           '<div class="card-content">' +
             '<div class="shop-title-row">' +
-              '<img src="' + avatar + '" alt="Owner Avatar" class="shop-avatar" />' +
+              '<img src="' + avatar + '" alt="Owner Avatar" class="shop-avatar" loading="lazy" decoding="async" />' +
               '<h2 class="shop-title">' + name + '</h2>' +
             '</div>' +
             '<div class="shop-address">\uD83D\uDCCD ' + location + '</div>' +

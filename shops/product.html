@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://dehvyonajwgiqpowpdnu.supabase.co" crossorigin />
     <title>Product Details - Oshodi Online Shops</title>
     <style>
       :root {
@@ -1670,7 +1672,7 @@
           return;
         }
         thumbnailRow.innerHTML = thumbImages.map((src, i) =>
-          `<img src="${src}" alt="${product.name} view ${i + 1}" class="${i === activeThumb ? 'active' : ''}" data-index="${i}" />`
+          `<img src="${src}" alt="${product.name} view ${i + 1}" class="${i === activeThumb ? 'active' : ''}" data-index="${i}" loading="lazy" decoding="async" />`
         ).join('');
         thumbnailRow.querySelectorAll('img').forEach((img) => {
           img.addEventListener('click', () => {

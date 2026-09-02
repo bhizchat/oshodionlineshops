@@ -456,7 +456,7 @@
     overlayResults.innerHTML = results.map(function (item) {
       return (
         '<a href="' + productHref(item) + '" class="oshodi-search-suggest-item">' +
-          '<img class="oshodi-search-suggest-thumb" src="' + item.image + '" alt="" />' +
+          '<img class="oshodi-search-suggest-thumb" src="' + item.image + '" alt="" loading="lazy" decoding="async" />' +
           '<span class="oshodi-search-suggest-name">' + highlightMatch(item.name, query) + '</span>' +
         '</a>'
       );
@@ -630,7 +630,7 @@
       dropdown.innerHTML = results.map(function (item, i) {
         return (
           '<a href="' + productHref(item) + '" class="oshodi-search-item" role="option" id="oshodi-search-item-' + i + '">' +
-            '<img src="' + item.image + '" alt="" />' +
+            '<img src="' + item.image + '" alt="" loading="lazy" decoding="async" />' +
             '<div class="oshodi-search-item-info">' +
               '<div class="oshodi-search-item-name">' + highlightMatch(item.name, query) + '</div>' +
               '<div class="oshodi-search-item-meta">' + escapeHtml(item.shop || '') + '</div>' +

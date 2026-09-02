@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://dehvyonajwgiqpowpdnu.supabase.co" crossorigin />
     <title>Shop Details - Oshodi Online Shops</title>
     <style>
       :root {
@@ -987,7 +989,7 @@
         productGrid.innerHTML = sxProducts.map((p) => `
           <a href="sx-product.html?id=${p.id}" class="product-card">
             <div class="product-img-wrap">
-              <img src="${escapeHtml(sxProductThumb(p.images))}" alt="${escapeHtml(p.product_name)}" />
+              <img src="${escapeHtml(sxProductThumb(p.images))}" alt="${escapeHtml(p.product_name)}" loading="lazy" decoding="async" />
               <div class="card-fav">♡</div>
             </div>
             <div class="product-card-body">
@@ -1007,7 +1009,7 @@
       productGrid.innerHTML = shop.products.map((p, index) => `
         <a href="product.html?shop=${shopKey}&product=${index}" class="product-card">
           <div class="product-img-wrap">
-            <img src="${p.image}" alt="${p.name}" />
+            <img src="${p.image}" alt="${p.name}" loading="lazy" decoding="async" />
             <div class="card-fav">♡</div>
           </div>
           <div class="product-card-body">

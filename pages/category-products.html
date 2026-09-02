@@ -7,6 +7,8 @@
   <meta charset="UTF-8" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://dehvyonajwgiqpowpdnu.supabase.co" crossorigin />
 
   <title>Shop Products - Oshodi Online Shops</title>
 
@@ -1821,7 +1823,7 @@
 
           <div class="product-img-wrap">
 
-            <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" />
+            <img src="${escapeHtml(p.image)}" alt="${escapeHtml(p.name)}" loading="lazy" decoding="async" />
 
             <span class="verified-badge">✔ Verified</span>
 

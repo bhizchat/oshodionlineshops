@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://dehvyonajwgiqpowpdnu.supabase.co" crossorigin />
   <title>Search Results - Oshodi Online Shops</title>
   <style>
     :root {
@@ -543,7 +545,7 @@
         return (
           '<a href="' + productHref(p) + '" class="product-card">' +
             '<div class="product-img-wrap">' +
-              '<img src="' + p.image + '" alt="' + escapeHtml(p.name) + '" />' +
+              '<img src="' + p.image + '" alt="' + escapeHtml(p.name) + '" loading="lazy" decoding="async" />' +
               '<span class="verified-badge">✔ Verified</span>' +
               '<span class="fav-badge">♡</span>' +
             '</div>' +

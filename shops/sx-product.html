@@ -3,6 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link rel="preconnect" href="https://dehvyonajwgiqpowpdnu.supabase.co" crossorigin />
     <title>Product Details - Oshodi Online Shops</title>
     <style>
       :root {
@@ -1163,7 +1165,7 @@
             img.classList.toggle('active', i === index);
           });
         }
-        thumbnailRow.innerHTML = images.map((src, i) => `<img src="${escapeHtml(src)}" data-index="${i}" alt="Thumbnail ${i + 1}" />`).join('');
+        thumbnailRow.innerHTML = images.map((src, i) => `<img src="${escapeHtml(src)}" data-index="${i}" alt="Thumbnail ${i + 1}" loading="lazy" decoding="async" />`).join('');
         thumbnailRow.querySelectorAll('img').forEach((img) => {
           img.addEventListener('click', () => setMainImage(Number(img.dataset.index)));
         });
