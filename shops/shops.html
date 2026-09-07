@@ -758,18 +758,6 @@
             </div>
           </div>
 
-          <div class="sidebar-box">
-            <h3>Shop Categories</h3>
-            <ul id="category-list" class="category-list-items"></ul>
-          </div>
-
-          <div class="sidebar-box">
-            <h3>Shop Information</h3>
-            <ul class="info-list">
-              <li>🟢 Open Now</li>
-              <li>🕒 Closes at 6:00 PM</li>
-            </ul>
-          </div>
         </aside>
 
         <!-- Main Products Display -->
@@ -780,7 +768,6 @@
               <select class="sort-select">
                 <option>Sort by: Popular</option>
               </select>
-              <button class="btn-filter-icon">⚙ Filter</button>
             </div>
           </div>
 
@@ -971,8 +958,9 @@
       });
 
       // Categories Sidebar
-      const categoryList = document.getElementById('category-list');
-      categoryList.innerHTML = shop.categories.map((cat) => `<li>${cat}</li>`).join('');
+      // (Shop Categories/Shop Information sidebar boxes and the Filter button
+      // were removed from the shop profile page per request — no longer
+      // rendered, so no need to populate a category list here.)
 
       // Products Count (real Strategic X products when this is a live vendor
       // shop, otherwise the static demo/real shop products array as before)
