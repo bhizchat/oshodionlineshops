@@ -746,8 +746,8 @@
               </div>
             </div>
             <div class="mini-rating" id="mini-rating">
-              <span class="stars-gold">★★★★★</span>
-              <span>4.8 (128)</span>
+              <span class="stars-gold" id="mini-rating-stars">★★★★★</span>
+              <span id="mini-rating-text">4.8 (128)</span>
             </div>
             <div class="mini-meta">
               <span>Since <span id="mini-since-year">2010</span> • <span id="mini-customers">1.2K+</span> customers</span>
@@ -966,6 +966,39 @@
       // shop, otherwise the static demo/real shop products array as before)
       const sxProducts = shop.sxProducts || null;
       document.getElementById('products-count').textContent = sxProducts ? sxProducts.length : shop.products.length;
+
+      // Shop-level rating = the average across every one of this shop's
+      // products (never a separate hand-picked shop rating), so it always
+      // reflects what's actually live rather than a fabricated figure.
+      const miniRatingStars = document.getElementById('mini-rating-stars');
+      const miniRatingText = document.getElementById('mini-rating-text');
+      let ratingTotalCount = 0;
+      let ratingWeightedSum = 0;
+      if (sxProducts) {
+        // Real Strategic X shop: sum every genuine review across every
+        // product (see fetchSxReviewStats) — never fabricated.
+        Object.keys(shop.sxReviewStats || {}).forEach((key) => {
+          ratingTotalCount += shop.sxReviewStats[key].count;
+          ratingWeightedSum += shop.sxReviewStats[key].total;
+        });
+      } else {
+        // Demo/static shops: weighted average of each product's effective
+        // score (same formula used on every product card) by its review count.
+        shop.products.forEach((p) => {
+          const count = parseInt(p.count, 10) || 0;
+          ratingTotalCount += count;
+          ratingWeightedSum += window.OshodiSearch.computeEffectiveScore(p.score, p.count) * count;
+        });
+      }
+      if (ratingTotalCount > 0) {
+        const shopAvgRating = ratingWeightedSum / ratingTotalCount;
+        const roundedStars = Math.round(shopAvgRating);
+        miniRatingStars.textContent = '★'.repeat(roundedStars) + '☆'.repeat(5 - roundedStars);
+        miniRatingText.textContent = `${shopAvgRating.toFixed(1)} (${ratingTotalCount})`;
+      } else {
+        miniRatingStars.textContent = '☆☆☆☆☆';
+        miniRatingText.textContent = 'New shop';
+      }
 
       // Render Products
       const productGrid = document.getElementById('product-grid');
