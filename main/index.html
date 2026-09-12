@@ -744,25 +744,20 @@
         }, { passive: false });
       }
 
-      // Customer support bubble: stays dismissed for the rest of the
-      // session once closed, otherwise clicking it (outside the close
-      // button) goes to the same Contact Us page as the help-desk button.
+      // Customer support bubble: shown every time the page loads/refreshes
+      // (never persisted), clicking it (outside the close button) goes to
+      // the same Contact Us page as the help-desk button.
       const supportBubble = document.getElementById('supportBubble');
       const supportBubbleClose = document.getElementById('supportBubbleClose');
       if (supportBubble) {
-        if (sessionStorage.getItem('supportBubbleDismissed') === '1') {
-          supportBubble.style.display = 'none';
-        } else {
-          supportBubble.addEventListener('click', () => {
-            window.location.href = '../pages/contact-us.html';
-          });
-        }
+        supportBubble.addEventListener('click', () => {
+          window.location.href = '../pages/contact-us.html';
+        });
       }
       if (supportBubbleClose) {
         supportBubbleClose.addEventListener('click', (event) => {
           event.stopPropagation();
           supportBubble.style.display = 'none';
-          sessionStorage.setItem('supportBubbleDismissed', '1');
         });
       }
     </script>
