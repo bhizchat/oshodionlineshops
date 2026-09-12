@@ -425,12 +425,10 @@
         cursor: pointer;
       }
 
-      .floating-panel svg {
-        width: 20px;
-        height: 20px;
-        stroke: #374151;
-        stroke-width: 2;
-        fill: none;
+      .floating-panel img {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
       }
 
       @media (max-width: 1100px) {
@@ -515,7 +513,7 @@
         </a>
 
         <div class="nav-tools">
-          <a href="../pages/contact-us.html" class="lang-pill" style="text-decoration:none;color:inherit;">Contact us</a>
+          <a href="#" class="lang-pill" style="text-decoration:none;color:inherit;" onclick="event.preventDefault();">Sell on Oshodi</a>
 
           <a href="../pages/fabrics.html" class="sell-btn">Check All Shops</a>
         </div>
@@ -644,12 +642,10 @@
       </main>
     </div>
 
-    <!-- Floating Action Drawer -->
-    <div class="floating-panel" aria-label="app menu">
-      <svg viewBox="0 0 24 24">
-        <path d="M4 7h16M4 12h16M4 17h16"/>
-      </svg>
-    </div>
+    <!-- Customer Support -->
+    <a href="../pages/contact-us.html" class="floating-panel" aria-label="Customer support">
+      <img src="../assets/help-desk.png" alt="Customer support" loading="lazy" decoding="async" />
+    </a>
 
     <script src="../shops/shops-data.js"></script>
     <script src="../pages/category-products-data.js"></script>
