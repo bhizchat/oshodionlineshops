@@ -554,6 +554,41 @@
     .view-shop-btn:hover {
       background: var(--primary-hover);
     }
+
+    @media (max-width: 768px) {
+      .topbar { height: auto; padding: 10px 12px; gap: 8px; }
+      .brand-logo { height: 34px; }
+      .search-container { width: auto; flex: 1; margin: 0; }
+      .location-select { display: none; }
+      .search-input { padding: 10px 12px; font-size: 16px; }
+      .user-actions { display: none; }
+
+      .cat-bar {
+        padding: 0 12px;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .cat-bar::-webkit-scrollbar { display: none; }
+      .cat-links { flex-wrap: nowrap; white-space: nowrap; }
+      .cat-link { flex-shrink: 0; }
+
+      .container { padding: 14px 12px 32px; }
+      .breadcrumb { font-size: 0.78rem; margin-bottom: 12px; }
+
+      .page-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+      .page-head h1 { font-size: 1.25rem; }
+      .head-controls { width: 100%; justify-content: space-between; gap: 10px; }
+
+      .layout-grid { grid-template-columns: 1fr; gap: 20px; }
+
+      .shops-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .card-img-wrap { height: 120px; }
+      .card-content { padding: 10px; }
+      .shop-title { font-size: 0.82rem; }
+      .shop-address { font-size: 0.66rem; }
+      .view-shop-btn { line-height: 36px; font-size: 0.78rem; }
+    }
   </style>
 </head>
 <body>
