@@ -141,11 +141,6 @@
         background: var(--brand-dark);
       }
 
-      /* Mobile bottom tab bar — hidden on desktop, shown only on small screens */
-      .mobile-tab-bar {
-        display: none;
-      }
-
       /* Topbar inline search */
       .topbar-search {
         flex: 1;
@@ -549,63 +544,17 @@
         .brand { font-size: 1.8rem; }
         .brand .small { display: none; }
         .brand-logo { height: 36px; }
-        .nav-tools { display: none; }
+        .nav-tools { margin-left: auto; gap: 6px; }
+        .lang-pill { padding: 5px 10px; font-size: 0.62rem; white-space: nowrap; }
+        .sell-btn {
+          padding: 0 10px;
+          height: 30px;
+          font-size: 0.56rem;
+          letter-spacing: 0.01em;
+          border-radius: 15px;
+          white-space: nowrap;
+        }
         .content { padding: 24px 16px; }
-
-        /* Support widgets are replaced by the bottom tab bar's Support tab on mobile */
-        .floating-panel { display: none; }
-        .support-bubble { display: none; }
-
-        /* Bottom tab bar */
-        body { padding-bottom: 64px; }
-        .mobile-tab-bar {
-          display: flex;
-          position: fixed;
-          left: 0;
-          right: 0;
-          bottom: 0;
-          z-index: 50;
-          background: #ffffff;
-          border-top: 1px solid var(--border);
-          padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
-        }
-        .mobile-tab-item {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          gap: 3px;
-          text-decoration: none;
-          color: #6b7280;
-          font-size: 0.66rem;
-          font-weight: 700;
-          padding: 4px 2px;
-        }
-        .mobile-tab-item svg {
-          width: 21px;
-          height: 21px;
-          fill: none;
-          stroke: currentColor;
-          stroke-width: 1.8;
-        }
-        .mobile-tab-item.active {
-          color: var(--brand);
-        }
-        .mobile-tab-item.sell .mobile-tab-icon {
-          width: 32px;
-          height: 32px;
-          border-radius: 50%;
-          background: var(--brand);
-          display: grid;
-          place-items: center;
-          margin-bottom: 1px;
-        }
-        .mobile-tab-item.sell .mobile-tab-icon svg {
-          stroke: #ffffff;
-          width: 18px;
-          height: 18px;
-        }
 
         /* Search bar drops to its own full-width row under the logo row */
         .topbar-search { order: 3; flex-basis: 100%; }
@@ -807,9 +756,9 @@
         </div>
 
         <div class="nav-tools">
-          <a href="https://sell.oshodimarketonline.com/login" class="lang-pill" style="text-decoration:none;color:inherit;">Sell on Oshodi</a>
+          <a href="https://sell.oshodimarketonline.com/login" class="lang-pill" style="text-decoration:none;color:inherit;">Sell</a>
 
-          <a href="pages/fabrics.html" class="sell-btn">Check All Shops</a>
+          <a href="pages/fabrics.html" class="sell-btn">Shops</a>
         </div>
       </header>
 
@@ -1004,28 +953,6 @@
     <a href="pages/contact-us.html" class="floating-panel" aria-label="Customer support">
       <img src="assets/help-desk.png" alt="Customer support" loading="lazy" decoding="async" />
     </a>
-
-    <!-- Mobile Bottom Tab Bar -->
-    <nav class="mobile-tab-bar">
-      <a href="index.html" class="mobile-tab-item active">
-        <svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8" /><path d="M5 10v10h14V10" /></svg>
-        <span>Home</span>
-      </a>
-      <a href="https://sell.oshodimarketonline.com/login" class="mobile-tab-item sell">
-        <span class="mobile-tab-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg>
-        </span>
-        <span>Sell</span>
-      </a>
-      <a href="pages/fabrics.html" class="mobile-tab-item">
-        <svg viewBox="0 0 24 24"><path d="M4 9l1-5h14l1 5" /><path d="M4 9h16v11H4z" /><path d="M9 13a3 3 0 0 0 6 0" /></svg>
-        <span>Shops</span>
-      </a>
-      <a href="pages/contact-us.html" class="mobile-tab-item">
-        <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H8l-4 4V5a2 2 0 0 1 2-2h13a2 2 0 0 1 2 2z" /></svg>
-        <span>Support</span>
-      </a>
-    </nav>
 
     <script src="shops/shops-data.js"></script>
     <script src="pages/category-products-data.js"></script>
