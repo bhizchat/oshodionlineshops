@@ -224,6 +224,364 @@ const categoryPageMeta = {
 
     ]
 
+  },
+
+  shoesbags: {
+
+    title: 'Shoes and Bags',
+
+    subtitle: 'Shop the best shoes and bags from trusted shops in Oshodi.',
+
+    icon: '👞',
+
+    subcategories: [
+
+      { key: 'mens-shoes', label: "Men's Shoes", icon: '👞', match: ['men shoe', "men's shoe"] },
+
+      { key: 'womens-shoes', label: "Women's Shoes", icon: '👠', match: ['women shoe', "women's shoe", 'heels'] },
+
+      { key: 'sneakers', label: 'Sneakers', icon: '👟', match: ['sneaker'] },
+
+      { key: 'handbags', label: 'Handbags', icon: '👜', match: ['handbag'] },
+
+      { key: 'backpacks', label: 'Backpacks & Luggage', icon: '🎒', match: ['backpack', 'luggage', 'travel bag'] },
+
+      { key: 'slippers', label: 'Slippers & Sandals', icon: '🩴', match: ['slipper', 'sandal'] }
+
+    ]
+
+  },
+
+  beauty: {
+
+    title: 'Beauty and Cosmetics',
+
+    subtitle: 'Shop the best beauty and cosmetics products from trusted shops in Oshodi.',
+
+    icon: '💄',
+
+    subcategories: [
+
+      { key: 'skincare', label: 'Skincare', icon: '🧴', match: ['skincare', 'cream', 'lotion'] },
+
+      { key: 'makeup', label: 'Makeup', icon: '💄', match: ['makeup', 'lipstick', 'foundation'] },
+
+      { key: 'haircare', label: 'Haircare & Wigs', icon: '💇🏾‍♀️', match: ['hair', 'wig', 'weave'] },
+
+      { key: 'fragrances', label: 'Fragrances', icon: '🌸', match: ['perfume', 'fragrance', 'cologne'] },
+
+      { key: 'soaps', label: 'Soaps & Body Care', icon: '🧼', match: ['soap', 'body care'] },
+
+      { key: 'tools', label: 'Beauty Tools', icon: '🪞', match: ['brush', 'mirror', 'tool'] }
+
+    ]
+
+  },
+
+  home: {
+
+    title: 'Home and Kitchenware',
+
+    subtitle: 'Shop the best home and kitchenware items from trusted shops in Oshodi.',
+
+    icon: '🍳',
+
+    subcategories: [
+
+      { key: 'cookware', label: 'Cookware & Pots', icon: '🍳', match: ['pot', 'pan', 'cookware'] },
+
+      { key: 'cutlery', label: 'Cutlery & Utensils', icon: '🍽️', match: ['cutlery', 'utensil', 'spoon', 'plate'] },
+
+      { key: 'storage', label: 'Storage & Containers', icon: '🧺', match: ['storage', 'container'] },
+
+      { key: 'decor', label: 'Home Decor', icon: '🖼️', match: ['decor', 'curtain', 'rug'] },
+
+      { key: 'cleaning', label: 'Cleaning Supplies', icon: '🧹', match: ['cleaning', 'detergent', 'broom'] },
+
+      { key: 'appliances', label: 'Small Appliances', icon: '🔌', match: ['blender', 'kettle', 'appliance'] }
+
+    ]
+
+  },
+
+  furniture: {
+
+    title: 'Furniture and Decor',
+
+    subtitle: 'Shop the best furniture and decor pieces from trusted shops in Oshodi.',
+
+    icon: '🛋️',
+
+    subcategories: [
+
+      { key: 'sofas', label: 'Sofas & Chairs', icon: '🛋️', match: ['sofa', 'chair'] },
+
+      { key: 'tables', label: 'Tables & Desks', icon: '🪑', match: ['table', 'desk'] },
+
+      { key: 'beds', label: 'Beds & Mattresses', icon: '🛏️', match: ['bed', 'mattress'] },
+
+      { key: 'wardrobes', label: 'Wardrobes & Shelves', icon: '🗄️', match: ['wardrobe', 'shelf', 'cabinet'] },
+
+      { key: 'decor', label: 'Decor & Art', icon: '🖼️', match: ['decor', 'art', 'mirror'] }
+
+    ]
+
+  },
+
+  building: {
+
+    title: 'Building Materials',
+
+    subtitle: 'Shop the best building and construction materials from trusted shops in Oshodi.',
+
+    icon: '🧱',
+
+    subcategories: [
+
+      { key: 'cement', label: 'Cement & Blocks', icon: '🧱', match: ['cement', 'block'] },
+
+      { key: 'tools', label: 'Tools & Hardware', icon: '🔨', match: ['tool', 'hardware', 'hammer'] },
+
+      { key: 'plumbing', label: 'Plumbing & Pipes', icon: '🚰', match: ['pipe', 'plumbing'] },
+
+      { key: 'electrical', label: 'Electrical Supplies', icon: '💡', match: ['wire', 'cable', 'electrical'] },
+
+      { key: 'paint', label: 'Paints & Finishes', icon: '🎨', match: ['paint'] }
+
+    ]
+
+  },
+
+  babykids: {
+
+    title: 'Baby and Kids',
+
+    subtitle: 'Shop the best baby and kids products from trusted shops in Oshodi.',
+
+    icon: '🍼',
+
+    subcategories: [
+
+      { key: 'clothing', label: "Baby & Kids Clothing", icon: '👶', match: ['baby cloth', 'kid cloth'] },
+
+      { key: 'feeding', label: 'Feeding & Nursing', icon: '🍼', match: ['feeding', 'bottle', 'nursing'] },
+
+      { key: 'diapers', label: 'Diapers & Wipes', icon: '🧷', match: ['diaper', 'wipe'] },
+
+      { key: 'toys', label: 'Baby Toys', icon: '🧸', match: ['toy'] },
+
+      { key: 'strollers', label: 'Strollers & Carriers', icon: '👶', match: ['stroller', 'carrier'] }
+
+    ]
+
+  },
+
+  automotive: {
+
+    title: 'Automotive Parts',
+
+    subtitle: 'Shop the best automotive parts and accessories from trusted shops in Oshodi.',
+
+    icon: '🚗',
+
+    subcategories: [
+
+      { key: 'engine', label: 'Engine Parts', icon: '⚙️', match: ['engine', 'part'] },
+
+      { key: 'tyres', label: 'Tyres & Wheels', icon: '🛞', match: ['tyre', 'tire', 'wheel'] },
+
+      { key: 'batteries', label: 'Batteries', icon: '🔋', match: ['battery'] },
+
+      { key: 'accessories', label: 'Car Accessories', icon: '🚙', match: ['car accessor'] },
+
+      { key: 'lubricants', label: 'Oils & Lubricants', icon: '🛢️', match: ['lubricant', 'engine oil'] }
+
+    ]
+
+  },
+
+  booksstationery: {
+
+    title: 'Books and Stationery',
+
+    subtitle: 'Shop the best books and stationery items from trusted shops in Oshodi.',
+
+    icon: '📚',
+
+    subcategories: [
+
+      { key: 'textbooks', label: 'Textbooks', icon: '📖', match: ['textbook', 'book'] },
+
+      { key: 'notebooks', label: 'Notebooks & Paper', icon: '📓', match: ['notebook', 'paper'] },
+
+      { key: 'writing', label: 'Pens & Writing', icon: '🖊️', match: ['pen', 'pencil'] },
+
+      { key: 'office', label: 'Office Stationery', icon: '📎', match: ['stationery', 'office'] },
+
+      { key: 'art', label: 'Art Supplies', icon: '🎨', match: ['art', 'craft'] }
+
+    ]
+
+  },
+
+  toysgames: {
+
+    title: 'Toys and Games',
+
+    subtitle: 'Shop the best toys and games from trusted shops in Oshodi.',
+
+    icon: '🧸',
+
+    subcategories: [
+
+      { key: 'action', label: 'Action Figures', icon: '🤖', match: ['action figure', 'figure'] },
+
+      { key: 'dolls', label: 'Dolls & Playsets', icon: '🪆', match: ['doll', 'playset'] },
+
+      { key: 'board', label: 'Board Games & Puzzles', icon: '🧩', match: ['board game', 'puzzle'] },
+
+      { key: 'outdoor', label: 'Outdoor Toys', icon: '🪁', match: ['outdoor toy', 'kite'] },
+
+      { key: 'educational', label: 'Educational Toys', icon: '🧮', match: ['educational'] }
+
+    ]
+
+  },
+
+  health: {
+
+    title: 'Health and Wellness',
+
+    subtitle: 'Shop the best health and wellness products from trusted shops in Oshodi.',
+
+    icon: '💊',
+
+    subcategories: [
+
+      { key: 'supplements', label: 'Supplements & Vitamins', icon: '💊', match: ['supplement', 'vitamin'] },
+
+      { key: 'firstaid', label: 'First Aid', icon: '🩹', match: ['first aid', 'bandage'] },
+
+      { key: 'fitness', label: 'Fitness & Wellness', icon: '🧘🏾‍♀️', match: ['fitness', 'wellness', 'yoga'] },
+
+      { key: 'personalcare', label: 'Personal Care', icon: '🧴', match: ['personal care'] },
+
+      { key: 'medical', label: 'Medical Devices', icon: '🩺', match: ['medical', 'thermometer'] }
+
+    ]
+
+  },
+
+  sports: {
+
+    title: 'Sports and Fitness',
+
+    subtitle: 'Shop the best sports and fitness gear from trusted shops in Oshodi.',
+
+    icon: '🏋️',
+
+    subcategories: [
+
+      { key: 'gymequipment', label: 'Gym Equipment', icon: '🏋️', match: ['gym', 'weight', 'dumbbell'] },
+
+      { key: 'teamsports', label: 'Team Sports', icon: '⚽', match: ['football', 'basketball', 'jersey'] },
+
+      { key: 'fitnessgear', label: 'Fitness Gear', icon: '🤸🏾', match: ['fitness gear', 'resistance band'] },
+
+      { key: 'outdoorsports', label: 'Outdoor & Camping', icon: '🏕️', match: ['camping', 'outdoor'] },
+
+      { key: 'sportswear', label: 'Sportswear', icon: '👟', match: ['sportswear', 'jersey'] }
+
+    ]
+
+  },
+
+  petsupplies: {
+
+    title: 'Pet Supplies',
+
+    subtitle: 'Shop the best pet food and supplies from trusted shops in Oshodi.',
+
+    icon: '🐾',
+
+    subcategories: [
+
+      { key: 'petfood', label: 'Pet Food', icon: '🥫', match: ['pet food', 'dog food', 'cat food'] },
+
+      { key: 'accessories', label: 'Pet Accessories', icon: '🦴', match: ['leash', 'collar', 'pet accessor'] },
+
+      { key: 'grooming', label: 'Pet Grooming', icon: '🧼', match: ['grooming'] },
+
+      { key: 'housing', label: 'Cages & Housing', icon: '🏠', match: ['cage', 'housing'] }
+
+    ]
+
+  },
+
+  officesupplies: {
+
+    title: 'Office Supplies',
+
+    subtitle: 'Shop the best office supplies and equipment from trusted shops in Oshodi.',
+
+    icon: '🖇️',
+
+    subcategories: [
+
+      { key: 'stationery', label: 'Stationery', icon: '📎', match: ['stationery'] },
+
+      { key: 'furniture', label: 'Office Furniture', icon: '🪑', match: ['office chair', 'office desk'] },
+
+      { key: 'equipment', label: 'Printers & Equipment', icon: '🖨️', match: ['printer', 'equipment'] },
+
+      { key: 'storage', label: 'Filing & Storage', icon: '🗄️', match: ['filing', 'storage'] }
+
+    ]
+
+  },
+
+  partyevents: {
+
+    title: 'Party and Events',
+
+    subtitle: 'Shop the best party and event supplies from trusted shops in Oshodi.',
+
+    icon: '🎉',
+
+    subcategories: [
+
+      { key: 'decorations', label: 'Decorations & Balloons', icon: '🎈', match: ['balloon', 'decoration'] },
+
+      { key: 'partyware', label: 'Partyware', icon: '🥤', match: ['partyware', 'cup', 'plate'] },
+
+      { key: 'gifts', label: 'Gifts & Souvenirs', icon: '🎁', match: ['gift', 'souvenir'] },
+
+      { key: 'rentals', label: 'Canopies & Rentals', icon: '⛺', match: ['canopy', 'rental', 'chair rental'] }
+
+    ]
+
+  },
+
+  gardenoutdoor: {
+
+    title: 'Garden and Outdoor',
+
+    subtitle: 'Shop the best garden and outdoor essentials from trusted shops in Oshodi.',
+
+    icon: '🌳',
+
+    subcategories: [
+
+      { key: 'plants', label: 'Plants & Seeds', icon: '🌱', match: ['plant', 'seed'] },
+
+      { key: 'tools', label: 'Garden Tools', icon: '🛠️', match: ['garden tool', 'rake', 'shovel'] },
+
+      { key: 'furniture', label: 'Outdoor Furniture', icon: '🪑', match: ['outdoor furniture', 'patio'] },
+
+      { key: 'grills', label: 'Grills & BBQ', icon: '🍖', match: ['grill', 'bbq'] }
+
+    ]
+
   }
 
 };

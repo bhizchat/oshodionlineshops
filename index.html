@@ -42,13 +42,14 @@
 
       /* Top Navigation Header */
       .topbar {
-        background: #fff;
+        background: #efe7fb;
         height: 76px;
         display: flex;
         align-items: center;
         justify-content: space-between;
+        gap: 24px;
         padding: 0 40px;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
+        border-bottom: 1px solid rgba(108, 92, 231, 0.15);
       }
 
       .brand {
@@ -71,7 +72,7 @@
       }
 
       .lang-pill {
-        background: #f3f4f6;
+        background: #ffffff;
         border: 1px solid var(--border);
         color: #374151;
         padding: 6px 14px;
@@ -140,60 +141,47 @@
         background: var(--brand-dark);
       }
 
-      /* Hero Section Styling */
-      .hero {
-        background: var(--hero-bg);
-        min-height: 320px;
+      /* Topbar inline search */
+      .topbar-search {
+        flex: 1;
         display: flex;
-        flex-direction: column;
-        align-items: center;
         justify-content: center;
-        position: relative;
-        padding: 40px 20px;
-        overflow: visible;
-      }
-
-      /* Subtle decorative abstract grid dots background */
-      .hero::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background-image: radial-gradient(rgba(108, 92, 231, 0.15) 1px, transparent 1px);
-        background-size: 24px 24px;
-        pointer-events: none;
-      }
-
-      .search-title {
-        margin: 0 0 6px;
-        font-size: clamp(2rem, 3vw, 2.8rem);
-        color: #1e1b4b;
-        font-weight: 900;
-        letter-spacing: -0.04em;
-        position: relative;
-        z-index: 1;
-      }
-
-      .search-subtitle {
-        margin: 0 0 24px;
-        font-size: 1rem;
-        color: #4c1d95;
-        opacity: 0.8;
-        font-weight: 500;
-        position: relative;
-        z-index: 1;
+        min-width: 0;
       }
 
       .search-box {
         display: flex;
         align-items: center;
         background: #ffffff;
-        border-radius: 14px;
-        width: min(720px, 90vw);
-        padding: 6px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+        border-radius: 12px;
+        width: 100%;
+        max-width: 680px;
+        padding: 4px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         position: relative;
         z-index: 10;
         overflow: visible;
+      }
+
+      /* Tagline Section */
+      .tagline-section {
+        background: #ffffff;
+        text-align: center;
+        padding: 56px 20px 40px;
+      }
+
+      .tagline-heading {
+        margin: 0 auto;
+        max-width: 900px;
+        font-size: clamp(1.8rem, 4vw, 2.6rem);
+        color: #1d2734;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        line-height: 1.18;
+      }
+
+      .tagline-heading .accent {
+        color: var(--brand);
       }
 
       .select-with-pin {
@@ -326,88 +314,140 @@
         background: var(--brand);
       }
 
-      /* Modern Category Card Grid - Set to 5 Columns */
-      .promo-grid {
+      /* Category Circles Grid — fixed 8 columns on desktop so categories form clean rows */
+      .category-circles {
+        display: grid;
+        grid-template-columns: repeat(8, 1fr);
+        justify-content: center;
+        gap: 32px 16px;
+      }
+
+      .category-circle-item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+      }
+
+      .category-circle {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid #ffffff;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .category-circle-item:hover .category-circle {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 22px rgba(0, 0, 0, 0.14);
+      }
+
+      .category-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .category-circle.emoji-bg {
+        display: grid;
+        place-items: center;
+        font-size: 2.6rem;
+      }
+
+      .emoji-bg.bg-rose  { background: #fceef3; }
+      .emoji-bg.bg-mint  { background: #eefcf8; }
+      .emoji-bg.bg-amber { background: #fcf6ee; }
+      .emoji-bg.bg-lilac { background: #f3eefc; }
+      .emoji-bg.bg-sky   { background: #eef5fc; }
+      .emoji-bg.bg-sand  { background: #fcf9ee; }
+      .emoji-bg.bg-blush { background: #fcefee; }
+      .emoji-bg.bg-sage  { background: #eef7ee; }
+
+      .category-circle-label {
+        font-weight: 800;
+        font-size: 0.85rem;
+        color: #111827;
+        text-align: center;
+        line-height: 1.25;
+        max-width: 120px;
+      }
+
+      /* Popular Buy Section */
+      .popular-heading {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 48px 0 24px;
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: #111827;
+      }
+
+      .popular-heading::before {
+        content: "";
+        display: inline-block;
+        width: 4px;
+        height: 22px;
+        border-radius: 4px;
+        background: var(--brand);
+      }
+
+      .popular-grid {
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: 18px;
       }
 
-      .promo-card {
+      .popular-card {
         background: #ffffff;
-        border-radius: 16px;
+        border-radius: 12px;
         overflow: hidden;
         border: 1px solid rgba(0,0,0,0.04);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
         display: flex;
         flex-direction: column;
         text-decoration: none;
-        transition: transform 0.2s, box-shadow 0.2s;
+        transition: transform 0.15s, box-shadow 0.15s;
       }
 
-      .promo-card:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      .popular-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
       }
 
-      .promo-card-top {
-        height: 120px;
-        position: relative;
-        padding: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+      .popular-card-image {
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        background: #f3f4f6;
+        display: block;
       }
 
-      /* Card Background Variations */
-      .bg-purple { background: #f3eefc; }
-      .bg-pink   { background: #fceef3; }
-      .bg-blue   { background: #eef5fc; }
-      .bg-yellow { background: #fcfcee; }
-      .bg-teal   { background: #eefcf8; }
-
-      .promo-image {
-        max-width: 100%;
-        max-height: 100px;
-        object-fit: contain;
+      .popular-card-body {
+        padding: 10px 12px 14px;
       }
 
-      .badge-icon {
-        position: absolute;
-        bottom: -16px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        display: grid;
-        place-items: center;
-        color: #ffffff;
-        font-size: 0.9rem;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-        z-index: 2;
-      }
-
-      .icon-purple { background: #8b5cf6; }
-      .icon-pink   { background: #ec4899; }
-      .icon-blue   { background: #3b82f6; }
-      .icon-amber  { background: #f59e0b; }
-      .icon-teal   { background: #14b8a6; }
-
-      .promo-card-body {
-        padding: 24px 12px 16px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        flex: 1;
-      }
-
-      .promo-title {
-        font-weight: 800;
-        font-size: 0.95rem;
+      .popular-card-name {
+        font-size: 0.82rem;
+        font-weight: 700;
         color: #111827;
-        margin-bottom: 4px;
+        line-height: 1.3;
+        min-height: 2.1em;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        margin-bottom: 6px;
+      }
+
+      .popular-card-price {
+        font-size: 0.85rem;
+        font-weight: 800;
+        color: var(--brand);
       }
 
       .floating-panel {
@@ -495,25 +535,12 @@
       }
 
       @media (max-width: 1100px) {
-        .promo-grid { grid-template-columns: repeat(3, 1fr); }
+        .category-circles { grid-template-columns: repeat(auto-fit, minmax(92px, 110px)); gap: 26px 16px; }
+        .popular-grid { grid-template-columns: repeat(4, 1fr); }
       }
 
       @media (max-width: 640px) {
-        html, body {
-          height: 100%;
-          overflow: hidden;
-          overscroll-behavior: none;
-        }
-        body {
-          position: fixed;
-          inset: 0;
-          width: 100%;
-        }
-        .page {
-          height: 100%;
-          overflow: hidden;
-        }
-        .topbar { padding: 10px 12px; height: auto; justify-content: flex-start; gap: 10px; }
+        .topbar { padding: 10px 12px; height: auto; flex-wrap: wrap; row-gap: 10px; justify-content: flex-start; gap: 10px; }
         .brand { font-size: 1.8rem; }
         .brand .small { display: none; }
         .brand-logo { height: 36px; }
@@ -529,10 +556,8 @@
         }
         .content { padding: 24px 16px; }
 
-        /* Compact search bar */
-        .hero { min-height: 200px; padding: 20px 16px 28px; }
-        .search-title { font-size: 1.3rem; margin-bottom: 4px; }
-        .search-subtitle { font-size: 0.75rem; margin-bottom: 14px; }
+        /* Search bar drops to its own full-width row under the logo row */
+        .topbar-search { order: 3; flex-basis: 100%; }
         .search-box { width: 100%; border-radius: 10px; padding: 3px 6px 3px 3px; }
         .select-with-pin { padding-left: 10px; }
         .location-pin { display: none; }
@@ -556,14 +581,103 @@
         .search-button:hover { background: transparent; }
         .search-button svg { width: 17px; height: 17px; stroke: var(--brand); stroke-width: 2.4; }
 
-        /* Smaller, denser category icons */
-        .promo-grid { grid-template-columns: repeat(4, 1fr); gap: 10px; }
-        .promo-card { border-radius: 12px; }
-        .promo-card-top { height: 62px; padding: 4px; }
-        .promo-image { max-height: 46px; }
-        .badge-icon { width: 22px; height: 22px; font-size: 0.65rem; bottom: -10px; }
-        .promo-card-body { padding: 14px 4px 10px; }
-        .promo-title { font-size: 0.66rem; margin-bottom: 0; line-height: 1.2; }
+        /* Compact tagline */
+        .tagline-section { padding: 32px 16px 28px; }
+        .tagline-heading { font-size: 1.4rem; }
+
+        /* Smaller, denser category circles */
+        .category-circles { grid-template-columns: repeat(4, 1fr); gap: 20px 8px; }
+        .category-circle { width: 64px; height: 64px; border-width: 2px; }
+        .category-circle.emoji-bg { font-size: 1.7rem; }
+        .category-circle-label { font-size: 0.66rem; max-width: 76px; }
+
+        /* Denser popular-buy grid */
+        .popular-heading { margin: 32px 0 16px; font-size: 1.25rem; }
+        .popular-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .popular-card-body { padding: 8px 8px 10px; }
+        .popular-card-name { font-size: 0.74rem; }
+        .popular-card-price { font-size: 0.76rem; }
+      }
+
+      /* Footer */
+      .site-footer {
+        background: #efe7fb;
+        border-top: 1px solid rgba(108, 92, 231, 0.15);
+        margin-top: 56px;
+      }
+
+      .footer-inner {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 48px 32px 32px;
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr 1fr;
+        gap: 32px;
+      }
+
+      .footer-brand .footer-logo {
+        height: 34px;
+        margin-bottom: 14px;
+      }
+
+      .footer-tagline {
+        font-size: 0.85rem;
+        color: #4b4b5a;
+        max-width: 260px;
+        line-height: 1.5;
+      }
+
+      .footer-col h4 {
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: #111827;
+        margin-bottom: 14px;
+      }
+
+      .footer-col a, .footer-col span.footer-text {
+        display: block;
+        font-size: 0.85rem;
+        color: #4b4b5a;
+        text-decoration: none;
+        margin-bottom: 10px;
+      }
+
+      .footer-col a:hover {
+        color: var(--brand);
+      }
+
+      .footer-social {
+        display: flex;
+        gap: 10px;
+      }
+
+      .footer-social-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        margin-bottom: 0;
+      }
+
+      .footer-bottom {
+        border-top: 1px solid rgba(108, 92, 231, 0.15);
+        padding: 18px 32px;
+        text-align: center;
+        font-size: 0.8rem;
+        color: #4b4b5a;
+      }
+
+      @media (max-width: 900px) {
+        .footer-inner { grid-template-columns: repeat(2, 1fr); }
+      }
+
+      @media (max-width: 520px) {
+        .footer-inner { grid-template-columns: 1fr; padding: 36px 20px 24px; gap: 24px; }
+        .footer-bottom { padding: 16px 20px; }
       }
     </style>
   </head>
@@ -575,19 +689,8 @@
           <img src="assets/logo.png" alt="Oshodi Online Shops" class="brand-logo" />
         </a>
 
-        <div class="nav-tools">
-          <a href="https://sell.oshodimarketonline.com/login" class="lang-pill" style="text-decoration:none;color:inherit;">Sell on Oshodi</a>
-
-          <a href="pages/fabrics.html" class="sell-btn">Check All Shops</a>
-        </div>
-      </header>
-
-      <!-- Hero Section -->
-      <section class="hero">
-        <h1 class="search-title">What are you looking for?</h1>
-        <p class="search-subtitle">Find great products and grow your business</p>
-
-        <div class="search-box" role="search">
+        <div class="topbar-search">
+          <div class="search-box" role="search">
           <div class="select-with-pin">
             <span class="location-pin">📍</span>
             <button type="button" class="location-select-button" id="locationSelectButton" aria-expanded="false">All Oshodi</button>
@@ -639,71 +742,198 @@
               <path d="M16 16L21 21"></path>
             </svg>
           </button>
+          </div>
         </div>
+
+        <div class="nav-tools">
+          <a href="https://sell.oshodimarketonline.com/login" class="lang-pill" style="text-decoration:none;color:inherit;">Sell on Oshodi</a>
+
+          <a href="pages/fabrics.html" class="sell-btn">Check All Shops</a>
+        </div>
+      </header>
+
+      <!-- Tagline Section -->
+      <section class="tagline-section">
+        <h1 class="tagline-heading">The #1 online marketplace for fabrics, fashion &amp; everyday essentials in <span class="accent">Oshodi</span>!</h1>
       </section>
 
       <!-- Main Category Section -->
       <main class="content" id="shop-by-category">
-        <div class="shop-header">Shop by category</div>
-
-        <div class="promo-grid">
+        <div class="category-circles">
           <!-- Fabrics and Textiles -->
-          <a class="promo-card" href="pages/category-products.html?cat=fabrics">
-            <div class="promo-card-top bg-purple">
-              <img class="promo-image" src="assets/Fabrics and Textiles.png" alt="Fabrics and Textiles" />
-              <div class="badge-icon icon-purple">🧵</div>
+          <a class="category-circle-item" href="pages/category-products.html?cat=fabrics">
+            <div class="category-circle">
+              <img src="assets/Fabrics and Textiles.png" alt="Fabrics and Textiles" loading="lazy" decoding="async" />
             </div>
-            <div class="promo-card-body">
-              <div class="promo-title">Fabrics and Textiles</div>
-            </div>
+            <div class="category-circle-label">Fabrics and Textiles</div>
           </a>
 
           <!-- Clothing and Fashion -->
-          <a class="promo-card" href="pages/category-products.html?cat=clothing">
-            <div class="promo-card-top bg-pink">
-              <img class="promo-image" src="assets/Clothing and Fashion.png" alt="Clothing and Fashion" />
-              <div class="badge-icon icon-pink">👗</div>
+          <a class="category-circle-item" href="pages/category-products.html?cat=clothing">
+            <div class="category-circle">
+              <img src="assets/Clothing and Fashion.png" alt="Clothing and Fashion" loading="lazy" decoding="async" />
             </div>
-            <div class="promo-card-body">
-              <div class="promo-title">Clothing and Fashion</div>
-            </div>
+            <div class="category-circle-label">Clothing and Fashion</div>
           </a>
 
           <!-- Electronics and Gadgets -->
-          <a class="promo-card" href="pages/category-products.html?cat=electronics">
-            <div class="promo-card-top bg-blue">
-              <img class="promo-image" src="assets/Electronics and Gadgets.png" alt="Electronics and Gadgets" />
-              <div class="badge-icon icon-blue">💻</div>
+          <a class="category-circle-item" href="pages/category-products.html?cat=electronics">
+            <div class="category-circle">
+              <img src="assets/Electronics and Gadgets.png" alt="Electronics and Gadgets" loading="lazy" decoding="async" />
             </div>
-            <div class="promo-card-body">
-              <div class="promo-title">Electronics and Gadgets</div>
-            </div>
+            <div class="category-circle-label">Electronics and Gadgets</div>
           </a>
 
           <!-- Foodstuffs and Oils -->
-          <a class="promo-card" href="pages/category-products.html?cat=foodstuffs">
-            <div class="promo-card-top bg-yellow">
-              <img class="promo-image" src="assets/Foodstuff and oils.png" alt="Foodstuff and oils" />
-              <div class="badge-icon icon-amber">🧺</div>
+          <a class="category-circle-item" href="pages/category-products.html?cat=foodstuffs">
+            <div class="category-circle">
+              <img src="assets/Foodstuff and oils.png" alt="Foodstuff and oils" loading="lazy" decoding="async" />
             </div>
-            <div class="promo-card-body">
-              <div class="promo-title">Foodstuffs and Oils</div>
-            </div>
+            <div class="category-circle-label">Foodstuffs and Oils</div>
           </a>
 
           <!-- Accessories -->
-          <a class="promo-card" href="pages/category-products.html?cat=accessories">
-            <div class="promo-card-top bg-teal">
-              <img class="promo-image" src="assets/Accessories.png" alt="Accessories" />
-              <div class="badge-icon icon-teal">💼</div>
+          <a class="category-circle-item" href="pages/category-products.html?cat=accessories">
+            <div class="category-circle">
+              <img src="assets/Accessories.png" alt="Accessories" loading="lazy" decoding="async" />
             </div>
-            <div class="promo-card-body">
-              <div class="promo-title">Accessories</div>
-            </div>
+            <div class="category-circle-label">Accessories</div>
+          </a>
+
+          <!-- Shoes and Bags -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=shoesbags">
+            <div class="category-circle emoji-bg bg-rose">👞</div>
+            <div class="category-circle-label">Shoes and Bags</div>
+          </a>
+
+          <!-- Beauty and Cosmetics -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=beauty">
+            <div class="category-circle emoji-bg bg-mint">💄</div>
+            <div class="category-circle-label">Beauty and Cosmetics</div>
+          </a>
+
+          <!-- Home and Kitchenware -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=home">
+            <div class="category-circle emoji-bg bg-amber">🍳</div>
+            <div class="category-circle-label">Home and Kitchenware</div>
+          </a>
+
+          <!-- Furniture and Decor -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=furniture">
+            <div class="category-circle emoji-bg bg-lilac">🛋️</div>
+            <div class="category-circle-label">Furniture and Decor</div>
+          </a>
+
+          <!-- Building Materials -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=building">
+            <div class="category-circle emoji-bg bg-sky">🧱</div>
+            <div class="category-circle-label">Building Materials</div>
+          </a>
+
+          <!-- Baby and Kids -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=babykids">
+            <div class="category-circle emoji-bg bg-sand">🍼</div>
+            <div class="category-circle-label">Baby and Kids</div>
+          </a>
+
+          <!-- Automotive Parts -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=automotive">
+            <div class="category-circle emoji-bg bg-blush">🚗</div>
+            <div class="category-circle-label">Automotive Parts</div>
+          </a>
+
+          <!-- Books and Stationery -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=booksstationery">
+            <div class="category-circle emoji-bg bg-sage">📚</div>
+            <div class="category-circle-label">Books and Stationery</div>
+          </a>
+
+          <!-- Toys and Games -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=toysgames">
+            <div class="category-circle emoji-bg bg-rose">🧸</div>
+            <div class="category-circle-label">Toys and Games</div>
+          </a>
+
+          <!-- Health and Wellness -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=health">
+            <div class="category-circle emoji-bg bg-mint">💊</div>
+            <div class="category-circle-label">Health and Wellness</div>
+          </a>
+
+          <!-- Sports and Fitness -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=sports">
+            <div class="category-circle emoji-bg bg-amber">🏋️</div>
+            <div class="category-circle-label">Sports and Fitness</div>
+          </a>
+
+          <!-- Pet Supplies -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=petsupplies">
+            <div class="category-circle emoji-bg bg-lilac">🐾</div>
+            <div class="category-circle-label">Pet Supplies</div>
+          </a>
+
+          <!-- Office Supplies -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=officesupplies">
+            <div class="category-circle emoji-bg bg-sky">🖇️</div>
+            <div class="category-circle-label">Office Supplies</div>
+          </a>
+
+          <!-- Party and Events -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=partyevents">
+            <div class="category-circle emoji-bg bg-sand">🎉</div>
+            <div class="category-circle-label">Party and Events</div>
+          </a>
+
+          <!-- Garden and Outdoor -->
+          <a class="category-circle-item" href="pages/category-products.html?cat=gardenoutdoor">
+            <div class="category-circle emoji-bg bg-blush">🌳</div>
+            <div class="category-circle-label">Garden and Outdoor</div>
           </a>
         </div>
+
+        <div class="popular-heading">Popular buy</div>
+        <div class="popular-grid" id="popular-buy-grid"></div>
       </main>
     </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="Oshodi Online Shops" class="footer-logo" />
+          <p class="footer-tagline">The #1 online marketplace for fabrics, fashion &amp; everyday essentials in Oshodi.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Company Info</h4>
+          <a href="pages/about-us.html">About us</a>
+          <a href="pages/faqs.html">FAQs</a>
+          <a href="pages/terms-of-use.html">Terms of Use</a>
+          <a href="pages/privacy-policy.html">Privacy Policy</a>
+          <a href="pages/contact-us.html">Contact Support</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <span class="footer-text">Oshodi Market, Oshodi-Isolo, Lagos</span>
+          <a href="mailto:victoredochie10@gmail.com">victoredochie10@gmail.com</a>
+          <a href="https://wa.me/2349134333745" target="_blank" rel="noopener noreferrer">+234 913 433 3745</a>
+        </div>
+
+        <div class="footer-col">
+          <h4>Social Media</h4>
+          <div class="footer-social">
+            <a href="#" class="footer-social-icon" aria-label="Instagram">📷</a>
+            <a href="#" class="footer-social-icon" aria-label="Facebook">📘</a>
+            <a href="#" class="footer-social-icon" aria-label="X (Twitter)">🐦</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        &copy; 2026 Oshodi Market Online. Powered by StrategicX Ltd. All rights reserved.
+      </div>
+    </footer>
+
 
     <!-- Customer Support -->
     <div class="support-bubble" id="supportBubble" role="button" tabindex="0" aria-label="Contact customer support">
@@ -716,6 +946,10 @@
 
     <script src="shops/shops-data.js"></script>
     <script src="pages/category-products-data.js"></script>
+    <script src="popular-buy.js"></script>
+    <script>
+      renderPopularBuy({ depthPrefix: '', containerId: 'popular-buy-grid' });
+    </script>
     <script src="search-index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="supabase-config.js"></script>
@@ -748,15 +982,6 @@
           locationButton.setAttribute('aria-expanded', 'false');
         }
       });
-
-      // Lock page scrolling on mobile so swipe-up can't move/hide the header
-      if (window.matchMedia('(max-width: 640px)').matches) {
-        document.addEventListener('touchmove', (event) => {
-          if (!event.target.closest('.location-select-panel')) {
-            event.preventDefault();
-          }
-        }, { passive: false });
-      }
 
       // Customer support bubble: shown every time the page loads/refreshes
       // (never persisted), clicking it (outside the close button) goes to
