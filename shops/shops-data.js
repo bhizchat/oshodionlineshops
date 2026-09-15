@@ -325,7 +325,7 @@ const shops = {
     category: 'fabrics',
     tagline: 'Quality cotton and linen fabrics wholesale',
     location: '13 Banjoko Street, Oshodi-Isolo Lagos',
-    phone: '09167695330',
+    phone: '08145104674',
     followers: '470+ Followers',
     heroBg: 'https://picsum.photos/seed/s1050/1200/400',
     thumb: '../assets(shops)/ETI(logo).png',
