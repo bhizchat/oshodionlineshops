@@ -366,6 +366,17 @@
       .emoji-bg.bg-blush { background: #fcefee; }
       .emoji-bg.bg-sage  { background: #eef7ee; }
 
+      /* Sell category circle — mobile only, replaces Garden and Outdoor */
+      .sell-category-item { display: none; order: -1; }
+      .category-circle.sell-circle {
+        background: var(--brand);
+        display: grid;
+        place-items: center;
+      }
+
+      /* Garden and Outdoor — removed on desktop, only shown (as Sell) on mobile */
+      .gardenoutdoor-category-item { display: none; }
+
       .category-circle-label {
         font-weight: 800;
         font-size: 0.85rem;
@@ -591,6 +602,10 @@
         .category-circle.emoji-bg { font-size: 1.7rem; }
         .category-circle-label { font-size: 0.66rem; max-width: 76px; }
 
+        /* Sell button replaces Garden and Outdoor on mobile */
+        .sell-category-item { display: flex; }
+        .gardenoutdoor-category-item { display: none; }
+
         /* Denser popular-buy grid */
         .popular-heading { margin: 32px 0 16px; font-size: 1.25rem; }
         .popular-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -770,6 +785,14 @@
       <!-- Main Category Section -->
       <main class="content" id="shop-by-category">
         <div class="category-circles">
+          <!-- Sell (mobile only, replaces Garden and Outdoor) -->
+          <a class="category-circle-item sell-category-item" href="https://sell.oshodimarketonline.com/login">
+            <div class="category-circle sell-circle">
+              <svg viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+            </div>
+            <div class="category-circle-label">Sell</div>
+          </a>
+
           <!-- Fabrics and Textiles -->
           <a class="category-circle-item" href="../pages/category-products.html?cat=fabrics">
             <div class="category-circle">
@@ -895,7 +918,7 @@
           </a>
 
           <!-- Garden and Outdoor -->
-          <a class="category-circle-item" href="../pages/category-products.html?cat=gardenoutdoor">
+          <a class="category-circle-item gardenoutdoor-category-item" href="../pages/category-products.html?cat=gardenoutdoor">
             <div class="category-circle emoji-bg bg-blush">🌳</div>
             <div class="category-circle-label">Garden and Outdoor</div>
           </a>
