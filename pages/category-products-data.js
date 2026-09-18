@@ -182,9 +182,9 @@ const categoryPageMeta = {
 
   accessories: {
 
-    title: 'Accessories',
+    title: 'Clothing Accessories',
 
-    subtitle: 'Shop the best fashion accessories from trusted shops in Oshodi.',
+    subtitle: 'Shop the best clothing accessories, fashion add-ons, and sewing & tailoring supplies from trusted shops in Oshodi.',
 
     icon: '👜',
 
@@ -204,7 +204,9 @@ const categoryPageMeta = {
 
       { key: 'scarves', label: 'Scarves', icon: '🧣', match: ['scarf', 'scarves'] },
 
-      { key: 'perfumes', label: 'Perfumes', icon: '🧴', match: ['perfume'] }
+      { key: 'perfumes', label: 'Perfumes', icon: '🧴', match: ['perfume'] },
+
+      { key: 'sewing', label: 'Sewing & Tailoring Supplies', icon: '🧵', match: ['thread', 'needle', 'zipper', 'button', 'interfacing', 'lining', 'sewing', 'tailoring', 'measuring tape', 'pin', 'scissors'] }
 
     ],
 
@@ -330,9 +332,9 @@ const categoryPageMeta = {
 
   building: {
 
-    title: 'Building Materials',
+    title: 'Building Materials & Accessories',
 
-    subtitle: 'Shop the best building and construction materials from trusted shops in Oshodi.',
+    subtitle: 'Shop the best building materials, construction supplies and building accessories from trusted shops in Oshodi.',
 
     icon: '🧱',
 
@@ -346,7 +348,15 @@ const categoryPageMeta = {
 
       { key: 'electrical', label: 'Electrical Supplies', icon: '💡', match: ['wire', 'cable', 'electrical'] },
 
-      { key: 'paint', label: 'Paints & Finishes', icon: '🎨', match: ['paint'] }
+      { key: 'paint', label: 'Paints & Finishes', icon: '🎨', match: ['paint'] },
+
+      { key: 'fasteners', label: 'Fasteners & Fittings', icon: '🔩', match: ['nail', 'bolt', 'nut', 'screw', 'fastener', 'fitting'] },
+
+      { key: 'locks', label: 'Locks & Hinges', icon: '🔒', match: ['lock', 'hinge', 'padlock', 'handle'] },
+
+      { key: 'ladders', label: 'Ladders & Wheelbarrows', icon: '🪜', match: ['ladder', 'wheelbarrow', 'scaffold'] },
+
+      { key: 'safety', label: 'Safety Equipment', icon: '🦺', match: ['safety', 'helmet', 'glove', 'goggle'] }
 
     ]
 
