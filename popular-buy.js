@@ -1,6 +1,6 @@
 // Renders the "Popular buy" product grid on the homepage using only real product
 // data already defined in shops/shops-data.js (fabrics, electronics, and the
-// clothing/foodstuffs/accessories demo shops). No placeholder/fabricated products
+// fashion/foodstuff/accessories demo shops). No placeholder/fabricated products
 // are used. Selects 24 non-fabrics products (all of them) plus 166 fabrics products
 // (evenly sampled across all fabric shops for variety) for a total of 190 products.
 
@@ -23,7 +23,7 @@ function renderPopularBuy(options) {
   const TARGET_TOTAL = 190;
   const FABRICS_TARGET = 166;
 
-  const buckets = { electronics: [], clothing: [], foodstuffs: [], accessories: [], fabrics: [] };
+  const buckets = { electronics: [], fashion: [], foodstuff: [], accessories: [], fabrics: [] };
 
   Object.keys(shops).forEach((shopKey) => {
     const shop = shops[shopKey];
@@ -57,8 +57,8 @@ function renderPopularBuy(options) {
   // than one category dumped after another.
   const queues = [
     buckets.electronics.slice(),
-    buckets.clothing.slice(),
-    buckets.foodstuffs.slice(),
+    buckets.fashion.slice(),
+    buckets.foodstuff.slice(),
     buckets.accessories.slice(),
     fabricsSample.slice()
   ];

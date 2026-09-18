@@ -1342,7 +1342,7 @@
         <span class="cat-label">Fabrics & Textiles</span>
       </a>
 
-      <a href="category-products.html?cat=clothing" class="cat-link" data-cat="clothing">
+      <a href="category-products.html?cat=fashion" class="cat-link" data-cat="fashion">
         <span class="cat-icon">👗</span>
         <span class="cat-label">Clothing & Fashion</span>
       </a>
@@ -1352,7 +1352,7 @@
         <span class="cat-label">Electronics & Gadgets</span>
       </a>
 
-      <a href="category-products.html?cat=foodstuffs" class="cat-link" data-cat="foodstuffs">
+      <a href="category-products.html?cat=foodstuff" class="cat-link" data-cat="foodstuff">
         <span class="cat-icon">🍲</span>
         <span class="cat-label">Foodstuffs & Oils</span>
       </a>
@@ -1362,7 +1362,7 @@
         <span class="cat-label">Clothing Accessories</span>
       </a>
 
-      <a href="category-products.html?cat=shoesbags" class="cat-link" data-cat="shoesbags">
+      <a href="category-products.html?cat=shoes-bags" class="cat-link" data-cat="shoes-bags">
         <span class="cat-icon">👞</span>
         <span class="cat-label">Shoes & Bags</span>
       </a>
@@ -1372,22 +1372,22 @@
         <span class="cat-label">Beauty & Cosmetics</span>
       </a>
 
-      <a href="category-products.html?cat=home" class="cat-link" data-cat="home">
+      <a href="category-products.html?cat=home-kitchenware" class="cat-link" data-cat="home-kitchenware">
         <span class="cat-icon">🍳</span>
         <span class="cat-label">Home & Kitchenware</span>
       </a>
 
-      <a href="category-products.html?cat=furniture" class="cat-link" data-cat="furniture">
+      <a href="category-products.html?cat=furniture-decor" class="cat-link" data-cat="furniture-decor">
         <span class="cat-icon">🛋️</span>
         <span class="cat-label">Furniture & Decor</span>
       </a>
 
-      <a href="category-products.html?cat=building" class="cat-link" data-cat="building">
+      <a href="category-products.html?cat=building-materials" class="cat-link" data-cat="building-materials">
         <span class="cat-icon">🧱</span>
         <span class="cat-label">Building Materials &amp; Accessories</span>
       </a>
 
-      <a href="category-products.html?cat=babykids" class="cat-link" data-cat="babykids">
+      <a href="category-products.html?cat=baby-kids" class="cat-link" data-cat="baby-kids">
         <span class="cat-icon">🍼</span>
         <span class="cat-label">Baby & Kids</span>
       </a>
@@ -1397,42 +1397,42 @@
         <span class="cat-label">Automotive Parts</span>
       </a>
 
-      <a href="category-products.html?cat=booksstationery" class="cat-link" data-cat="booksstationery">
+      <a href="category-products.html?cat=books-stationery" class="cat-link" data-cat="books-stationery">
         <span class="cat-icon">📚</span>
         <span class="cat-label">Books & Stationery</span>
       </a>
 
-      <a href="category-products.html?cat=toysgames" class="cat-link" data-cat="toysgames">
+      <a href="category-products.html?cat=toys-games" class="cat-link" data-cat="toys-games">
         <span class="cat-icon">🧸</span>
         <span class="cat-label">Toys & Games</span>
       </a>
 
-      <a href="category-products.html?cat=health" class="cat-link" data-cat="health">
+      <a href="category-products.html?cat=health-wellness" class="cat-link" data-cat="health-wellness">
         <span class="cat-icon">💊</span>
         <span class="cat-label">Health & Wellness</span>
       </a>
 
-      <a href="category-products.html?cat=sports" class="cat-link" data-cat="sports">
+      <a href="category-products.html?cat=sports-fitness" class="cat-link" data-cat="sports-fitness">
         <span class="cat-icon">🏋️</span>
         <span class="cat-label">Sports & Fitness</span>
       </a>
 
-      <a href="category-products.html?cat=petsupplies" class="cat-link" data-cat="petsupplies">
+      <a href="category-products.html?cat=pet-supplies" class="cat-link" data-cat="pet-supplies">
         <span class="cat-icon">🐾</span>
         <span class="cat-label">Pet Supplies</span>
       </a>
 
-      <a href="category-products.html?cat=officesupplies" class="cat-link" data-cat="officesupplies">
+      <a href="category-products.html?cat=office-supplies" class="cat-link" data-cat="office-supplies">
         <span class="cat-icon">🖇️</span>
         <span class="cat-label">Office Supplies</span>
       </a>
 
-      <a href="category-products.html?cat=partyevents" class="cat-link" data-cat="partyevents">
+      <a href="category-products.html?cat=party-events" class="cat-link" data-cat="party-events">
         <span class="cat-icon">🎉</span>
         <span class="cat-label">Party & Events</span>
       </a>
 
-      <a href="category-products.html?cat=gardenoutdoor" class="cat-link" data-cat="gardenoutdoor">
+      <a href="category-products.html?cat=garden-outdoor" class="cat-link" data-cat="garden-outdoor">
         <span class="cat-icon">🌳</span>
         <span class="cat-label">Garden & Outdoor</span>
       </a>
@@ -1622,15 +1622,9 @@
 
     const meta = categoryPageMeta[cat] || categoryPageMeta.electronics;
 
-    // Maps this page's category keys to the category values used by the
-    // Strategic X onboarding form / sx_products_public.category column.
-    const META_KEY_TO_SX_CATEGORY = {
-      fabrics: 'fabrics',
-      clothing: 'fashion',
-      electronics: 'electronics',
-      foodstuffs: 'foodstuff',
-      accessories: 'accessories'
-    };
+    // This page's category keys now match the Strategic X onboarding form /
+    // sx_products_public.category column slugs exactly (see
+    // portal-next/src/lib/categories.ts), so no key remapping is needed.
 
 
 
@@ -1729,7 +1723,7 @@
     // category, restricted to the Oshodi Market Online platform. Queried fresh
     // on every page load/refresh (no client-side caching of the results), so
     // newly published/edited vendor listings always show up immediately.
-    const sxCategory = META_KEY_TO_SX_CATEGORY[cat];
+    const sxCategory = cat;
     let sxReviewStats = {};
     if (sxCategory) {
       try {

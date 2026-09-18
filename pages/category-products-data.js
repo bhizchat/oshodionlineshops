@@ -12,7 +12,7 @@
 
 //
 
-// IMPORTANT: for clothing/foodstuffs/accessories, the `products` array below is the
+// IMPORTANT: for fashion/foodstuff/accessories, the `products` array below is the
 
 // SINGLE SOURCE OF TRUTH used by category-products.html, shops/shops.html, and
 
@@ -38,7 +38,7 @@ const categoryPageMeta = {
 
     subcategories: [
 
-      { key: 'ankara', label: 'Ankara Fabrics', icon: '🧵', match: ['ankara'] },
+      { key: 'ankara', label: 'Ankara', icon: '🧵', match: ['ankara'] },
 
       { key: 'jonkoso', label: 'Jonkoso', icon: '🪢', match: ['jonkoso'] },
 
@@ -62,7 +62,7 @@ const categoryPageMeta = {
 
   },
 
-  clothing: {
+  fashion: {
 
     title: 'Clothing and Fashion',
 
@@ -136,7 +136,7 @@ const categoryPageMeta = {
 
   },
 
-  foodstuffs: {
+  foodstuff: {
 
     title: 'Foodstuffs and Oils',
 
@@ -228,7 +228,7 @@ const categoryPageMeta = {
 
   },
 
-  shoesbags: {
+  'shoes-bags': {
 
     title: 'Shoes and Bags',
 
@@ -280,7 +280,7 @@ const categoryPageMeta = {
 
   },
 
-  home: {
+  'home-kitchenware': {
 
     title: 'Home and Kitchenware',
 
@@ -306,7 +306,7 @@ const categoryPageMeta = {
 
   },
 
-  furniture: {
+  'furniture-decor': {
 
     title: 'Furniture and Decor',
 
@@ -330,7 +330,7 @@ const categoryPageMeta = {
 
   },
 
-  building: {
+  'building-materials': {
 
     title: 'Building Materials & Accessories',
 
@@ -362,7 +362,7 @@ const categoryPageMeta = {
 
   },
 
-  babykids: {
+  'baby-kids': {
 
     title: 'Baby and Kids',
 
@@ -410,7 +410,7 @@ const categoryPageMeta = {
 
   },
 
-  booksstationery: {
+  'books-stationery': {
 
     title: 'Books and Stationery',
 
@@ -434,7 +434,7 @@ const categoryPageMeta = {
 
   },
 
-  toysgames: {
+  'toys-games': {
 
     title: 'Toys and Games',
 
@@ -458,7 +458,7 @@ const categoryPageMeta = {
 
   },
 
-  health: {
+  'health-wellness': {
 
     title: 'Health and Wellness',
 
@@ -482,7 +482,7 @@ const categoryPageMeta = {
 
   },
 
-  sports: {
+  'sports-fitness': {
 
     title: 'Sports and Fitness',
 
@@ -506,7 +506,7 @@ const categoryPageMeta = {
 
   },
 
-  petsupplies: {
+  'pet-supplies': {
 
     title: 'Pet Supplies',
 
@@ -528,7 +528,7 @@ const categoryPageMeta = {
 
   },
 
-  officesupplies: {
+  'office-supplies': {
 
     title: 'Office Supplies',
 
@@ -550,7 +550,7 @@ const categoryPageMeta = {
 
   },
 
-  partyevents: {
+  'party-events': {
 
     title: 'Party and Events',
 
@@ -572,7 +572,7 @@ const categoryPageMeta = {
 
   },
 
-  gardenoutdoor: {
+  'garden-outdoor': {
 
     title: 'Garden and Outdoor',
 
@@ -591,6 +591,18 @@ const categoryPageMeta = {
       { key: 'grills', label: 'Grills & BBQ', icon: '🍖', match: ['grill', 'bbq'] }
 
     ]
+
+  },
+
+  other: {
+
+    title: 'Other',
+
+    subtitle: 'Browse other products from trusted shops in Oshodi.',
+
+    icon: '📦',
+
+    subcategories: []
 
   }
 

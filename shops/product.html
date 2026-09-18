@@ -1318,9 +1318,9 @@
       <div class="cat-links">
         <a href="../main/index.html" class="cat-link">☰ All Categories</a>
         <a href="../pages/category-products.html?cat=fabrics" class="cat-link" data-cat="fabrics">Fabrics & Textiles</a>
-        <a href="../pages/category-products.html?cat=clothing" class="cat-link" data-cat="clothing">Clothing & Fashion</a>
+        <a href="../pages/category-products.html?cat=fashion" class="cat-link" data-cat="fashion">Clothing & Fashion</a>
         <a href="../pages/category-products.html?cat=electronics" class="cat-link" data-cat="electronics">Electronics & Gadgets</a>
-        <a href="../pages/category-products.html?cat=foodstuffs" class="cat-link" data-cat="foodstuffs">Foodstuffs & Oils</a>
+        <a href="../pages/category-products.html?cat=foodstuff" class="cat-link" data-cat="foodstuff">Foodstuffs & Oils</a>
         <a href="../pages/category-products.html?cat=accessories" class="cat-link" data-cat="accessories">Clothing Accessories</a>
       </div>
     </nav>
@@ -1561,7 +1561,7 @@
           ['Condition', 'Brand New'],
           ['Care', 'Hand wash or dry clean recommended']
         ],
-        clothing: () => [
+        fashion: () => [
           ['Material', 'Soft, Durable Fabric'],
           ['Sizes', 'S - XXL Available'],
           ['Fit', 'Regular Fit'],
@@ -1573,7 +1573,7 @@
           ['Delivery', 'Available Nationwide'],
           ['Support', 'After-sales support included']
         ],
-        foodstuffs: () => [
+        foodstuff: () => [
           ['Quantity', 'Standard Pack Size'],
           ['Origin', 'Locally Sourced in Nigeria'],
           ['Shelf Life', '6 - 12 Months'],
@@ -1589,9 +1589,9 @@
 
       const categoryDescription = {
         fabrics: (p, shop) => `${p.name} from ${shop.name} \u2014 a premium quality fabric perfect for traditional and modern styles. Sold with vibrant colour and lasting texture, ideal for tailoring your next outfit.`,
-        clothing: (p, shop) => `The ${p.name} from ${shop.name} combines comfort and style, perfect for everyday wear or special occasions.`,
+        fashion: (p, shop) => `The ${p.name} from ${shop.name} combines comfort and style, perfect for everyday wear or special occasions.`,
         electronics: (p, shop) => `Get the ${p.name} from ${shop.name}, tested and verified for quality performance. Enjoy reliable service, genuine parts, and after-sales support right here in Oshodi Market.`,
-        foodstuffs: (p, shop) => `${p.name} sourced fresh by ${shop.name}. Quality checked for freshness and packaged for everyday cooking needs in your home.`,
+        foodstuff: (p, shop) => `${p.name} sourced fresh by ${shop.name}. Quality checked for freshness and packaged for everyday cooking needs in your home.`,
         accessories: (p, shop) => `Complete your look with the ${p.name} from ${shop.name}. Crafted with attention to detail and built to last for everyday use.`
       };
 
@@ -1620,7 +1620,7 @@
       const shopKey = (rawShopKey && KEY_PATTERN.test(rawShopKey) && shops[rawShopKey]) ? rawShopKey : 'boluwatife';
       const shop = shops[shopKey] || shops.boluwatife;
 
-      // clothing/foodstuffs/accessories don't have real per-shop product catalogs yet,
+      // fashion/foodstuff/accessories don't have real per-shop product catalogs yet,
       // so category-products.html links to a single demo shop per category (e.g.
       // "clothing-demo") using indexes into categoryPageMeta[cat].products. Make this
       // page's shop.products point at that exact same array so the product shown here

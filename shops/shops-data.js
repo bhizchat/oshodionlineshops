@@ -1035,7 +1035,7 @@ Object.keys(shops).forEach((shopKey) => {
 const demoFallbackShops = {
   'clothing-demo': {
     name: 'Oshodi Fashion Hub',
-    category: 'clothing',
+    category: 'fashion',
     tagline: 'Trend-focused fashion essentials for everyday style',
     location: 'Oshodi Main Market, Oshodi-Isolo Lagos',
     phone: '08000000000',
@@ -1053,7 +1053,7 @@ const demoFallbackShops = {
   },
   'foodstuffs-demo': {
     name: 'Oshodi Food Basket',
-    category: 'foodstuffs',
+    category: 'foodstuff',
     tagline: 'Fresh produce and pantry essentials',
     location: 'Oshodi Main Market, Oshodi-Isolo Lagos',
     phone: '08000000001',
@@ -1103,8 +1103,8 @@ Object.keys(shops).forEach((shopKey) => {
 
 const categoryMeta = {
   fabrics: { label: 'Fabrics & Textiles', href: '../pages/fabrics.html' },
-  clothing: { label: 'Clothing & Fashion', href: '../pages/clothing-fashion.html' },
+  fashion: { label: 'Clothing & Fashion', href: '../pages/clothing-fashion.html' },
   electronics: { label: 'Electronics & Gadgets', href: '../pages/electronics-gadgets.html' },
-  foodstuffs: { label: 'Foodstuffs & Oils', href: '../pages/foodstuffs-oils.html' },
-  accessories: { label: 'Accessories', href: '../pages/accessories.html' }
+  foodstuff: { label: 'Foodstuffs & Oils', href: '../pages/foodstuffs-oils.html' },
+  accessories: { label: 'Clothing Accessories', href: '../pages/accessories.html' }
 };

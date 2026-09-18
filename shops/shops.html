@@ -703,9 +703,9 @@
       <div class="cat-links">
         <a href="../main/index.html" class="cat-link">☰ All Categories</a>
         <a href="../pages/fabrics.html" class="cat-link" data-cat="fabrics">Fabrics & Textiles</a>
-        <a href="../pages/clothing-fashion.html" class="cat-link" data-cat="clothing">Clothing & Fashion</a>
+        <a href="../pages/clothing-fashion.html" class="cat-link" data-cat="fashion">Clothing & Fashion</a>
         <a href="../pages/electronics-gadgets.html" class="cat-link" data-cat="electronics">Electronics & Gadgets</a>
-        <a href="../pages/foodstuffs-oils.html" class="cat-link" data-cat="foodstuffs">Foodstuffs & Oils</a>
+        <a href="../pages/foodstuffs-oils.html" class="cat-link" data-cat="foodstuff">Foodstuffs & Oils</a>
         <a href="../pages/accessories.html" class="cat-link" data-cat="accessories">Clothing Accessories</a>
       </div>
     </nav>
@@ -836,17 +836,10 @@
         // are looked up by database id via ?sxshop=<uuid>, from the public,
         // PII-free sx_shops_public view. These start with 0 products since
         // there is no product-adding flow yet.
-        // Strategic X onboarding category values (fabrics/fashion/electronics/
-        // foodstuff/accessories/other) don't exactly match this page's
-        // categoryMeta keys (fabrics/clothing/electronics/foodstuffs/accessories),
-        // so map between them; unrecognized/"other" falls back to fabrics.
-        const SX_CATEGORY_TO_META_KEY = {
-          fabrics: 'fabrics',
-          fashion: 'clothing',
-          electronics: 'electronics',
-          foodstuff: 'foodstuffs',
-          accessories: 'accessories'
-        };
+        // Strategic X onboarding category values now match this page's
+        // categoryMeta keys exactly (fabrics/fashion/electronics/foodstuff/
+        // accessories/... - see portal-next/src/lib/categories.ts), so no
+        // remapping is needed; unrecognized/"other" falls back to fabrics.
         const rawSxShopId = params.get('sxshop');
         if (rawSxShopId && UUID_PATTERN.test(rawSxShopId)) {
           const result = await supabaseClient
@@ -864,7 +857,7 @@
             // than the hardcoded "2010" used for the static demo shops.
             shop = {
               name: row.shop_name,
-              category: SX_CATEGORY_TO_META_KEY[row.category] || 'fabrics',
+              category: row.category || 'fabrics',
               tagline: row.tagline || '',
               location: row.location || '',
               phone: row.phone || '',
